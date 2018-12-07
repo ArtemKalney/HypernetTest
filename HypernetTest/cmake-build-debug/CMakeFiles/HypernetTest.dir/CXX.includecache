@@ -1,0 +1,104 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Branch.cpp
+Branch.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Branch.h
+Globals.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Globals.h
+
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Branch.h
+Stdafx.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Stdafx.h
+Route.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Route.h
+IIdentity.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/IIdentity.h
+
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Funcs.h
+Branch.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Branch.h
+Hypernet.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Hypernet.h
+
+E:/Projects/Git repositories/HypernetTest/HypernetTest/GenCombinations.cpp
+Stdafx.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Stdafx.h
+Funcs.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Funcs.h
+Globals.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Globals.h
+
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Globals.h
+Branch.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Branch.h
+Hypernet.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Hypernet.h
+
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Hypernet.cpp
+Hypernet.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Hypernet.h
+
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Hypernet.h
+Stdafx.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Stdafx.h
+Branch.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Branch.h
+Route.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Route.h
+
+E:/Projects/Git repositories/HypernetTest/HypernetTest/IIdentity.h
+
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Main.cpp
+Funcs.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Funcs.h
+Globals.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Globals.h
+
+E:/Projects/Git repositories/HypernetTest/HypernetTest/PairConnectivity.cpp
+Stdafx.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Stdafx.h
+Funcs.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Funcs.h
+Globals.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Globals.h
+
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Rote.cpp
+Route.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Route.h
+
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Route.h
+Stdafx.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Stdafx.h
+IIdentity.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/IIdentity.h
+
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Stdafx.h
+cstdio
+-
+tchar.h
+-
+fstream
+-
+iomanip
+-
+cmath
+-
+iostream
+-
+vector
+-
+algorithm
+-
+iterator
+-
+ctime
+-
+memory
+-
+
