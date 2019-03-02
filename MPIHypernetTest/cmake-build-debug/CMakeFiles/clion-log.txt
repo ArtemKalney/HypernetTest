@@ -1,0 +1,16 @@
+"C:\Program Files\JetBrains\CLion 2017.3.4\bin\cmake\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" "E:\Projects\Git repositories\HypernetTest\MPIHypernetTest"
+CMake Warning at C:/Program Files/JetBrains/CLion 2017.3.4/bin/cmake/share/cmake-3.9/Modules/FindBoost.cmake:786 (message):
+  New Boost version may have incorrect or missing dependencies and imported
+  targets
+Call Stack (most recent call first):
+  C:/Program Files/JetBrains/CLion 2017.3.4/bin/cmake/share/cmake-3.9/Modules/FindBoost.cmake:892 (_Boost_COMPONENT_DEPENDENCIES)
+  C:/Program Files/JetBrains/CLion 2017.3.4/bin/cmake/share/cmake-3.9/Modules/FindBoost.cmake:1523 (_Boost_MISSING_DEPENDENCIES)
+  CMakeLists.txt:20 (find_package)
+
+
+-- Boost version: 1.69.0
+-- Found the following Boost libraries:
+--   serialization
+-- Configuring done
+-- Generating done
+-- Build files have been written to: E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/cmake-build-debug
