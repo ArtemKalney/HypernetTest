@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Branch.h"
-#include "Hypernet.h"
+#include "HypernetBase/Hypernet.h"
 
 Branch PairConnectivity(H &H, Branch &pseudoEdge);
+H GetRandomHypernet();
 // debug
-void GenCombinations(const H& H, const std::vector<Branch>& branchList, Branch& sum, std::vector<bool>& branchMask,
-                     int& curPos);
+void FullEnumeration(const H &H, const std::vector<Branch> &branchList, Branch &sum, std::vector<bool> &branchMask,
+                     int &curPos);
