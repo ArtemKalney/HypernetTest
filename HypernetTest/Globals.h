@@ -2,6 +2,7 @@
 
 #include "HypernetBase/Branch.h"
 
+#define IS_TEST 1
 #define IS_DEBUG 1
 #define IS_FULL_ENUMERATION 0
 #define MAX_DIMENSIONAL 3
@@ -17,3 +18,5 @@ extern int n, m, k;
 extern int ReliableHypernetsCount, UnconnectedHypernetsCount, TwoNodesHypernetsCount, ChainsReduced,
         UnconnectedNodesReduced, PairConnectivityCalls, EdgesReduced, UnsimpleChains;
 extern double p, z;
+extern std::ifstream input;
+extern std::ofstream output;

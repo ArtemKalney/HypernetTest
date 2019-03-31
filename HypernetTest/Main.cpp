@@ -1,9 +1,9 @@
 #include "Globals.h"
 #include "Funcs.h"
+#include <gtest/gtest.h>
 
-std::ifstream input("input.txt");
+std::ifstream input;
 std::ofstream output;
-
 int n = 0, m = 0, k = 0;
 int ReliableHypernetsCount = 0, UnconnectedHypernetsCount = 0, TwoNodesHypernetsCount = 0, ChainsReduced = 0,
         UnconnectedNodesReduced = 0, PairConnectivityCalls = 0, EdgesReduced = 0, UnsimpleChains = 0;
@@ -27,7 +27,9 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
     }
     char str[50];
     input.getline(str, 50);
-    std::cout << "Input graph : " << str << std::endl;
+    if (IS_TEST == 0) {
+        std::cout << "Input graph : " << str << std::endl;
+    }
     int buf;
     input >> buf; n = buf;
     input >> buf; m = buf;
@@ -139,7 +141,7 @@ void ComputePairConnectivities(Branch& sum, const H& initialHypernet, Branch& ps
                     }
                     NormalizeSolution(result);
                     for (auto &item : result.GetC()) {
-                        output << std::setprecision(15) << item << " ";
+                        output << std::setprecision(14) << item << " ";
                     }
                     output << std::endl;
                 }
@@ -244,7 +246,13 @@ void ErrorHandler(const char *str) {
     std::cout << "--------------------------------" << std::endl;
 }
 
-int main() {
+int main(int argc, char** argv) {
+    if (IS_TEST == 1) {
+        testing::InitGoogleTest(&argc, argv);
+        return RUN_ALL_TESTS();
+    }
+
+    input.open("input.txt");
     output.open("output.txt");
     setlocale(LC_ALL, "");
 
@@ -335,10 +343,9 @@ int main() {
     if (!sum.IsZero()) {
         NormalizeSolution(sum);
         sum.PrintBranch();
-        std::cout << "Value at point " << p << ": " << std::setprecision(15) << sum.GetValue() << std::endl;
-
+        std::cout << "Value at point " << p << ": " << std::setprecision(14) << sum.GetValue() << std::endl;
         for (auto &item : sum.GetC()) {
-            output << std::setprecision(15) << item << " ";
+            output << std::setprecision(14) << item << " ";
         }
         output << std::endl;
     } else {

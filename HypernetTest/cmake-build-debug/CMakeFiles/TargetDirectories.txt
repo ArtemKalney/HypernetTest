@@ -1,3 +1,7 @@
 E:/Projects/Git repositories/HypernetTest/HypernetTest/cmake-build-debug/CMakeFiles/edit_cache.dir
 E:/Projects/Git repositories/HypernetTest/HypernetTest/cmake-build-debug/CMakeFiles/HypernetTest.dir
 E:/Projects/Git repositories/HypernetTest/HypernetTest/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+E:/Projects/Git repositories/HypernetTest/HypernetTest/cmake-build-debug/libs/googletest/CMakeFiles/gtest.dir
+E:/Projects/Git repositories/HypernetTest/HypernetTest/cmake-build-debug/libs/googletest/CMakeFiles/gtest_main.dir
+E:/Projects/Git repositories/HypernetTest/HypernetTest/cmake-build-debug/libs/googletest/CMakeFiles/edit_cache.dir
+E:/Projects/Git repositories/HypernetTest/HypernetTest/cmake-build-debug/libs/googletest/CMakeFiles/rebuild_cache.dir

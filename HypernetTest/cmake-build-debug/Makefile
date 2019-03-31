@@ -122,6 +122,32 @@ HypernetTest/fast:
 	$(MAKE) -f CMakeFiles\HypernetTest.dir\build.make CMakeFiles/HypernetTest.dir/build
 .PHONY : HypernetTest/fast
 
+#=============================================================================
+# Target rules for targets named gtest
+
+# Build rule for target.
+gtest: cmake_check_build_system
+	$(MAKE) -f CMakeFiles\Makefile2 gtest
+.PHONY : gtest
+
+# fast build rule for target.
+gtest/fast:
+	$(MAKE) -f libs\googletest\CMakeFiles\gtest.dir\build.make libs/googletest/CMakeFiles/gtest.dir/build
+.PHONY : gtest/fast
+
+#=============================================================================
+# Target rules for targets named gtest_main
+
+# Build rule for target.
+gtest_main: cmake_check_build_system
+	$(MAKE) -f CMakeFiles\Makefile2 gtest_main
+.PHONY : gtest_main
+
+# fast build rule for target.
+gtest_main/fast:
+	$(MAKE) -f libs\googletest\CMakeFiles\gtest_main.dir\build.make libs/googletest/CMakeFiles/gtest_main.dir/build
+.PHONY : gtest_main/fast
+
 FullEnumeration.obj: FullEnumeration.cpp.obj
 
 .PHONY : FullEnumeration.obj
@@ -311,6 +337,33 @@ PairConnectivity.cpp.s:
 	$(MAKE) -f CMakeFiles\HypernetTest.dir\build.make CMakeFiles/HypernetTest.dir/PairConnectivity.cpp.s
 .PHONY : PairConnectivity.cpp.s
 
+Tests.obj: Tests.cpp.obj
+
+.PHONY : Tests.obj
+
+# target to build an object file
+Tests.cpp.obj:
+	$(MAKE) -f CMakeFiles\HypernetTest.dir\build.make CMakeFiles/HypernetTest.dir/Tests.cpp.obj
+.PHONY : Tests.cpp.obj
+
+Tests.i: Tests.cpp.i
+
+.PHONY : Tests.i
+
+# target to preprocess a source file
+Tests.cpp.i:
+	$(MAKE) -f CMakeFiles\HypernetTest.dir\build.make CMakeFiles/HypernetTest.dir/Tests.cpp.i
+.PHONY : Tests.cpp.i
+
+Tests.s: Tests.cpp.s
+
+.PHONY : Tests.s
+
+# target to generate assembly for a file
+Tests.cpp.s:
+	$(MAKE) -f CMakeFiles\HypernetTest.dir\build.make CMakeFiles/HypernetTest.dir/Tests.cpp.s
+.PHONY : Tests.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -320,6 +373,8 @@ help:
 	@echo ... edit_cache
 	@echo ... HypernetTest
 	@echo ... rebuild_cache
+	@echo ... gtest
+	@echo ... gtest_main
 	@echo ... FullEnumeration.obj
 	@echo ... FullEnumeration.i
 	@echo ... FullEnumeration.s
@@ -341,6 +396,9 @@ help:
 	@echo ... PairConnectivity.obj
 	@echo ... PairConnectivity.i
 	@echo ... PairConnectivity.s
+	@echo ... Tests.obj
+	@echo ... Tests.i
+	@echo ... Tests.s
 .PHONY : help
 
 

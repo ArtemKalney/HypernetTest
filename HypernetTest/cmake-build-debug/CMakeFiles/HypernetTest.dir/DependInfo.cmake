@@ -11,16 +11,21 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.cpp" "E:/Projects/Git repositories/HypernetTest/HypernetTest/cmake-build-debug/CMakeFiles/HypernetTest.dir/HypernetBase/Route.cpp.obj"
   "E:/Projects/Git repositories/HypernetTest/HypernetTest/Main.cpp" "E:/Projects/Git repositories/HypernetTest/HypernetTest/cmake-build-debug/CMakeFiles/HypernetTest.dir/Main.cpp.obj"
   "E:/Projects/Git repositories/HypernetTest/HypernetTest/PairConnectivity.cpp" "E:/Projects/Git repositories/HypernetTest/HypernetTest/cmake-build-debug/CMakeFiles/HypernetTest.dir/PairConnectivity.cpp.obj"
+  "E:/Projects/Git repositories/HypernetTest/HypernetTest/Tests.cpp" "E:/Projects/Git repositories/HypernetTest/HypernetTest/cmake-build-debug/CMakeFiles/HypernetTest.dir/Tests.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../"
+  "../libs/googletest/include"
+  "../libs/googletest"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
+  "E:/Projects/Git repositories/HypernetTest/HypernetTest/cmake-build-debug/libs/googletest/CMakeFiles/gtest.dir/DependInfo.cmake"
+  "E:/Projects/Git repositories/HypernetTest/HypernetTest/cmake-build-debug/libs/googletest/CMakeFiles/gtest_main.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.
