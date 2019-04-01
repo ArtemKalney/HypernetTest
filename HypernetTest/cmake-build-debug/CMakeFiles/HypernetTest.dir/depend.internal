@@ -8,6 +8,7 @@ CMakeFiles/HypernetTest.dir/FullEnumeration.cpp.obj
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Branch.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Hypernet.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
 CMakeFiles/HypernetTest.dir/HypernetBase/Branch.cpp.obj
@@ -22,6 +23,7 @@ CMakeFiles/HypernetTest.dir/HypernetBase/Hypernet.cpp.obj
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Hypernet.cpp
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Hypernet.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
 CMakeFiles/HypernetTest.dir/HypernetBase/Reductions.cpp.obj
@@ -30,12 +32,8 @@ CMakeFiles/HypernetTest.dir/HypernetBase/Reductions.cpp.obj
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Branch.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Hypernet.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Reductions.cpp
- E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.h
- E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
-CMakeFiles/HypernetTest.dir/HypernetBase/Route.cpp.obj
- E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h
- E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.cpp
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
 CMakeFiles/HypernetTest.dir/Main.cpp.obj
@@ -64,6 +62,7 @@ CMakeFiles/HypernetTest.dir/Main.cpp.obj
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Branch.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Hypernet.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/Main.cpp
@@ -73,6 +72,7 @@ CMakeFiles/HypernetTest.dir/PairConnectivity.cpp.obj
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Branch.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Hypernet.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/PairConnectivity.cpp
@@ -102,6 +102,7 @@ CMakeFiles/HypernetTest.dir/Tests.cpp.obj
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Branch.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Hypernet.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/Tests.cpp

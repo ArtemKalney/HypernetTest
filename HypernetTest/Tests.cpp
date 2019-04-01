@@ -8,8 +8,20 @@ const double Eps = 0.0000000000001;
 class TestCriteria : public ::testing::Test {
 public:
     TestCriteria() { /* init protected members here */ }
+
     ~TestCriteria() { /* free protected members here */ }
-    void SetUp() { /* called before every test */ }
+    /* called before every test */
+    void SetUp() {
+        ReliableHypernets = 0;
+        UnconnectedHypernets = 0;
+        TwoNodesHypernets = 0;
+        ChainsReduced = 0;
+        UnconnectedNodesReduced = 0;
+        PairConnectivityCalls = 0;
+        EdgesReduced = 0;
+        UnsimpleChains = 0;
+    }
+
     void TearDown() { /* called after every test */ }
 protected:
     /* none yet */
@@ -68,6 +80,16 @@ TEST_F(TestCriteria, APCTreeInGrid5x5) {
     double expectedValue = 0.40453937997986;
     double value = GetAPCValueForTest();
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
+        ASSERT_EQ(PairConnectivityCalls, 927);
+        ASSERT_EQ(UnconnectedNodesReduced, 4626);
+        ASSERT_EQ(EdgesReduced, 6071);
+        ASSERT_EQ(ChainsReduced, 615);
+        ASSERT_EQ(UnsimpleChains, 29);
+        ASSERT_EQ(ReliableHypernets, 231);
+        ASSERT_EQ(UnconnectedHypernets, 852);
+        ASSERT_EQ(TwoNodesHypernets, 59);
+    }
     input.close();
 }
 
@@ -75,8 +97,17 @@ TEST_F(TestCriteria, MENCTreeInGrid5x5) {
     input.open("inputs/TreeInGrid(25, 40, 24).txt");
     double expectedValue = 13.797192208223;
     double value = GetMENCValueForTest();
-
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
+        ASSERT_EQ(PairConnectivityCalls, 25);
+        ASSERT_EQ(UnconnectedNodesReduced, 435);
+        ASSERT_EQ(EdgesReduced, 522);
+        ASSERT_EQ(ChainsReduced, 23);
+        ASSERT_EQ(UnsimpleChains, 1);
+        ASSERT_EQ(ReliableHypernets, 0);
+        ASSERT_EQ(UnconnectedHypernets, 1);
+        ASSERT_EQ(TwoNodesHypernets, 23);
+    }
     input.close();
 }
 
@@ -85,6 +116,16 @@ TEST_F(TestCriteria, APCTreeInGrid4x4) {
     double expectedValue = 0.54275080059203;
     double value = GetAPCValueForTest();
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
+        ASSERT_EQ(PairConnectivityCalls, 311);
+        ASSERT_EQ(UnconnectedNodesReduced, 1073);
+        ASSERT_EQ(EdgesReduced, 1391);
+        ASSERT_EQ(ChainsReduced, 182);
+        ASSERT_EQ(UnsimpleChains, 0);
+        ASSERT_EQ(ReliableHypernets, 87);
+        ASSERT_EQ(UnconnectedHypernets, 278);
+        ASSERT_EQ(TwoNodesHypernets, 33);
+    }
     input.close();
 }
 
@@ -92,8 +133,17 @@ TEST_F(TestCriteria, MENCTreeInGrid4x4) {
     input.open("inputs/TreeInGrid(16, 24, 15).txt");
     double expectedValue = 10.65012301;
     double value = GetMENCValueForTest();
-
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
+        ASSERT_EQ(PairConnectivityCalls, 15);
+        ASSERT_EQ(UnconnectedNodesReduced, 159);
+        ASSERT_EQ(EdgesReduced, 192);
+        ASSERT_EQ(ChainsReduced, 14);
+        ASSERT_EQ(UnsimpleChains, 0);
+        ASSERT_EQ(ReliableHypernets, 0);
+        ASSERT_EQ(UnconnectedHypernets, 0);
+        ASSERT_EQ(TwoNodesHypernets, 15);
+    }
     input.close();
 }
 
@@ -102,6 +152,16 @@ TEST_F(TestCriteria, APCTreeInGrid3x3) {
     double expectedValue = 0.66381732525;
     double value = GetAPCValueForTest();
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
+        ASSERT_EQ(PairConnectivityCalls, 74);
+        ASSERT_EQ(UnconnectedNodesReduced, 143);
+        ASSERT_EQ(EdgesReduced, 190);
+        ASSERT_EQ(ChainsReduced, 38);
+        ASSERT_EQ(UnsimpleChains, 0);
+        ASSERT_EQ(ReliableHypernets, 20);
+        ASSERT_EQ(UnconnectedHypernets, 58);
+        ASSERT_EQ(TwoNodesHypernets, 16);
+    }
     input.close();
 }
 
@@ -110,6 +170,16 @@ TEST_F(TestCriteria, MENCTreeInGrid3x3) {
     double expectedValue = 6.756031;
     double value = GetMENCValueForTest();
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
+        ASSERT_EQ(PairConnectivityCalls, 8);
+        ASSERT_EQ(UnconnectedNodesReduced, 38);
+        ASSERT_EQ(EdgesReduced, 48);
+        ASSERT_EQ(ChainsReduced, 7);
+        ASSERT_EQ(UnsimpleChains, 0);
+        ASSERT_EQ(ReliableHypernets, 0);
+        ASSERT_EQ(UnconnectedHypernets, 0);
+        ASSERT_EQ(TwoNodesHypernets, 8);
+    }
     input.close();
 }
 
@@ -118,6 +188,16 @@ TEST_F(TestCriteria, APCCycleInGrid) {
     double expectedValue = 0.73213512;
     double value = GetAPCValueForTest();
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
+        ASSERT_EQ(PairConnectivityCalls, 191);
+        ASSERT_EQ(UnconnectedNodesReduced, 96);
+        ASSERT_EQ(EdgesReduced, 51);
+        ASSERT_EQ(ChainsReduced, 108);
+        ASSERT_EQ(UnsimpleChains, 0);
+        ASSERT_EQ(ReliableHypernets, 74);
+        ASSERT_EQ(UnconnectedHypernets, 123);
+        ASSERT_EQ(TwoNodesHypernets, 15);
+    }
     input.close();
 }
 
@@ -126,6 +206,16 @@ TEST_F(TestCriteria, MENCCycleInGrid) {
     double expectedValue = 6.40830448;
     double value = GetMENCValueForTest();
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
+        ASSERT_EQ(PairConnectivityCalls, 27);
+        ASSERT_EQ(UnconnectedNodesReduced, 10);
+        ASSERT_EQ(EdgesReduced, 5);
+        ASSERT_EQ(ChainsReduced, 24);
+        ASSERT_EQ(UnsimpleChains, 0);
+        ASSERT_EQ(ReliableHypernets, 12);
+        ASSERT_EQ(UnconnectedHypernets, 19);
+        ASSERT_EQ(TwoNodesHypernets, 2);
+    }
     input.close();
 }
 
@@ -134,6 +224,16 @@ TEST_F(TestCriteria, APCWheelInGrid) {
     double expectedValue = 0.923865667535;
     double value = GetAPCValueForTest();
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
+        ASSERT_EQ(PairConnectivityCalls, 3338);
+        ASSERT_EQ(UnconnectedNodesReduced, 1237);
+        ASSERT_EQ(EdgesReduced, 1025);
+        ASSERT_EQ(ChainsReduced, 747);
+        ASSERT_EQ(UnsimpleChains, 2197);
+        ASSERT_EQ(ReliableHypernets, 1660);
+        ASSERT_EQ(UnconnectedHypernets, 1594);
+        ASSERT_EQ(TwoNodesHypernets, 60);
+    }
     input.close();
 }
 
@@ -142,6 +242,16 @@ TEST_F(TestCriteria, MENCWheelInGrid) {
     double expectedValue = 7.9021629775;
     double value = GetMENCValueForTest();
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
+        ASSERT_EQ(PairConnectivityCalls, 415);
+        ASSERT_EQ(UnconnectedNodesReduced, 125);
+        ASSERT_EQ(EdgesReduced, 134);
+        ASSERT_EQ(ChainsReduced, 108);
+        ASSERT_EQ(UnsimpleChains, 358);
+        ASSERT_EQ(ReliableHypernets, 205);
+        ASSERT_EQ(UnconnectedHypernets, 218);
+        ASSERT_EQ(TwoNodesHypernets, 0);
+    }
     input.close();
 }
 
@@ -150,6 +260,16 @@ TEST_F(TestCriteria, APCRandomHypernet1) {
     double expectedValue = 0.6790755043845;
     double value = GetAPCValueForTest();
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
+        ASSERT_EQ(PairConnectivityCalls, 837);
+        ASSERT_EQ(UnconnectedNodesReduced, 279);
+        ASSERT_EQ(EdgesReduced, 529);
+        ASSERT_EQ(ChainsReduced, 292);
+        ASSERT_EQ(UnsimpleChains, 1013);
+        ASSERT_EQ(ReliableHypernets, 345);
+        ASSERT_EQ(UnconnectedHypernets, 518);
+        ASSERT_EQ(TwoNodesHypernets, 5);
+    }
     input.close();
 }
 
@@ -158,6 +278,16 @@ TEST_F(TestCriteria, MENCRandomHypernet1) {
     double expectedValue = 6.108812602038;
     double value = GetMENCValueForTest();
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
+        ASSERT_EQ(PairConnectivityCalls, 141);
+        ASSERT_EQ(UnconnectedNodesReduced, 58);
+        ASSERT_EQ(EdgesReduced, 104);
+        ASSERT_EQ(ChainsReduced, 41);
+        ASSERT_EQ(UnsimpleChains, 186);
+        ASSERT_EQ(ReliableHypernets, 57);
+        ASSERT_EQ(UnconnectedHypernets, 90);
+        ASSERT_EQ(TwoNodesHypernets, 1);
+    }
     input.close();
 }
 
@@ -166,6 +296,16 @@ TEST_F(TestCriteria, APCRandomHypernet2) {
     double expectedValue = 0.62946030614;
     double value = GetAPCValueForTest();
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
+        ASSERT_EQ(PairConnectivityCalls, 845);
+        ASSERT_EQ(UnconnectedNodesReduced, 289);
+        ASSERT_EQ(EdgesReduced, 301);
+        ASSERT_EQ(ChainsReduced, 185);
+        ASSERT_EQ(UnsimpleChains, 122);
+        ASSERT_EQ(ReliableHypernets, 247);
+        ASSERT_EQ(UnconnectedHypernets, 622);
+        ASSERT_EQ(TwoNodesHypernets, 6);
+    }
     input.close();
 }
 
@@ -174,6 +314,16 @@ TEST_F(TestCriteria, MENCRandomHypernet2) {
     double expectedValue = 5.43600127504;
     double value = GetMENCValueForTest();
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
+        ASSERT_EQ(PairConnectivityCalls, 201);
+        ASSERT_EQ(UnconnectedNodesReduced, 35);
+        ASSERT_EQ(EdgesReduced, 55);
+        ASSERT_EQ(ChainsReduced, 51);
+        ASSERT_EQ(UnsimpleChains, 42);
+        ASSERT_EQ(ReliableHypernets, 53);
+        ASSERT_EQ(UnconnectedHypernets, 152);
+        ASSERT_EQ(TwoNodesHypernets, 2);
+    }
     input.close();
 }
 
@@ -182,6 +332,16 @@ TEST_F(TestCriteria, APCRandomHypernet3) {
     double expectedValue = 0.7370817;
     double value = GetAPCValueForTest();
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
+        ASSERT_EQ(PairConnectivityCalls, 84);
+        ASSERT_EQ(UnconnectedNodesReduced, 7);
+        ASSERT_EQ(EdgesReduced, 21);
+        ASSERT_EQ(ChainsReduced, 28);
+        ASSERT_EQ(UnsimpleChains, 60);
+        ASSERT_EQ(ReliableHypernets, 31);
+        ASSERT_EQ(UnconnectedHypernets, 66);
+        ASSERT_EQ(TwoNodesHypernets, 1);
+    }
     input.close();
 }
 
@@ -190,6 +350,16 @@ TEST_F(TestCriteria, MENCRandomHypernet3) {
     double expectedValue = 4.407273;
     double value = GetMENCValueForTest();
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
+        ASSERT_EQ(PairConnectivityCalls, 21);
+        ASSERT_EQ(UnconnectedNodesReduced, 0);
+        ASSERT_EQ(EdgesReduced, 4);
+        ASSERT_EQ(ChainsReduced, 8);
+        ASSERT_EQ(UnsimpleChains, 13);
+        ASSERT_EQ(ReliableHypernets, 8);
+        ASSERT_EQ(UnconnectedHypernets, 18);
+        ASSERT_EQ(TwoNodesHypernets, 0);
+    }
     input.close();
 }
 

@@ -19,4 +19,7 @@ struct Route : public IIdentity
     }
 };
 
-bool operator ==(Route firstRoute, Route secondRoute);
+inline bool operator ==(Route firstRoute, Route secondRoute)
+{
+    return firstRoute.Id == secondRoute.Id;
+}

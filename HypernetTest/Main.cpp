@@ -5,7 +5,7 @@
 std::ifstream input;
 std::ofstream output;
 int n = 0, m = 0, k = 0;
-int ReliableHypernetsCount = 0, UnconnectedHypernetsCount = 0, TwoNodesHypernetsCount = 0, ChainsReduced = 0,
+int ReliableHypernets = 0, UnconnectedHypernets = 0, TwoNodesHypernets = 0, ChainsReduced = 0,
         UnconnectedNodesReduced = 0, PairConnectivityCalls = 0, EdgesReduced = 0, UnsimpleChains = 0;
 std::vector<Branch> Bin;
 double p = 0.9, z = 0.1;
@@ -334,11 +334,11 @@ int main(int argc, char** argv) {
     if (IS_DEBUG == 1) {
         std::cout << " UnsimpleChains " << UnsimpleChains << std::endl;
     }
-    std::cout << "Were ends of recursion : " << ReliableHypernetsCount + UnconnectedHypernetsCount +
-                                                TwoNodesHypernetsCount << std::endl;
-    std::cout << " ReliableHypernetsCount " << ReliableHypernetsCount << std::endl;
-    std::cout << " UnconnectedHypernetsCount " << UnconnectedHypernetsCount << std::endl;
-    std::cout << " TwoNodesHypernetsCount " << TwoNodesHypernetsCount << std::endl;
+    std::cout << "Were ends of recursion : " << ReliableHypernets + UnconnectedHypernets +
+                                                TwoNodesHypernets << std::endl;
+    std::cout << " ReliableHypernets " << ReliableHypernets << std::endl;
+    std::cout << " UnconnectedHypernets " << UnconnectedHypernets << std::endl;
+    std::cout << " TwoNodesHypernets " << TwoNodesHypernets << std::endl;
     std::cout << "Solution:" << std::endl;
     if (!sum.IsZero()) {
         NormalizeSolution(sum);

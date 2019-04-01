@@ -15,7 +15,7 @@ void FullEnumeration(const H &H, const std::vector<Branch> &branchList, Branch &
         }
 
         if (hypernet.IsSNconnected()) {
-            ReliableHypernetsCount++;
+            ReliableHypernets++;
             Branch result = Branch::GetBranch(0);
             for (bool item : branchMask) {
                 if (item) {
@@ -32,7 +32,7 @@ void FullEnumeration(const H &H, const std::vector<Branch> &branchList, Branch &
             }
             sum = sum + result;
         } else {
-            UnconnectedHypernetsCount++;
+            UnconnectedHypernets++;
         }
     }
     else{

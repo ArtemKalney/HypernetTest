@@ -21,7 +21,7 @@ Branch GetAllowingBranch(H& H) {
 }
 
 Branch SimpleCase(std::vector<Branch>& FN, const Branch& pseudoBranch) {
-    TwoNodesHypernetsCount++;
+    TwoNodesHypernets++;
     if (FN.size() == 1) {
         return FN.front().GetIsReliable() ? pseudoBranch : pseudoBranch*FN.front();
     } else {
@@ -85,16 +85,16 @@ Branch PairConnectivity(H &H, Branch &pseudoBranch) {
     HwithRemovedBranch.RemoveBranch(allowingBranch);
 
     if (!HwithRemovedBranch.IsSNconnected()) {
-        UnconnectedHypernetsCount++;
+        UnconnectedHypernets++;
         if (HwithReliableBranch.HasReliablePath()) {
-            ReliableHypernetsCount++;
+            ReliableHypernets++;
             return pseudoBranch1 * Branch::GetUnity();
         } else {
             return PairConnectivity(HwithReliableBranch, pseudoBranch1);
         }
     } else {
         if (HwithReliableBranch.HasReliablePath()) {
-            ReliableHypernetsCount++;
+            ReliableHypernets++;
             return pseudoBranch1 * Branch::GetUnity() + PairConnectivity(HwithRemovedBranch, pseudoBranch2);
         } else {
             return PairConnectivity(HwithReliableBranch, pseudoBranch1) +

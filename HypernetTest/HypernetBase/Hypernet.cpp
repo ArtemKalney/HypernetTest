@@ -113,7 +113,7 @@ std::vector<bool> H::GetCanDeleteMask(const std::vector<Branch> &SN) {
 
 std::vector<Branch> H::GetHomogeneousChain(std::vector<int>& forbiddenNodes) {
     auto nodePowers = H::GetNodePowers(_FN, _nodes.size());
-    // Initializing a branch by an branch where there is a node of degree 2
+    // Initializing chain by branch where there is a node of degree 2
     auto it = std::find_if(_FN.begin(), _FN.end(), [this, nodePowers, forbiddenNodes](Branch &branch) -> bool {
         int firstNode = branch.GetFirstNode(), secondNode = branch.GetSecondNode();
         bool isPivotNodeInsideChain = IsPivotNode(firstNode) && nodePowers[firstNode] == 2 ||

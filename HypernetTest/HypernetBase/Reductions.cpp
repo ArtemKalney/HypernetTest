@@ -55,19 +55,28 @@ void RemovePenduntRoutesInChain(H &hypernet, std::vector<int> &nodesInChain, std
         RemovePenduntRoutesInChain(hypernet, nodesInChain, nodePowers);
     }
 }
-//todo более эффективно организовать проверку на корректность
+
 bool IsSimpleChain(H &hypernet, std::vector<Branch> &chain, std::vector<int> &nodesInChain) {
     bool isCorrect = true;
     for (auto &branch : chain) {
-        auto copy = hypernet;
-        std::vector<Branch> copyChain;
-        for (auto &item : chain) {
-            auto it = std::find(copy.GetFN().begin(), copy.GetFN().end(), item);
-            copyChain.push_back(*it);
+        auto copyChain = chain;
+        auto copyF = hypernet.GetF();
+        for (auto &route : copyF) {
+            auto vec = *route.Ptr;
+            auto ptr = std::make_shared<std::vector<int>>(vec);
+            route.Ptr = ptr;
+            for (auto &copyBranch : copyChain) {
+                for (auto &item : copyBranch.GetRoutes()) {
+                    if (item == route) {
+                        item.Ptr = ptr;
+                    }
+                }
+            }
         }
-        copy.RemoveBranch(branch);
-        auto nodePowers = copy.GetNodePowers(copy.GetSN(), copy.GetNodes().size());
-        RemovePenduntRoutesInChain(copy, nodesInChain, nodePowers);
+        H copyH = H(copyChain, hypernet.GetNodes(), copyF);
+        copyH.RemoveBranch(branch);
+        auto nodePowers = copyH.GetNodePowers(copyH.GetSN(), copyH.GetNodes().size());
+        RemovePenduntRoutesInChain(copyH, nodesInChain, nodePowers);
 
         for (auto &item : copyChain) {
             if (item.GetBranchSaturation() != 0) {
@@ -81,11 +90,10 @@ bool IsSimpleChain(H &hypernet, std::vector<Branch> &chain, std::vector<int> &no
     }
 
     bool canHandle = true;
-    auto SN = hypernet.GetSN();
-    auto SNnodepowers = hypernet.GetNodePowers(SN, hypernet.GetNodes().size());
+    auto nodePowers = hypernet.GetNodePowers(hypernet.GetSN(), hypernet.GetNodes().size());
     for (int i = 1; i < nodesInChain.size() - 1; i++) {
         int nodeNumber = nodesInChain[i];
-        if (SNnodepowers[nodeNumber] != 2 && SNnodepowers[nodeNumber] != 0) {
+        if (nodePowers[nodeNumber] != 2 && nodePowers[nodeNumber] != 0) {
             canHandle = false;
             break;
         }
@@ -93,12 +101,7 @@ bool IsSimpleChain(H &hypernet, std::vector<Branch> &chain, std::vector<int> &no
 
     return canHandle && isCorrect;
 }
-//todo сделать проще следющее - заменяем в FN ссылки соответсвующие ptr на новое ребро
-//todo проверить на сколько нужно вообще замаричавться с isReliableChain
-//todo лучше сначала проверять на инцидентность
-//todo бывает ли ptr->size() == 1?
 //todo перенести проверку на IsSimpleChain в GetHomogeneousChain
-//todo возможно нужно заменить RemoveNodeFN на RemoveNode, чтобы упростить логику
 // Chain replacement by branch
 void H::ChainReduction(std::vector<int> &forbiddenNodes) {
     auto chain = GetHomogeneousChain(forbiddenNodes);
@@ -106,7 +109,6 @@ void H::ChainReduction(std::vector<int> &forbiddenNodes) {
         return;
     }
 
-    bool isReliableChain = chain.front().GetIsReliable();
     auto nodesInChain = GetNodesInChain(*this, chain);
     if (!IsSimpleChain(*this, chain, nodesInChain)) {
         UnsimpleChains++;
@@ -121,7 +123,7 @@ void H::ChainReduction(std::vector<int> &forbiddenNodes) {
 
     ChainsReduced++;
     Branch newBranch;
-    if (isReliableChain) {
+    if (chain.front().GetIsReliable()) {
         newBranch = Branch::GetUnity();
         newBranch.SetIsReliable(true);
     } else {
@@ -151,14 +153,7 @@ void H::ChainReduction(std::vector<int> &forbiddenNodes) {
         for (int j = 0; j < _F.size(); j++) {
             Route route = _F[j];
             auto ptr = route.Ptr;
-            if (IsSlightlyIncident(node, route)) {
-                ptr->erase(std::remove(ptr->begin(), ptr->end(), node), ptr->end());
-                // если длина ребра с тановится 1, то удаляем его
-                if (ptr->size() == 1) {
-                    ptr->clear();
-                    _F.erase(_F.begin() + j--);
-                }
-            } else if (IsIncident(node, route)) {
+            if (IsIncident(node, route)) {
                 _F.erase(_F.begin() + j--);
                 auto it = std::find_if(_F.begin(), _F.end(), [node](Route &route) ->
                         bool { return IsIncident(node, route); });
@@ -166,8 +161,6 @@ void H::ChainReduction(std::vector<int> &forbiddenNodes) {
                     throw "ChainReduction: no incident route";
                 }
                 auto ptrToInsert = it->Ptr;
-                int idToInsert = _F[it - _F.begin()].Id;
-
                 if (ptrToInsert->front() == node && ptr->front() == node) {
                     std::reverse(ptrToInsert->begin(), ptrToInsert->end());
                 } else if (ptrToInsert->back() == node && ptr->back() == node) {
@@ -179,6 +172,14 @@ void H::ChainReduction(std::vector<int> &forbiddenNodes) {
                 ptrToInsert->insert(ptrToInsert->end(), ptr->begin(), ptr->end());
                 // удаляем вершину из обоих рёбер
                 ptrToInsert->erase(std::remove(ptrToInsert->begin(), ptrToInsert->end(), node), ptrToInsert->end());
+                // удаляем петли, так как они бессмысленны и приводят к ошибкам
+                if (ptrToInsert->front() == ptrToInsert->back()) {
+                    ptr->clear();
+                    ptrToInsert->clear();
+                    _F.erase(it);
+                    break;
+                }
+                int idToInsert = _F[it - _F.begin()].Id;
                 // заменяем в FN ссылки соответсвующие ptr на новое ребро
                 for (auto &branch : _FN) {
                     for (auto &item : branch.GetRoutes()) {
@@ -188,18 +189,13 @@ void H::ChainReduction(std::vector<int> &forbiddenNodes) {
                         }
                     }
                 }
-                for (auto &item : newBranchRoutes) {
-                    if (item == route) {
-                        item.Ptr = ptrToInsert;
-                        item.Id = idToInsert;
-                        break;
-                    }
+                it = std::find(newBranchRoutes.begin(), newBranchRoutes.end(), route);
+                if (it != newBranchRoutes.end()) {
+                    it->Ptr = ptrToInsert;
+                    it->Id = idToInsert;
                 }
-                // удаляем петли, так как они бессмысленны и приводят к ошибкам
-                if (ptrToInsert->front() == ptrToInsert->back()) {
-                    ptrToInsert->clear();
-                    _F.erase(it);
-                }
+            } else if (IsSlightlyIncident(node, route)) {
+                ptr->erase(std::remove(ptr->begin(), ptr->end(), node), ptr->end());
             }
         }
         // decrease indexes after delete

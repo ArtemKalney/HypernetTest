@@ -206,10 +206,10 @@
 		<Unit filename="E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h">
 			<Option target="HypernetTest"/>
 		</Unit>
-		<Unit filename="E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Reductions.cpp">
+		<Unit filename="E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.h">
 			<Option target="HypernetTest"/>
 		</Unit>
-		<Unit filename="E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.cpp">
+		<Unit filename="E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Reductions.cpp">
 			<Option target="HypernetTest"/>
 		</Unit>
 		<Unit filename="E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.h">

@@ -1,17 +1,7 @@
 #pragma once
 
 #include "Branch.h"
-
-struct Node {
-    int NodeNumber;
-    bool IsVisited;
-
-    Node() = default;
-
-    Node(const int& nodeNumber, bool isVisited) :
-            NodeNumber(nodeNumber),
-            IsVisited(isVisited) {}
-};
+#include "Node.h"
 
 class H {
 private:
@@ -79,7 +69,7 @@ public:
     static bool IsIncident(const int &node, const Branch &branch);
     bool IsSNconnected();
     bool HasReliablePath();
-    std::vector<Branch> GetHomogeneousChain(std::vector<int> &forbiddenNodes);
+    std::vector<Branch> GetHomogeneousChain(std::vector<int>& forbiddenNodes);
     void RemoveBranch(const Branch &branch);
     void RemoveNode(const int &node);
     void RemoveNodeFN(const int &node);

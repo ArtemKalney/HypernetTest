@@ -7,6 +7,7 @@ CMakeFiles/HypernetTest.dir/FullEnumeration.cpp.obj: ../Globals.h
 CMakeFiles/HypernetTest.dir/FullEnumeration.cpp.obj: ../HypernetBase/Branch.h
 CMakeFiles/HypernetTest.dir/FullEnumeration.cpp.obj: ../HypernetBase/Hypernet.h
 CMakeFiles/HypernetTest.dir/FullEnumeration.cpp.obj: ../HypernetBase/IIdentity.h
+CMakeFiles/HypernetTest.dir/FullEnumeration.cpp.obj: ../HypernetBase/Node.h
 CMakeFiles/HypernetTest.dir/FullEnumeration.cpp.obj: ../HypernetBase/Route.h
 CMakeFiles/HypernetTest.dir/FullEnumeration.cpp.obj: ../HypernetBase/Stdafx.h
 
@@ -21,6 +22,7 @@ CMakeFiles/HypernetTest.dir/HypernetBase/Hypernet.cpp.obj: ../HypernetBase/Branc
 CMakeFiles/HypernetTest.dir/HypernetBase/Hypernet.cpp.obj: ../HypernetBase/Hypernet.cpp
 CMakeFiles/HypernetTest.dir/HypernetBase/Hypernet.cpp.obj: ../HypernetBase/Hypernet.h
 CMakeFiles/HypernetTest.dir/HypernetBase/Hypernet.cpp.obj: ../HypernetBase/IIdentity.h
+CMakeFiles/HypernetTest.dir/HypernetBase/Hypernet.cpp.obj: ../HypernetBase/Node.h
 CMakeFiles/HypernetTest.dir/HypernetBase/Hypernet.cpp.obj: ../HypernetBase/Route.h
 CMakeFiles/HypernetTest.dir/HypernetBase/Hypernet.cpp.obj: ../HypernetBase/Stdafx.h
 
@@ -29,14 +31,10 @@ CMakeFiles/HypernetTest.dir/HypernetBase/Reductions.cpp.obj: ../HypernetBase/Bra
 CMakeFiles/HypernetTest.dir/HypernetBase/Reductions.cpp.obj: ../HypernetBase/Branch.h
 CMakeFiles/HypernetTest.dir/HypernetBase/Reductions.cpp.obj: ../HypernetBase/Hypernet.h
 CMakeFiles/HypernetTest.dir/HypernetBase/Reductions.cpp.obj: ../HypernetBase/IIdentity.h
+CMakeFiles/HypernetTest.dir/HypernetBase/Reductions.cpp.obj: ../HypernetBase/Node.h
 CMakeFiles/HypernetTest.dir/HypernetBase/Reductions.cpp.obj: ../HypernetBase/Reductions.cpp
 CMakeFiles/HypernetTest.dir/HypernetBase/Reductions.cpp.obj: ../HypernetBase/Route.h
 CMakeFiles/HypernetTest.dir/HypernetBase/Reductions.cpp.obj: ../HypernetBase/Stdafx.h
-
-CMakeFiles/HypernetTest.dir/HypernetBase/Route.cpp.obj: ../HypernetBase/IIdentity.h
-CMakeFiles/HypernetTest.dir/HypernetBase/Route.cpp.obj: ../HypernetBase/Route.cpp
-CMakeFiles/HypernetTest.dir/HypernetBase/Route.cpp.obj: ../HypernetBase/Route.h
-CMakeFiles/HypernetTest.dir/HypernetBase/Route.cpp.obj: ../HypernetBase/Stdafx.h
 
 CMakeFiles/HypernetTest.dir/Main.cpp.obj: ../libs/googletest/include/gtest/gtest-death-test.h
 CMakeFiles/HypernetTest.dir/Main.cpp.obj: ../libs/googletest/include/gtest/gtest-matchers.h
@@ -63,6 +61,7 @@ CMakeFiles/HypernetTest.dir/Main.cpp.obj: ../Globals.h
 CMakeFiles/HypernetTest.dir/Main.cpp.obj: ../HypernetBase/Branch.h
 CMakeFiles/HypernetTest.dir/Main.cpp.obj: ../HypernetBase/Hypernet.h
 CMakeFiles/HypernetTest.dir/Main.cpp.obj: ../HypernetBase/IIdentity.h
+CMakeFiles/HypernetTest.dir/Main.cpp.obj: ../HypernetBase/Node.h
 CMakeFiles/HypernetTest.dir/Main.cpp.obj: ../HypernetBase/Route.h
 CMakeFiles/HypernetTest.dir/Main.cpp.obj: ../HypernetBase/Stdafx.h
 CMakeFiles/HypernetTest.dir/Main.cpp.obj: ../Main.cpp
@@ -72,6 +71,7 @@ CMakeFiles/HypernetTest.dir/PairConnectivity.cpp.obj: ../Globals.h
 CMakeFiles/HypernetTest.dir/PairConnectivity.cpp.obj: ../HypernetBase/Branch.h
 CMakeFiles/HypernetTest.dir/PairConnectivity.cpp.obj: ../HypernetBase/Hypernet.h
 CMakeFiles/HypernetTest.dir/PairConnectivity.cpp.obj: ../HypernetBase/IIdentity.h
+CMakeFiles/HypernetTest.dir/PairConnectivity.cpp.obj: ../HypernetBase/Node.h
 CMakeFiles/HypernetTest.dir/PairConnectivity.cpp.obj: ../HypernetBase/Route.h
 CMakeFiles/HypernetTest.dir/PairConnectivity.cpp.obj: ../HypernetBase/Stdafx.h
 CMakeFiles/HypernetTest.dir/PairConnectivity.cpp.obj: ../PairConnectivity.cpp
@@ -101,6 +101,7 @@ CMakeFiles/HypernetTest.dir/Tests.cpp.obj: ../Globals.h
 CMakeFiles/HypernetTest.dir/Tests.cpp.obj: ../HypernetBase/Branch.h
 CMakeFiles/HypernetTest.dir/Tests.cpp.obj: ../HypernetBase/Hypernet.h
 CMakeFiles/HypernetTest.dir/Tests.cpp.obj: ../HypernetBase/IIdentity.h
+CMakeFiles/HypernetTest.dir/Tests.cpp.obj: ../HypernetBase/Node.h
 CMakeFiles/HypernetTest.dir/Tests.cpp.obj: ../HypernetBase/Route.h
 CMakeFiles/HypernetTest.dir/Tests.cpp.obj: ../HypernetBase/Stdafx.h
 CMakeFiles/HypernetTest.dir/Tests.cpp.obj: ../Tests.cpp
