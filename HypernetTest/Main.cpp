@@ -149,16 +149,16 @@ void ComputePairConnectivities(Branch& sum, const H& initialHypernet, Branch& ps
         }
     } else if (IS_FULL_ENUMERATION != 1) {
         H H = initialHypernet;
-        H.RenumerateNodes(8, 0);
-        H.RenumerateNodes(20, 1);
+        H.RenumerateNodes(DEBUG_FIRST_NODE, 0);
+        H.RenumerateNodes(DEBUG_SECOND_NODE, 1);
         if (H.IsSNconnected()) {
             auto result = PairConnectivity(H, pseudoBranch);
             sum = sum + result;
         }
     } else if (IS_FULL_ENUMERATION == 1) {
         auto H = initialHypernet;
-//        H.RenumerateNodesForGen(1, 0);
-        H.RenumerateNodesForGen(3, 1);
+        H.RenumerateNodesForGen(DEBUG_FIRST_NODE, 0);
+        H.RenumerateNodesForGen(DEBUG_SECOND_NODE, 1);
         std::vector<bool> branchMask(H.GetFN().size(), false);
         int startPos = 0;
         FullEnumeration(H, H.GetFN(), sum, branchMask, startPos);

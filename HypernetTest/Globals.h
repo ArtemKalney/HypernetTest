@@ -2,9 +2,12 @@
 
 #include "HypernetBase/Branch.h"
 
-#define IS_DEBUG 1
 #define IS_FULL_ENUMERATION 0
 #define MAX_DIMENSIONAL 3
+
+#define IS_DEBUG 1
+#define DEBUG_FIRST_NODE 3
+#define DEBUG_SECOND_NODE 4
 
 #define IS_TEST 1
 #define IS_TEST_CHECK_SPECIFICATIONS 1

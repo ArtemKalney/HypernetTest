@@ -173,26 +173,28 @@ void H::ChainReduction(std::vector<int> &forbiddenNodes) {
                 // удаляем вершину из обоих рёбер
                 ptrToInsert->erase(std::remove(ptrToInsert->begin(), ptrToInsert->end(), node), ptrToInsert->end());
                 // удаляем петли, так как они бессмысленны и приводят к ошибкам
-                if (ptrToInsert->front() == ptrToInsert->back()) {
+                bool isLoop = ptrToInsert->front() == ptrToInsert->back();
+                if (isLoop) {
                     ptr->clear();
                     ptrToInsert->clear();
                     _F.erase(it);
-                    break;
                 }
-                int idToInsert = _F[it - _F.begin()].Id;
-                // заменяем в FN ссылки соответсвующие ptr на новое ребро
-                for (auto &branch : _FN) {
-                    for (auto &item : branch.GetRoutes()) {
-                        if (item == route) {
-                            item.Ptr = ptrToInsert;
-                            item.Id = idToInsert;
+                if (!isLoop) {
+                    int idToInsert = _F[it - _F.begin()].Id;
+                    // заменяем в FN ссылки соответсвующие ptr на новое ребро
+                    for (auto &branch : _FN) {
+                        for (auto &item : branch.GetRoutes()) {
+                            if (item == route) {
+                                item.Ptr = ptrToInsert;
+                                item.Id = idToInsert;
+                            }
                         }
                     }
-                }
-                it = std::find(newBranchRoutes.begin(), newBranchRoutes.end(), route);
-                if (it != newBranchRoutes.end()) {
-                    it->Ptr = ptrToInsert;
-                    it->Id = idToInsert;
+                    it = std::find(newBranchRoutes.begin(), newBranchRoutes.end(), route);
+                    if (it != newBranchRoutes.end()) {
+                        it->Ptr = ptrToInsert;
+                        it->Id = idToInsert;
+                    }
                 }
             } else if (IsSlightlyIncident(node, route)) {
                 ptr->erase(std::remove(ptr->begin(), ptr->end(), node), ptr->end());
@@ -249,11 +251,10 @@ bool H::BridgeReduction() {
 
 void H::EdgeReduction() {
     auto SN = GetSN();
-    for(auto &item : _nodes) {
+    for (auto &item : _nodes) {
         item.IsVisited = false;
     }
     DFS(0, _nodes, SN);
-
     auto canDeleteMask = GetCanDeleteMask(SN);
     for (int i = 0; i < canDeleteMask.size(); i++) {
         if (canDeleteMask[i]) {
