@@ -1,4 +1,4 @@
-Hcycle1(9, 12, 9)
+CycleInGrid(9,12,9)
 9 12 9
 1
 1 2

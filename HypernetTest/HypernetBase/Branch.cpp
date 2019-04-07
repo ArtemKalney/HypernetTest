@@ -1,3 +1,4 @@
+#include "Branch.h"
 #include "Globals.h"
 
 Branch Branch::GetBranch(const int& power) {

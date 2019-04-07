@@ -13,11 +13,14 @@ CMakeFiles/HypernetTest.dir/FullEnumeration.cpp.obj: ../HypernetBase/Stdafx.h
 
 CMakeFiles/HypernetTest.dir/HypernetBase/Branch.cpp.obj: ../Globals.h
 CMakeFiles/HypernetTest.dir/HypernetBase/Branch.cpp.obj: ../HypernetBase/Branch.h
+CMakeFiles/HypernetTest.dir/HypernetBase/Branch.cpp.obj: ../HypernetBase/Branch.cpp
+CMakeFiles/HypernetTest.dir/HypernetBase/Branch.cpp.obj: ../HypernetBase/Branch.h
 CMakeFiles/HypernetTest.dir/HypernetBase/Branch.cpp.obj: ../HypernetBase/IIdentity.h
 CMakeFiles/HypernetTest.dir/HypernetBase/Branch.cpp.obj: ../HypernetBase/Route.h
 CMakeFiles/HypernetTest.dir/HypernetBase/Branch.cpp.obj: ../HypernetBase/Stdafx.h
-CMakeFiles/HypernetTest.dir/HypernetBase/Branch.cpp.obj: ../HypernetBase/Branch.cpp
 
+CMakeFiles/HypernetTest.dir/HypernetBase/Hypernet.cpp.obj: ../Globals.h
+CMakeFiles/HypernetTest.dir/HypernetBase/Hypernet.cpp.obj: ../HypernetBase/Branch.h
 CMakeFiles/HypernetTest.dir/HypernetBase/Hypernet.cpp.obj: ../HypernetBase/Branch.h
 CMakeFiles/HypernetTest.dir/HypernetBase/Hypernet.cpp.obj: ../HypernetBase/Hypernet.cpp
 CMakeFiles/HypernetTest.dir/HypernetBase/Hypernet.cpp.obj: ../HypernetBase/Hypernet.h

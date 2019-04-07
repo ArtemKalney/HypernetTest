@@ -69,7 +69,7 @@ public:
     static bool IsIncident(const int &node, const Branch &branch);
     bool IsSNconnected();
     bool HasReliablePath();
-    std::vector<Branch> GetHomogeneousChain(std::vector<int>& forbiddenNodes);
+    std::vector<Branch> GetSimpleChain(std::vector<int> &forbiddenNodes);
     void RemoveBranch(const Branch &branch);
     void RemoveNode(const int &node);
     void RemoveNodeFN(const int &node);
@@ -79,7 +79,7 @@ public:
     void RenumerateNodes(const int &firstNode, const int &secondNode);
     std::vector<Branch> GetSN();
     std::vector<bool> GetCanDeleteMask(const std::vector<Branch> &SN);
-    void ChainReduction(std::vector<int> &forbiddenNodes);
+    void ChainReduction();
     bool BridgeReduction();
     void EdgeReduction();
     void PrintHypernet();
@@ -88,3 +88,9 @@ public:
     std::vector<std::vector<int>> GetRoutesF();
     std::vector<std::vector<std::vector<int>>> GetRoutesFN();
 };
+
+std::vector<int> GetNodesInChain(const std::vector<Branch>& chain);
+bool IsSimpleChain(H &hypernet, std::vector<Branch> &chain, std::vector<int> &nodesInChain);
+void RemovePenduntRoutesInChain(H &hypernet, std::vector<int> &nodesInChain, std::vector<int> &nodePowers);
+bool IsExtensionBranch(Branch &item, H &H, const std::vector<Branch> &chain, const int &firstNode,
+                       const Branch &firstBranch, const int &secondNode, bool isReliableChain);

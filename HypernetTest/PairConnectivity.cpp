@@ -52,8 +52,7 @@ Branch PairConnectivity(H &H, Branch &pseudoBranch) {
     }
 
     if(ENABLE_CHAIN_REDUCTION == 1) {
-        std::vector<int> forbiddenNodes;
-        H.ChainReduction(forbiddenNodes);
+        H.ChainReduction();
         if (ENABLE_BRIDGE_REDUCTION == 1 && H.BridgeReduction()) {
             return Branch::GetZero();
         }

@@ -6,7 +6,7 @@ std::ifstream input;
 std::ofstream output;
 int n = 0, m = 0, k = 0;
 int ReliableHypernets = 0, UnconnectedHypernets = 0, TwoNodesHypernets = 0, ChainsReduced = 0,
-        UnconnectedNodesReduced = 0, PairConnectivityCalls = 0, EdgesReduced = 0, UnsimpleChains = 0;
+        UnconnectedNodesReduced = 0, PairConnectivityCalls = 0, EdgesReduced = 0, ComplexChains = 0;
 std::vector<Branch> Bin;
 double p = 0.9, z = 0.1;
 
@@ -332,7 +332,7 @@ int main(int argc, char** argv) {
     std::cout << " EdgesReduced " << EdgesReduced << std::endl;
     std::cout << " ChainsReduced " << ChainsReduced << std::endl;
     if (IS_DEBUG == 1) {
-        std::cout << " UnsimpleChains " << UnsimpleChains << std::endl;
+        std::cout << " ComplexChains " << ComplexChains << std::endl;
     }
     std::cout << "Were ends of recursion : " << ReliableHypernets + UnconnectedHypernets +
                                                 TwoNodesHypernets << std::endl;

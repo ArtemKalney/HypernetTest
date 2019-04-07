@@ -19,7 +19,7 @@ public:
         UnconnectedNodesReduced = 0;
         PairConnectivityCalls = 0;
         EdgesReduced = 0;
-        UnsimpleChains = 0;
+        ComplexChains = 0;
     }
 
     void TearDown() { /* called after every test */ }
@@ -84,8 +84,8 @@ TEST_F(TestCriteria, APCTreeInGrid5x5) {
         ASSERT_EQ(PairConnectivityCalls, 927);
         ASSERT_EQ(UnconnectedNodesReduced, 4626);
         ASSERT_EQ(EdgesReduced, 6071);
-        ASSERT_EQ(ChainsReduced, 615);
-        ASSERT_EQ(UnsimpleChains, 29);
+        ASSERT_EQ(ChainsReduced, 613);
+        ASSERT_EQ(ComplexChains, 27);
         ASSERT_EQ(ReliableHypernets, 231);
         ASSERT_EQ(UnconnectedHypernets, 852);
         ASSERT_EQ(TwoNodesHypernets, 59);
@@ -103,7 +103,7 @@ TEST_F(TestCriteria, MENCTreeInGrid5x5) {
         ASSERT_EQ(UnconnectedNodesReduced, 435);
         ASSERT_EQ(EdgesReduced, 522);
         ASSERT_EQ(ChainsReduced, 23);
-        ASSERT_EQ(UnsimpleChains, 1);
+        ASSERT_EQ(ComplexChains, 1);
         ASSERT_EQ(ReliableHypernets, 0);
         ASSERT_EQ(UnconnectedHypernets, 1);
         ASSERT_EQ(TwoNodesHypernets, 23);
@@ -117,13 +117,13 @@ TEST_F(TestCriteria, APCTreeInGrid4x4) {
     double value = GetAPCValueForTest();
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
     if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
-        ASSERT_EQ(PairConnectivityCalls, 311);
+        ASSERT_EQ(PairConnectivityCalls, 309);
         ASSERT_EQ(UnconnectedNodesReduced, 1073);
         ASSERT_EQ(EdgesReduced, 1391);
-        ASSERT_EQ(ChainsReduced, 182);
-        ASSERT_EQ(UnsimpleChains, 0);
+        ASSERT_EQ(ChainsReduced, 184);
+        ASSERT_EQ(ComplexChains, 0);
         ASSERT_EQ(ReliableHypernets, 87);
-        ASSERT_EQ(UnconnectedHypernets, 278);
+        ASSERT_EQ(UnconnectedHypernets, 276);
         ASSERT_EQ(TwoNodesHypernets, 33);
     }
     input.close();
@@ -139,7 +139,7 @@ TEST_F(TestCriteria, MENCTreeInGrid4x4) {
         ASSERT_EQ(UnconnectedNodesReduced, 159);
         ASSERT_EQ(EdgesReduced, 192);
         ASSERT_EQ(ChainsReduced, 14);
-        ASSERT_EQ(UnsimpleChains, 0);
+        ASSERT_EQ(ComplexChains, 0);
         ASSERT_EQ(ReliableHypernets, 0);
         ASSERT_EQ(UnconnectedHypernets, 0);
         ASSERT_EQ(TwoNodesHypernets, 15);
@@ -157,7 +157,7 @@ TEST_F(TestCriteria, APCTreeInGrid3x3) {
         ASSERT_EQ(UnconnectedNodesReduced, 143);
         ASSERT_EQ(EdgesReduced, 190);
         ASSERT_EQ(ChainsReduced, 38);
-        ASSERT_EQ(UnsimpleChains, 0);
+        ASSERT_EQ(ComplexChains, 0);
         ASSERT_EQ(ReliableHypernets, 20);
         ASSERT_EQ(UnconnectedHypernets, 58);
         ASSERT_EQ(TwoNodesHypernets, 16);
@@ -175,7 +175,7 @@ TEST_F(TestCriteria, MENCTreeInGrid3x3) {
         ASSERT_EQ(UnconnectedNodesReduced, 38);
         ASSERT_EQ(EdgesReduced, 48);
         ASSERT_EQ(ChainsReduced, 7);
-        ASSERT_EQ(UnsimpleChains, 0);
+        ASSERT_EQ(ComplexChains, 0);
         ASSERT_EQ(ReliableHypernets, 0);
         ASSERT_EQ(UnconnectedHypernets, 0);
         ASSERT_EQ(TwoNodesHypernets, 8);
@@ -192,8 +192,8 @@ TEST_F(TestCriteria, APCCycleInGrid) {
         ASSERT_EQ(PairConnectivityCalls, 191);
         ASSERT_EQ(UnconnectedNodesReduced, 96);
         ASSERT_EQ(EdgesReduced, 51);
-        ASSERT_EQ(ChainsReduced, 108);
-        ASSERT_EQ(UnsimpleChains, 0);
+        ASSERT_EQ(ChainsReduced, 107);
+        ASSERT_EQ(ComplexChains, 0);
         ASSERT_EQ(ReliableHypernets, 74);
         ASSERT_EQ(UnconnectedHypernets, 123);
         ASSERT_EQ(TwoNodesHypernets, 15);
@@ -211,7 +211,7 @@ TEST_F(TestCriteria, MENCCycleInGrid) {
         ASSERT_EQ(UnconnectedNodesReduced, 10);
         ASSERT_EQ(EdgesReduced, 5);
         ASSERT_EQ(ChainsReduced, 24);
-        ASSERT_EQ(UnsimpleChains, 0);
+        ASSERT_EQ(ComplexChains, 0);
         ASSERT_EQ(ReliableHypernets, 12);
         ASSERT_EQ(UnconnectedHypernets, 19);
         ASSERT_EQ(TwoNodesHypernets, 2);
@@ -225,14 +225,14 @@ TEST_F(TestCriteria, APCWheelInGrid) {
     double value = GetAPCValueForTest();
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
     if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
-        ASSERT_EQ(PairConnectivityCalls, 3338);
-        ASSERT_EQ(UnconnectedNodesReduced, 1237);
-        ASSERT_EQ(EdgesReduced, 1025);
-        ASSERT_EQ(ChainsReduced, 747);
-        ASSERT_EQ(UnsimpleChains, 2197);
-        ASSERT_EQ(ReliableHypernets, 1660);
-        ASSERT_EQ(UnconnectedHypernets, 1594);
-        ASSERT_EQ(TwoNodesHypernets, 60);
+        ASSERT_EQ(PairConnectivityCalls, 3310);
+        ASSERT_EQ(UnconnectedNodesReduced, 1246);
+        ASSERT_EQ(EdgesReduced, 1040);
+        ASSERT_EQ(ChainsReduced, 344);
+        ASSERT_EQ(ComplexChains, 1116);
+        ASSERT_EQ(ReliableHypernets, 1647);
+        ASSERT_EQ(UnconnectedHypernets, 1581);
+        ASSERT_EQ(TwoNodesHypernets, 59);
     }
     input.close();
 }
@@ -244,10 +244,10 @@ TEST_F(TestCriteria, MENCWheelInGrid) {
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
     if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
         ASSERT_EQ(PairConnectivityCalls, 415);
-        ASSERT_EQ(UnconnectedNodesReduced, 125);
-        ASSERT_EQ(EdgesReduced, 134);
-        ASSERT_EQ(ChainsReduced, 108);
-        ASSERT_EQ(UnsimpleChains, 358);
+        ASSERT_EQ(UnconnectedNodesReduced, 129);
+        ASSERT_EQ(EdgesReduced, 138);
+        ASSERT_EQ(ChainsReduced, 59);
+        ASSERT_EQ(ComplexChains, 202);
         ASSERT_EQ(ReliableHypernets, 205);
         ASSERT_EQ(UnconnectedHypernets, 218);
         ASSERT_EQ(TwoNodesHypernets, 0);
@@ -261,13 +261,13 @@ TEST_F(TestCriteria, APCRandomHypernet1) {
     double value = GetAPCValueForTest();
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
     if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
-        ASSERT_EQ(PairConnectivityCalls, 837);
-        ASSERT_EQ(UnconnectedNodesReduced, 279);
+        ASSERT_EQ(PairConnectivityCalls, 835);
+        ASSERT_EQ(UnconnectedNodesReduced, 281);
         ASSERT_EQ(EdgesReduced, 529);
-        ASSERT_EQ(ChainsReduced, 292);
-        ASSERT_EQ(UnsimpleChains, 1013);
-        ASSERT_EQ(ReliableHypernets, 345);
-        ASSERT_EQ(UnconnectedHypernets, 518);
+        ASSERT_EQ(ChainsReduced, 147);
+        ASSERT_EQ(ComplexChains, 657);
+        ASSERT_EQ(ReliableHypernets, 344);
+        ASSERT_EQ(UnconnectedHypernets, 517);
         ASSERT_EQ(TwoNodesHypernets, 5);
     }
     input.close();
@@ -282,8 +282,8 @@ TEST_F(TestCriteria, MENCRandomHypernet1) {
         ASSERT_EQ(PairConnectivityCalls, 141);
         ASSERT_EQ(UnconnectedNodesReduced, 58);
         ASSERT_EQ(EdgesReduced, 104);
-        ASSERT_EQ(ChainsReduced, 41);
-        ASSERT_EQ(UnsimpleChains, 186);
+        ASSERT_EQ(ChainsReduced, 27);
+        ASSERT_EQ(ComplexChains, 140);
         ASSERT_EQ(ReliableHypernets, 57);
         ASSERT_EQ(UnconnectedHypernets, 90);
         ASSERT_EQ(TwoNodesHypernets, 1);
@@ -298,10 +298,10 @@ TEST_F(TestCriteria, APCRandomHypernet2) {
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
     if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
         ASSERT_EQ(PairConnectivityCalls, 845);
-        ASSERT_EQ(UnconnectedNodesReduced, 289);
-        ASSERT_EQ(EdgesReduced, 301);
-        ASSERT_EQ(ChainsReduced, 185);
-        ASSERT_EQ(UnsimpleChains, 122);
+        ASSERT_EQ(UnconnectedNodesReduced, 288);
+        ASSERT_EQ(EdgesReduced, 302);
+        ASSERT_EQ(ChainsReduced, 65);
+        ASSERT_EQ(ComplexChains, 11);
         ASSERT_EQ(ReliableHypernets, 247);
         ASSERT_EQ(UnconnectedHypernets, 622);
         ASSERT_EQ(TwoNodesHypernets, 6);
@@ -318,8 +318,8 @@ TEST_F(TestCriteria, MENCRandomHypernet2) {
         ASSERT_EQ(PairConnectivityCalls, 201);
         ASSERT_EQ(UnconnectedNodesReduced, 35);
         ASSERT_EQ(EdgesReduced, 55);
-        ASSERT_EQ(ChainsReduced, 51);
-        ASSERT_EQ(UnsimpleChains, 42);
+        ASSERT_EQ(ChainsReduced, 22);
+        ASSERT_EQ(ComplexChains, 0);
         ASSERT_EQ(ReliableHypernets, 53);
         ASSERT_EQ(UnconnectedHypernets, 152);
         ASSERT_EQ(TwoNodesHypernets, 2);
@@ -336,8 +336,8 @@ TEST_F(TestCriteria, APCRandomHypernet3) {
         ASSERT_EQ(PairConnectivityCalls, 84);
         ASSERT_EQ(UnconnectedNodesReduced, 7);
         ASSERT_EQ(EdgesReduced, 21);
-        ASSERT_EQ(ChainsReduced, 28);
-        ASSERT_EQ(UnsimpleChains, 60);
+        ASSERT_EQ(ChainsReduced, 25);
+        ASSERT_EQ(ComplexChains, 50);
         ASSERT_EQ(ReliableHypernets, 31);
         ASSERT_EQ(UnconnectedHypernets, 66);
         ASSERT_EQ(TwoNodesHypernets, 1);
@@ -355,7 +355,7 @@ TEST_F(TestCriteria, MENCRandomHypernet3) {
         ASSERT_EQ(UnconnectedNodesReduced, 0);
         ASSERT_EQ(EdgesReduced, 4);
         ASSERT_EQ(ChainsReduced, 8);
-        ASSERT_EQ(UnsimpleChains, 13);
+        ASSERT_EQ(ComplexChains, 10);
         ASSERT_EQ(ReliableHypernets, 8);
         ASSERT_EQ(UnconnectedHypernets, 18);
         ASSERT_EQ(TwoNodesHypernets, 0);
