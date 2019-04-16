@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Hypernet.h"
+#include "HypernetBase/Hypernet.h"
 
 struct DTO {
     DTO(const H &H, const Branch &branch) :

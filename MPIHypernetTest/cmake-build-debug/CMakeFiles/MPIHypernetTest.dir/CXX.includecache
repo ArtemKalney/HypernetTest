@@ -6,83 +6,79 @@
 
 #IncludeRegexTransform: 
 
+..//Globals.h
+HypernetBase/Branch.h
+../HypernetBase/Branch.h
+
+../HypernetBase/Branch.h
+Stdafx.h
+../HypernetBase/Stdafx.h
+Route.h
+../HypernetBase/Route.h
+IIdentity.h
+../HypernetBase/IIdentity.h
+
 C:/Program Files (x86)/Microsoft SDKs/MPI/include/mpi.h
 stdint.h
 -
 sal.h
 -
 
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Branch.cpp
-Branch.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Branch.h
-Globals.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Globals.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/DTO.h
+HypernetBase/Hypernet.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Hypernet.h
 
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Branch.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Funcs.h
+HypernetBase/Hypernet.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Hypernet.h
+
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Globals.h
+HypernetBase/Branch.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Branch.h
+
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Branch.cpp
+Branch.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Branch.h
+Globals.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Globals.h
+
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Branch.h
 Stdafx.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Stdafx.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Stdafx.h
 Route.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Route.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Route.h
 IIdentity.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/IIdentity.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/IIdentity.h
 
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/DTO.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Hypernet.cpp
 Hypernet.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Hypernet.h
-
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Funcs.h
-Branch.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Branch.h
-Hypernet.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Hypernet.h
-
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Globals.h
-Branch.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Branch.h
-
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Hypernet.cpp
-Hypernet.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Hypernet.h
-
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Hypernet.h
-Stdafx.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Stdafx.h
-Branch.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Branch.h
-Route.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Route.h
-
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/IIdentity.h
-
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Main.cpp
-Funcs.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Funcs.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Hypernet.h
 Globals.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Globals.h
-DTO.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/DTO.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Globals.h
 
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/PairConnectivity.cpp
-Stdafx.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Stdafx.h
-Funcs.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Funcs.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Hypernet.h
+Branch.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Branch.h
+Node.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Node.h
+
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/IIdentity.h
+
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Node.h
+
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Reductions.cpp
+Hypernet.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Hypernet.h
 Globals.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Globals.h
-DTO.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/DTO.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Globals.h
 
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Rote.cpp
-Route.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Route.h
-
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Route.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Route.h
 Stdafx.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Stdafx.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Stdafx.h
 IIdentity.h
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/IIdentity.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/IIdentity.h
 
-E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Stdafx.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Stdafx.h
 cstdio
 -
 tchar.h
@@ -105,6 +101,32 @@ ctime
 -
 memory
 -
+../Stdafx.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Stdafx.h
+
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Main.cpp
+Globals.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Globals.h
+Funcs.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Funcs.h
+DTO.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/DTO.h
+
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/PairConnectivity.cpp
+Funcs.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Funcs.h
+DTO.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/DTO.h
+Globals.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Globals.h
+
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/RandomHypernet.cpp
+Funcs.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Funcs.h
+Globals.h
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Globals.h
+
+E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Stdafx.h
 mpi.h
 -
 sstream

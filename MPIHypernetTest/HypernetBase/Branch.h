@@ -27,18 +27,26 @@ private:
         ar & _isReliable;
     }
 public:
-    Branch() {}
+    Branch() = default;
 
-    Branch(const int& id, std::vector<double> C, std::vector<Route>& routes, const int& power,
-            const int& firstNode, const int& secondNode, bool isReliable) :
+    Branch(const int& id, std::vector<double> C, std::vector<Route>& routes, const int& power, const int& firstNode,
+           const int& secondNode, bool isReliable) :
             _id(id),
             _C(std::move(C)),
             _routes(std::move(routes)),
             _power(power),
             _firstNode(firstNode),
             _secondNode(secondNode),
-            _isReliable(isReliable)
-    {}
+            _isReliable(isReliable) {}
+
+    Branch(const int& id, std::vector<double> C, const int& power, const int& firstNode, const int& secondNode,
+           bool isReliable) :
+            _id(id),
+            _C(std::move(C)),
+            _power(power),
+            _firstNode(firstNode),
+            _secondNode(secondNode),
+            _isReliable(isReliable) {}
 
     Branch(const Branch& branch) :
             _id(branch._id),
@@ -47,8 +55,7 @@ public:
             _power(branch._power),
             _firstNode(branch._firstNode),
             _secondNode(branch._secondNode),
-            _isReliable(branch._isReliable)
-    {}
+            _isReliable(branch._isReliable) {}
 
     void SetId(const int& id)
     {
@@ -125,14 +132,15 @@ public:
     static Branch GetZero();
     static Branch GetUnity();
     static bool EqualNodes(const Branch& firstBranch, const Branch& secondBranch);
-    static bool IsUnacceptableBranch(Branch &branch);
     static Branch ParallelReduction(std::vector<Branch> &branches);
+    bool IsUnacceptableBranch();
     bool IsZero() const;
     bool IsUnity();
     bool IsSimpleBranch();
     void PrintBranch();
     bool operator <(const Branch& branch) const;
     double GetValue();
+    int GetBranchSaturation();
 };
 
 Branch operator *(Branch firstBranch, Branch secondBranch);

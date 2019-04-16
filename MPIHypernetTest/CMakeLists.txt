@@ -5,8 +5,11 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 #other libraries
 set(CMAKE_EXE_LINKER_FLAGS "-static -lpthread")
-set(SOURCE_FILES Main.cpp Stdafx.h Funcs.h Globals.h Branch.h PairConnectivity.cpp Branch.cpp Hypernet.h Hypernet.cpp
-        Route.h Rote.cpp IIdentity.h DTO.h)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+set(SOURCE_FILES Main.cpp Stdafx.h Funcs.h Globals.h PairConnectivity.cpp DTO.h RandomHypernet.cpp
+        SerializationExtensions.h HypernetBase/Stdafx.h HypernetBase/Branch.h PairConnectivity.cpp
+        HypernetBase/Branch.cpp HypernetBase/Hypernet.h HypernetBase/Hypernet.cpp HypernetBase/Route.H
+        HypernetBase/Node.h HypernetBase/IIdentity.h HypernetBase/Reductions.cpp)
 add_executable(MPIHypernetTest ${SOURCE_FILES})
 # Require MPI for this project:
 find_package(MPI REQUIRED)

@@ -1,15 +1,16 @@
-#include "Funcs.h"
 #include "Globals.h"
+#include "Funcs.h"
 #include "DTO.h"
 
 std::ifstream input("input.txt");
 std::ofstream output;
 int n = 0, m = 0, k = 0;
 int ReliableHypernets = 0, UnconnectedHypernets = 0, TwoNodesHypernets = 0, ChainsReduced = 0,
-        UnconnectedNodesReduced = 0, PairConnectivityCalls = 0, EdgesReduced = 0, UnsimpleChains = 0, HelpProcessors = 0;
+        UnconnectedNodesReduced = 0, PairConnectivityCalls = 0, EdgesReduced = 0, ComplexChains = 0, HelpProcessors = 0;
 std::vector<Branch> Bin;
 double p = 0.9, z = 0.1;
 unsigned long long int TotalBytesTransfer = 0;
+int seed = 0;
 
 template <class T>
 bool IsUniqueId(const T &items, const int &id) {
@@ -23,6 +24,20 @@ bool IsUniqueId(const T &items, const int &id) {
 }
 
 void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vector<Route>& routes) {
+    if (IS_TEST_TIME == 1) {
+        n = TEST_HYPERNET_NODES;
+        m = TEST_HYPERNET_BRANCHES;
+        k = TEST_HYPERNET_EDGES;
+        std::cout << "Input graph : H(" << n << ", " << m << ", " << k << ")" << std::endl;
+        return;
+    }
+
+    if (!input.is_open()) {
+        throw "GetData: File can not be opened!";
+    }
+    char str[50];
+    input.getline(str, 50);
+    std::cout << "Input graph : " << str << std::endl;
     int buf;
     input >> buf; n = buf;
     input >> buf; m = buf;
@@ -79,6 +94,32 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
             }
         }
     }
+    // Input should end by $$$
+    input >> str;
+    if (strcmp(str, "$$$") != 0) {
+        throw "GetData: Incorrect entry";
+    }
+}
+
+void LogHypernet(H &H, int &hypernetNumber) {
+    output << "-----------------------------> " << hypernetNumber + 1 << std::endl;
+    output << H.GetNodes().size() << " " << H.GetFN().size() << " "  << H.GetF().size() << std::endl;
+    for(auto &branch : H.GetFN()) {
+        output << branch.GetId() + 1 << std::endl;
+        output << branch.GetFirstNode() + 1 << " " << branch.GetSecondNode() + 1 << std::endl;
+        for (auto &item : branch.GetRoutes()) {
+            output << item.GetId() + 1 << " ";
+        }
+        output << 0 << std::endl;
+    }
+    for(auto &route : H.GetF()) {
+        output << route.GetId() + 1 << std::endl;
+        for (auto &item : *route.Ptr) {
+            output << item + 1 << " ";
+        }
+        output << 0 << std::endl;
+    }
+    output << "$$$" << std::endl;
 }
 
 void ComputeBinomialCoefficients() {
@@ -101,7 +142,8 @@ void NormalizeSolution(Branch &branch){
 }
 
 template <class T>
-void Send(T &object, int processorNumber){
+//typename = std::enable_if<std::is_base_of<T, ISerialize>::value>
+void Send(const T &object, int processorNumber){
     std::stringstream ss;
     boost::archive::binary_oarchive oarchive{ss};
     oarchive << object;
@@ -254,7 +296,12 @@ void ErrorHandler(const char *str) {
     std::cout << "--------------------------------" << std::endl;
 }
 
-void ComputeGraph(const H &initialHypernet, int &size, int &option) {
+void ComputeHypernet(H &initialHypernet, int &size, int &option) {
+    initialHypernet.RemoveEmptyBranches();
+    // In the beginning we consider only connected hypernets
+    if (!initialHypernet.IsSNconnected()) {
+        throw "Unconnected hypernet on input!";
+    }
     if (option == 1) {
         ComputeAPC(initialHypernet, size);
     } else if (option == 2) {
@@ -278,23 +325,12 @@ void BcastDataByMaster() {
 void Master(int size) {
     output.open("output.txt");
     setlocale(LC_ALL, "");
-    if (!input.is_open()) {
-        std::cout << "File can not be opened!\n";
-        return;
-    }
-    char str[50];
-    input.getline(str, 50);
-    std::cout << "Input graph : " << str << std::endl;
+
     std::vector<Branch> branches;
     std::vector<Node> nodes;
     std::vector<Route> routes;
     GetData(branches, nodes, routes);
-    // Input should end by $$$
-    input >> str;
-    if (strcmp(str, "$$$") != 0) {
-        std::cout << "Incorrect entry" << std::endl;
-        return;
-    }
+
     std::cout << "Press 1 to get APC polynomial" << std::endl;
     std::cout << "Press 2 to get MENC polynomial" << std::endl;
     int option;
@@ -306,18 +342,35 @@ void Master(int size) {
 
     ComputeBinomialCoefficients();
     BcastDataByMaster();
-    // Create an initialHypernet
-    H initialHypernet = H(std::move(branches), std::move(nodes), std::move(routes));
-    initialHypernet.RemoveEmptyBranches();
-    // In the beginning we consider only connected hypernets
-    if (!initialHypernet.IsSNconnected()) {
-        std::cout << "Unconnected hypernet on input!" << std::endl;
-    }
     // Create a pseudo-branch F, which we multiply by the end of the calculations
-    double startTime = MPI_Wtime();
-    ComputeGraph(initialHypernet, size, option);
+    double startTime, averageTime = 0;
+    if (IS_TEST_TIME == 1) {
+        seed = time(0);
+        for (int i = 0; i < TEST_HYPERNETS; i++) {
+            H initialHypernet = GetRandomHypernet();
+            if (IS_DEBUG == 1) {
+                LogHypernet(initialHypernet, i);
+            }
+            startTime = MPI_Wtime();
+            ComputeHypernet(initialHypernet, size, option);
+            double endTime = MPI_Wtime();
+            output << "Time = " << endTime - startTime << std::endl;
+            averageTime += endTime - startTime;
+        }
+    } else {
+        startTime = MPI_Wtime();
+        H initialHypernet = H(std::move(branches), std::move(nodes), std::move(routes));
+        ComputeHypernet(initialHypernet, size, option);
+    }
     for (int i = 1; i < size; i++) {
         MPI_Send(&i, 0, MPI_INT, i, STOP_TAG, MPI_COMM_WORLD);
+    }
+
+    if (IS_TEST_TIME == 1 && TEST_HYPERNETS > 1) {
+        averageTime = averageTime / TEST_HYPERNETS;
+        std::cout << "Average time = " << averageTime;
+        output << "Average time = " << averageTime;
+        return;
     }
 
     MPI_Status status;
@@ -341,7 +394,7 @@ void Master(int size) {
         MPI_Recv(&buff, 1, MPI_INT, MPI_ANY_SOURCE, EDGES_REDUCED_TAG, MPI_COMM_WORLD, &status);
         EdgesReduced += buff;
         MPI_Recv(&buff, 1, MPI_INT, MPI_ANY_SOURCE, UNSIMPLE_CHAINS_TAG, MPI_COMM_WORLD, &status);
-        UnsimpleChains += buff;
+        ComplexChains += buff;
         MPI_Recv(&buff, 1, MPI_INT, MPI_ANY_SOURCE, HELP_PROCESSORS_TAG, MPI_COMM_WORLD, &status);
         HelpProcessors += buff;
         unsigned long long int longBuff;
@@ -365,15 +418,15 @@ void Master(int size) {
     std::cout << " UnconnectedNodesReduced " << UnconnectedNodesReduced << std::endl;
     std::cout << " EdgesReduced " << EdgesReduced << std::endl;
     std::cout << " ChainsReduced " << ChainsReduced << std::endl;
-    if (IS_RELEASE != 1) {
-        std::cout << " UnsimpleChains " << UnsimpleChains << std::endl;
+    if (IS_DEBUG == 1) {
+        std::cout << " ComplexChains " << ComplexChains << std::endl;
     }
     std::cout << "Were ends of recursion : " << ReliableHypernets + UnconnectedHypernets +
             TwoNodesHypernets << std::endl;
     std::cout << " ReliableHypernets " << ReliableHypernets << std::endl;
     std::cout << " UnconnectedHypernets " << UnconnectedHypernets << std::endl;
     std::cout << " TwoNodesHypernets " << TwoNodesHypernets << std::endl;
-    if (IS_RELEASE != 1) {
+    if (IS_DEBUG == 1) {
         std::cout << "TotalBytesTransfer : " << TotalBytesTransfer << std::endl;
         std::cout << "HelpProcessors : " << HelpProcessors << std::endl;
     }
@@ -390,8 +443,6 @@ void Master(int size) {
     } else {
         std::cout << "no sum :(" << std::endl;
     }
-    input.close();
-    output.close();
 }
 
 void BcastDataBySlaves() {
@@ -411,6 +462,7 @@ void BcastDataBySlaves() {
 
 void Slaves(int rank) {
     BcastDataBySlaves();
+
     int value;
     Branch sum;
     MPI_Status status;
@@ -423,17 +475,19 @@ void Slaves(int rank) {
         }
     } while (status.MPI_TAG != STOP_TAG);
 
-    Send(sum, HOST_PROCESSOR);
-    MPI_Send(&ReliableHypernets, 1, MPI_INT, HOST_PROCESSOR, RELIABLE_HYPERNETS_COUNT_TAG, MPI_COMM_WORLD);
-    MPI_Send(&UnconnectedHypernets, 1, MPI_INT, HOST_PROCESSOR, UNCONNECTED_HYPERNET_COUNT_TAG, MPI_COMM_WORLD);
-    MPI_Send(&TwoNodesHypernets, 1, MPI_INT, HOST_PROCESSOR, TWO_NODES_HYPERNET_COUNT, MPI_COMM_WORLD);
-    MPI_Send(&ChainsReduced, 1, MPI_INT, HOST_PROCESSOR, CHAINS_REDUCED_TAG, MPI_COMM_WORLD);
-    MPI_Send(&UnconnectedNodesReduced, 1, MPI_INT, HOST_PROCESSOR, UNCONNECTED_NODES_REDUCED_TAG, MPI_COMM_WORLD);
-    MPI_Send(&PairConnectivityCalls, 1, MPI_INT, HOST_PROCESSOR, PAIR_CONNECTIVITY_CALLS_TAG, MPI_COMM_WORLD);
-    MPI_Send(&EdgesReduced, 1, MPI_INT, HOST_PROCESSOR, EDGES_REDUCED_TAG, MPI_COMM_WORLD);
-    MPI_Send(&UnsimpleChains, 1, MPI_INT, HOST_PROCESSOR, UNSIMPLE_CHAINS_TAG, MPI_COMM_WORLD);
-    MPI_Send(&HelpProcessors, 1, MPI_INT, HOST_PROCESSOR, HELP_PROCESSORS_TAG, MPI_COMM_WORLD);
-    MPI_Send(&TotalBytesTransfer, 1, MPI_UNSIGNED_LONG_LONG, HOST_PROCESSOR, TOTAL_BYTES_TRANSFER_TAG, MPI_COMM_WORLD);
+    if (IS_TEST_TIME == 0 || TEST_HYPERNETS == 1) {
+        Send(sum, HOST_PROCESSOR);
+        MPI_Send(&ReliableHypernets, 1, MPI_INT, HOST_PROCESSOR, RELIABLE_HYPERNETS_COUNT_TAG, MPI_COMM_WORLD);
+        MPI_Send(&UnconnectedHypernets, 1, MPI_INT, HOST_PROCESSOR, UNCONNECTED_HYPERNET_COUNT_TAG, MPI_COMM_WORLD);
+        MPI_Send(&TwoNodesHypernets, 1, MPI_INT, HOST_PROCESSOR, TWO_NODES_HYPERNET_COUNT, MPI_COMM_WORLD);
+        MPI_Send(&ChainsReduced, 1, MPI_INT, HOST_PROCESSOR, CHAINS_REDUCED_TAG, MPI_COMM_WORLD);
+        MPI_Send(&UnconnectedNodesReduced, 1, MPI_INT, HOST_PROCESSOR, UNCONNECTED_NODES_REDUCED_TAG, MPI_COMM_WORLD);
+        MPI_Send(&PairConnectivityCalls, 1, MPI_INT, HOST_PROCESSOR, PAIR_CONNECTIVITY_CALLS_TAG, MPI_COMM_WORLD);
+        MPI_Send(&EdgesReduced, 1, MPI_INT, HOST_PROCESSOR, EDGES_REDUCED_TAG, MPI_COMM_WORLD);
+        MPI_Send(&ComplexChains, 1, MPI_INT, HOST_PROCESSOR, UNSIMPLE_CHAINS_TAG, MPI_COMM_WORLD);
+        MPI_Send(&HelpProcessors, 1, MPI_INT, HOST_PROCESSOR, HELP_PROCESSORS_TAG, MPI_COMM_WORLD);
+        MPI_Send(&TotalBytesTransfer, 1, MPI_UNSIGNED_LONG_LONG, HOST_PROCESSOR, TOTAL_BYTES_TRANSFER_TAG, MPI_COMM_WORLD);
+    }
 }
 
 int main(int argc, char **argv) {
@@ -460,5 +514,7 @@ int main(int argc, char **argv) {
         std::cout << "throw std::string or int or any other unrelated type";
     }
     MPI_Finalize();
+    input.close();
+    output.close();
     return 0;
 }

@@ -43,12 +43,11 @@ bool Branch::EqualNodes(const Branch& firstBranch, const Branch& secondBranch) {
     return sameNodes || reversedNodes;
 }
 
-bool Branch::IsUnacceptableBranch(Branch &branch) {
-    int firstNode = branch.GetFirstNode(), secondNode = branch.GetSecondNode();
-
-    bool isFirstNodeUnacceptable = firstNode < 0 || firstNode > n,
-            isSecondNodeUnacceptable = secondNode < 0 || secondNode > n;
-    return isFirstNodeUnacceptable || isSecondNodeUnacceptable;
+bool Branch::IsUnacceptableBranch() {
+    bool isFirstNodeUnacceptable = _firstNode < 0 || _secondNode > n,
+            isSecondNodeUnacceptable = _secondNode < 0 || _firstNode > n,
+            isPowerUnacceptable = _power < 0 || _power > m;
+    return isFirstNodeUnacceptable || isSecondNodeUnacceptable || isPowerUnacceptable;
 }
 
 bool Branch::IsZero() const {
@@ -101,12 +100,22 @@ Branch Branch::ParallelReduction(std::vector<Branch> &branches) {
     return result;
 }
 
+int Branch::GetBranchSaturation() {
+    int count = 0;
+    for(auto &item : _routes) {
+        if (!item.Ptr->empty()) {
+            count++;
+        }
+    }
+
+    return count;
+}
+
 bool Branch::operator <(const Branch& branch) const {
     return std::min(_firstNode, _secondNode) < std::min(branch._firstNode, branch._secondNode);
 }
 
-Branch operator *(Branch firstBranch, Branch secondBranch)
-{
+Branch operator *(Branch firstBranch, Branch secondBranch) {
     Branch result = Branch::GetZero();
     if (!firstBranch.IsZero() && !secondBranch.IsZero()) {
         if (firstBranch.IsUnity()) {
@@ -134,8 +143,7 @@ Branch operator *(Branch firstBranch, Branch secondBranch)
     return result;
 }
 
-Branch operator +(Branch firstBranch, Branch secondBranch)
-{
+Branch operator +(Branch firstBranch, Branch secondBranch) {
     Branch result = Branch::GetZero();
     if (!firstBranch.IsZero() && !secondBranch.IsZero()) {
         if (firstBranch.IsUnity() && secondBranch.IsUnity()) {
@@ -167,8 +175,7 @@ Branch operator +(Branch firstBranch, Branch secondBranch)
     return result;
 }
 
-Branch operator -(Branch firstBranch, Branch secondBranch)
-{
+Branch operator -(Branch firstBranch, Branch secondBranch) {
     Branch result = Branch::GetZero();
     if (!firstBranch.IsZero() && !secondBranch.IsZero()) {
         if (firstBranch.IsUnity() && secondBranch.IsUnity()) {
@@ -201,8 +208,7 @@ Branch operator -(Branch firstBranch, Branch secondBranch)
     return result;
 }
 
-Branch operator ~(Branch branch)
-{
+Branch operator ~(Branch branch) {
     Branch result = Branch::GetZero();
     if (!branch.IsZero()) {
         if (branch.IsUnity()) {
@@ -223,12 +229,10 @@ Branch operator ~(Branch branch)
     return result;
 }
 
-bool operator ==(Branch firstBranch, Branch secondBranch)
-{
+bool operator ==(Branch firstBranch, Branch secondBranch) {
     return firstBranch.GetId() == secondBranch.GetId();
 }
 
-bool operator !=(Branch firstBranch, Branch secondBranch)
-{
+bool operator !=(Branch firstBranch, Branch secondBranch) {
     return firstBranch.GetId() != secondBranch.GetId();
 }

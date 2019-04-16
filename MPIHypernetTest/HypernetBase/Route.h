@@ -14,16 +14,19 @@ struct Route : public IIdentity
             Id(id),
             Ptr(std::move(ptr)) {}
 
-    int GetId() const override {
-        return Id;
-    }
-
     friend class boost::serialization::access;
     template<typename Archive>
     void serialize(Archive &ar, const unsigned version) {
         ar & Id;
         ar & Ptr;
     }
+
+    int GetId() const override {
+        return Id;
+    }
 };
 
-bool operator ==(Route firstRoute, Route secondRoute);
+inline bool operator ==(Route firstRoute, Route secondRoute)
+{
+    return firstRoute.Id == secondRoute.Id;
+}

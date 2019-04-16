@@ -1,9 +1,10 @@
 file(REMOVE_RECURSE
   "CMakeFiles/MPIHypernetTest.dir/Main.cpp.obj"
   "CMakeFiles/MPIHypernetTest.dir/PairConnectivity.cpp.obj"
-  "CMakeFiles/MPIHypernetTest.dir/Branch.cpp.obj"
-  "CMakeFiles/MPIHypernetTest.dir/Hypernet.cpp.obj"
-  "CMakeFiles/MPIHypernetTest.dir/Rote.cpp.obj"
+  "CMakeFiles/MPIHypernetTest.dir/RandomHypernet.cpp.obj"
+  "CMakeFiles/MPIHypernetTest.dir/HypernetBase/Branch.cpp.obj"
+  "CMakeFiles/MPIHypernetTest.dir/HypernetBase/Hypernet.cpp.obj"
+  "CMakeFiles/MPIHypernetTest.dir/HypernetBase/Reductions.cpp.obj"
   "MPIHypernetTest.pdb"
   "MPIHypernetTest.exe"
   "MPIHypernetTest.exe.manifest"
