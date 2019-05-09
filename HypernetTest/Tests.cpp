@@ -183,8 +183,8 @@ TEST_F(TestCriteria, MENCTreeInGrid3x3) {
     input.close();
 }
 
-TEST_F(TestCriteria, APCCycleInGrid) {
-    input.open("inputs/CycleInGrid(9, 12, 9).txt");
+TEST_F(TestCriteria, APCCycleInGrid1) {
+    input.open("inputs/CycleInGrid1(9, 12, 9).txt");
     double expectedValue = 0.73213512;
     double value = GetAPCValueForTest();
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
@@ -201,8 +201,8 @@ TEST_F(TestCriteria, APCCycleInGrid) {
     input.close();
 }
 
-TEST_F(TestCriteria, MENCCycleInGrid) {
-    input.open("inputs/CycleInGrid(9, 12, 9).txt");
+TEST_F(TestCriteria, MENCCycleInGrid1) {
+    input.open("inputs/CycleInGrid1(9, 12, 9).txt");
     double expectedValue = 6.40830448;
     double value = GetMENCValueForTest();
     ASSERT_TRUE(std::abs(value - expectedValue) < Eps);

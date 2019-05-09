@@ -2,9 +2,9 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="true">
     <generated>
-      <config projectName="HypernetTest" targetName="gtest" />
       <config projectName="HypernetTest" targetName="gtest_main" />
       <config projectName="HypernetTest" targetName="HypernetTest" />
+      <config projectName="HypernetTest" targetName="gtest" />
     </generated>
   </component>
   <component name="CMakeSettings" AUTO_RELOAD="true">
@@ -30,15 +30,14 @@
       <file leaf-file-name="Main.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="192" column="77" lean-forward="false" selection-start-line="192" selection-start-column="77" selection-end-line="192" selection-end-column="77" />
+            <state relative-caret-position="271">
+              <caret line="159" column="53" lean-forward="false" selection-start-line="159" selection-start-column="53" selection-end-line="159" selection-end-column="53" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
                 <element signature="e#381#592#0" expanded="false" />
                 <element signature="e#594#2901#0" expanded="false" />
                 <element signature="e#2903#3246#0" expanded="false" />
                 <element signature="e#3248#3415#0" expanded="false" />
-                <element signature="e#3417#5557#0" expanded="false" />
                 <element signature="e#5559#6372#0" expanded="false" />
                 <element signature="e#6374#8195#0" expanded="false" />
                 <element signature="e#8197#8456#0" expanded="false" />
@@ -50,8 +49,8 @@
       <file leaf-file-name="Globals.h" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Globals.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" column="33" lean-forward="false" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="33" />
+            <state relative-caret-position="340">
+              <caret line="20" column="31" lean-forward="true" selection-start-line="20" selection-start-column="31" selection-end-line="20" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -99,12 +98,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/stdafx.h" />
-        <option value="$PROJECT_DIR$/funcs.h" />
-        <option value="$PROJECT_DIR$/pairconnection.cpp" />
-        <option value="$PROJECT_DIR$/main.cpp" />
-        <option value="$PROJECT_DIR$/Pairconnection.cpp" />
-        <option value="E:/MingGW/mingw64/lib/gcc/x86_64-w64-mingw32/7.2.0/include/c++/bits/stl_vector.h" />
         <option value="$PROJECT_DIR$/Stdafx.h" />
         <option value="$PROJECT_DIR$/Rote.cpp" />
         <option value="$PROJECT_DIR$/Hypernet.h" />
@@ -132,16 +125,10 @@
         <option value="$PROJECT_DIR$/Funcs.h" />
         <option value="$PROJECT_DIR$/HypernetBase/Node.h" />
         <option value="$PROJECT_DIR$/HypernetBase/Route.h" />
-        <option value="$PROJECT_DIR$/Main.cpp" />
-        <option value="$PROJECT_DIR$/PairConnectivity.cpp" />
         <option value="$PROJECT_DIR$/HypernetBase/Hypernet.h" />
         <option value="$PROJECT_DIR$/HypernetBase/Branch.h" />
         <option value="$PROJECT_DIR$/HypernetBase/Branch.cpp" />
-        <option value="$PROJECT_DIR$/HypernetBase/Reductions.cpp" />
         <option value="$PROJECT_DIR$/HypernetBase/Hypernet.cpp" />
-        <option value="$PROJECT_DIR$/cmake-build-debug/input.txt" />
-        <option value="$PROJECT_DIR$/Globals.h" />
-        <option value="$PROJECT_DIR$/Tests.cpp" />
         <option value="$PROJECT_DIR$/cmake-build-debug/inputs/TreeInGrid(25, 40, 24).txt" />
         <option value="$PROJECT_DIR$/cmake-build-debug/inputs/TreeInGrid(16, 24, 15).txt" />
         <option value="$PROJECT_DIR$/cmake-build-debug/inputs/TreeInGrid(9, 12, 8).txt" />
@@ -150,6 +137,18 @@
         <option value="$PROJECT_DIR$/cmake-build-debug/inputs/RandomHypernet(9, 12, 16).txt" />
         <option value="$PROJECT_DIR$/cmake-build-debug/inputs/RandomHypernet(9, 12, 12).txt" />
         <option value="$PROJECT_DIR$/cmake-build-debug/inputs/RandomHypernet(6, 7, 8).txt" />
+        <option value="$PROJECT_DIR$/cmake-build-debug/inputs/CycleInGrid1(9, 12, 9).txt" />
+        <option value="$PROJECT_DIR$/cmake-build-debug/inputs/old/CycleInGrid2(9, 12, 9).txt" />
+        <option value="$PROJECT_DIR$/Tests.cpp" />
+        <option value="$PROJECT_DIR$/Main.cpp" />
+        <option value="$PROJECT_DIR$/cmake-build-debug/inputs/CycleInGrid2(9, 12, 9).txt" />
+        <option value="$PROJECT_DIR$/PairConnectivity.cpp" />
+        <option value="$PROJECT_DIR$/HypernetBase/Reductions.cpp" />
+        <option value="$PROJECT_DIR$/cmake-build-debug/inputs/CycleInGrid3(9, 12, 9).txt" />
+        <option value="$PROJECT_DIR$/cmake-build-debug/inputs/StarInGrid3(9, 12, 8).txt" />
+        <option value="$PROJECT_DIR$/Globals.h" />
+        <option value="$PROJECT_DIR$/cmake-build-debug/inputs/StarInGrid(9, 12, 8).txt" />
+        <option value="$PROJECT_DIR$/cmake-build-debug/input.txt" />
       </list>
     </option>
   </component>
@@ -161,10 +160,9 @@
   </component>
   <component name="OCFindUsagesOptions" text="false" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="426" />
-    <option name="y" value="45" />
-    <option name="width" value="1400" />
-    <option name="height" value="992" />
+    <option name="x" value="-7" />
+    <option name="width" value="974" />
+    <option name="height" value="1047" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -189,6 +187,17 @@
               <item name="HypernetTest" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
               <item name="HypernetTest" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="HypernetTest" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="HypernetTest" type="462c0819:PsiDirectoryNode" />
+              <item name="cmake-build-debug" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="HypernetTest" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="HypernetTest" type="462c0819:PsiDirectoryNode" />
+              <item name="cmake-build-debug" type="462c0819:PsiDirectoryNode" />
+              <item name="inputs" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -203,13 +212,16 @@
     <property name="settings.editor.selected.configurable" value="CPPToolchains" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\Projects\Git repositories\HypernetTest\HypernetTest\HypernetBase" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\Projects\Git repositories\HypernetTest\HypernetTest\cmake-build-debug\inputs" />
       <recent name="E:\Projects\Git repositories\HypernetTest\HypernetTest" />
       <recent name="E:\Projects\Git repositories\HypernetTest\HypernetBase" />
       <recent name="E:\Projects\Git repositories\HypernetTest\MPIHypernetTest" />
+      <recent name="E:\Projects\Git repositories\HypernetTest\HypernetTest\HypernetBase" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Projects\Git repositories\HypernetTest\HypernetTest\cmake-build-debug\inputs" />
+      <recent name="E:\Projects\Git repositories\HypernetTest\HypernetTest\cmake-build-debug\inputs\old" />
       <recent name="E:\Projects\Git repositories\HypernetTest\HypernetTest\HypernetBase" />
     </key>
   </component>
@@ -453,11 +465,14 @@
       <workItem from="1554619983339" duration="2237000" />
       <workItem from="1554622703701" duration="639000" />
       <workItem from="1554624567804" duration="2120000" />
+      <workItem from="1555763173829" duration="382000" />
+      <workItem from="1555765148542" duration="10000" />
+      <workItem from="1557381318201" duration="10345000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="759000000" />
+    <option name="totallyTimeSpent" value="769737000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -468,12 +483,12 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21956521" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32979852" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.55108696" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="3" y="14" width="1914" height="1011" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973656" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5217391" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -521,7 +536,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="2662" />
+      <option name="time" value="2700" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="CMakeRunConfiguration">
@@ -559,11 +574,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../HypernetBase/Route.h" />
-    <entry file="file://$PROJECT_DIR$/../HypernetBase/Branch.cpp" />
-    <entry file="file://$PROJECT_DIR$/../HypernetBase/Hypernet.cpp" />
-    <entry file="file://$PROJECT_DIR$/../HypernetBase/Reductions.cpp" />
-    <entry file="file://$PROJECT_DIR$/../HypernetBase/Route.cpp" />
     <entry file="file://$PROJECT_DIR$/RandomHypernet.cpp" />
     <entry file="file://$PROJECT_DIR$/HypernetBase/Stdafx.h">
       <provider selected="true" editor-type-id="text-editor">
@@ -608,13 +618,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/RandomHypernet.txt" />
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/ex6.1.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/ex6.1.txt" />
     <entry file="file://$PROJECT_DIR$/HypernetBase/CMakeLists.txt" />
     <entry file="file://$PROJECT_DIR$/libs/googletest/include/gtest/gtest.h">
       <provider selected="true" editor-type-id="text-editor">
@@ -712,14 +716,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="10" column="33" lean-forward="true" selection-start-line="10" selection-start-column="33" selection-end-line="10" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/output.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -748,7 +744,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" column="20" lean-forward="false" selection-start-line="1" selection-start-column="20" selection-end-line="1" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -759,94 +754,68 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PairConnectivity.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="13" lean-forward="false" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="13" />
-          <folding>
-            <element signature="e#41#555#0" expanded="false" />
-            <element signature="e#557#985#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main.cpp">
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/TreeInGrid(25, 40, 24).txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="192" column="77" lean-forward="false" selection-start-line="192" selection-start-column="77" selection-end-line="192" selection-end-column="77" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-            <element signature="e#381#592#0" expanded="false" />
-            <element signature="e#594#2901#0" expanded="false" />
-            <element signature="e#2903#3246#0" expanded="false" />
-            <element signature="e#3248#3415#0" expanded="false" />
-            <element signature="e#3417#5557#0" expanded="false" />
-            <element signature="e#5559#6372#0" expanded="false" />
-            <element signature="e#6374#8195#0" expanded="false" />
-            <element signature="e#8197#8456#0" expanded="false" />
-          </folding>
+          <caret line="0" column="20" lean-forward="false" selection-start-line="0" selection-start-column="20" selection-end-line="0" selection-end-column="20" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/HypernetBase/Reductions.cpp">
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/TreeInGrid(16, 24, 15).txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="20" lean-forward="false" selection-start-line="0" selection-start-column="20" selection-end-line="0" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/TreeInGrid(9, 12, 8).txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="18" lean-forward="false" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/CycleInGrid(9, 12, 9).txt" />
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/RandomHypernet(9, 12, 16).txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="25" lean-forward="false" selection-start-line="0" selection-start-column="25" selection-end-line="0" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/RandomHypernet(9, 12, 12).txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="25" lean-forward="false" selection-start-line="0" selection-start-column="25" selection-end-line="0" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/RandomHypernet(6, 7, 8).txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="23" lean-forward="false" selection-start-line="0" selection-start-column="23" selection-end-line="0" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/output.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/old/Hcycle2(9, 12, 9).txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
-          <caret line="22" column="18" lean-forward="false" selection-start-line="22" selection-start-column="18" selection-end-line="22" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-            <element signature="e#4207#4973#0" expanded="false" />
-            <element signature="e#4975#5656#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HypernetBase/Hypernet.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3876">
-          <caret line="228" column="7" lean-forward="false" selection-start-line="228" selection-start-column="7" selection-end-line="228" selection-end-column="7" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-            <element signature="e#44#205#0" expanded="false" />
-            <element signature="e#207#867#0" expanded="false" />
-            <element signature="e#869#1003#0" expanded="false" />
-            <element signature="e#1005#1226#0" expanded="false" />
-            <element signature="e#1228#1603#0" expanded="false" />
-            <element signature="e#1605#3980#0" expanded="false" />
-            <element signature="e#3982#5434#0" expanded="false" />
-            <element signature="e#5436#6343#0" expanded="false" />
-            <element signature="e#6345#7697#0" expanded="false" />
-            <element signature="e#7699#8233#0" expanded="false" />
-            <element signature="e#12429#12812#0" expanded="false" />
-            <element signature="e#12814#13819#0" expanded="false" />
-            <element signature="e#13821#14159#0" expanded="false" />
-            <element signature="e#14161#14340#0" expanded="false" />
-            <element signature="e#14342#15213#0" expanded="false" />
-            <element signature="e#15215#16039#0" expanded="false" />
-            <element signature="e#16041#16652#0" expanded="false" />
-            <element signature="e#16654#16902#0" expanded="false" />
-            <element signature="e#16904#17031#0" expanded="false" />
-            <element signature="e#17033#17170#0" expanded="false" />
-            <element signature="e#17172#17247#0" expanded="false" />
-            <element signature="e#17249#17666#0" expanded="false" />
-            <element signature="e#17668#18296#0" expanded="false" />
-            <element signature="e#18297#18533#0" expanded="false" />
-            <element signature="e#18535#18965#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/input.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="39" column="3" lean-forward="false" selection-start-line="39" selection-start-column="3" selection-end-line="39" selection-end-column="3" />
+          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Tests.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="759">
-          <caret line="347" column="42" lean-forward="false" selection-start-line="347" selection-start-column="42" selection-end-line="347" selection-end-column="42" />
+        <state relative-caret-position="249">
+          <caret line="93" column="1" lean-forward="true" selection-start-line="93" selection-start-column="1" selection-end-line="93" selection-end-column="1" />
           <folding>
             <element signature="e#180#744#1" expanded="false" />
             <element signature="e#747#1188#0" expanded="false" />
@@ -858,88 +827,120 @@
             <element signature="e#4026#4626#0" expanded="false" />
             <element signature="e#4666#5267#0" expanded="false" />
             <element signature="e#5308#5898#0" expanded="false" />
-            <element signature="e#5936#6536#0" expanded="false" />
-            <element signature="e#6575#7171#0" expanded="false" />
-            <element signature="e#7209#7825#0" expanded="false" />
-            <element signature="e#7864#8471#0" expanded="false" />
-            <element signature="e#8513#9126#0" expanded="false" />
-            <element signature="e#9169#9778#0" expanded="false" />
-            <element signature="e#9820#10429#0" expanded="false" />
-            <element signature="e#10472#11078#0" expanded="false" />
-            <element signature="e#11120#11717#0" expanded="false" />
-            <element signature="e#11760#12354#0" expanded="false" />
+            <element signature="e#5937#6538#0" expanded="false" />
+            <element signature="e#6578#7175#0" expanded="false" />
+            <element signature="e#7213#7829#0" expanded="false" />
+            <element signature="e#7868#8475#0" expanded="false" />
+            <element signature="e#8517#9130#0" expanded="false" />
+            <element signature="e#9173#9782#0" expanded="false" />
+            <element signature="e#9824#10433#0" expanded="false" />
+            <element signature="e#10476#11082#0" expanded="false" />
+            <element signature="e#11124#11721#0" expanded="false" />
+            <element signature="e#11764#12358#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/TreeInGrid(25, 40, 24).txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="20" lean-forward="false" selection-start-line="0" selection-start-column="20" selection-end-line="0" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/TreeInGrid(16, 24, 15).txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="20" lean-forward="false" selection-start-line="0" selection-start-column="20" selection-end-line="0" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/TreeInGrid(9, 12, 8).txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="18" lean-forward="false" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/WheelInGrid(9, 12, 16).txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="20" lean-forward="false" selection-start-line="0" selection-start-column="20" selection-end-line="0" selection-end-column="20" />
+        <state relative-caret-position="221">
+          <caret line="13" column="5" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/CycleInGrid(9, 12, 9).txt">
+    <entry file="file://$PROJECT_DIR$/HypernetBase/Hypernet.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="19" lean-forward="false" selection-start-line="0" selection-start-column="19" selection-end-line="0" selection-end-column="19" />
+        <state relative-caret-position="87">
+          <caret line="12" column="8" lean-forward="false" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/RandomHypernet(9, 12, 16).txt">
+    <entry file="file://$PROJECT_DIR$/PairConnectivity.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="25" lean-forward="false" selection-start-line="0" selection-start-column="25" selection-end-line="0" selection-end-column="25" />
+        <state relative-caret-position="612">
+          <caret line="61" column="5" lean-forward="true" selection-start-line="61" selection-start-column="5" selection-end-line="61" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#20#0" expanded="false" />
+            <element signature="e#41#555#0" expanded="false" />
+            <element signature="e#557#985#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HypernetBase/Reductions.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="122" column="5" lean-forward="true" selection-start-line="122" selection-start-column="5" selection-end-line="122" selection-end-column="5" />
+          <folding>
+            <element signature="e#44#4206#0" expanded="false" />
+            <element signature="e#4975#5656#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="159" column="53" lean-forward="false" selection-start-line="159" selection-start-column="53" selection-end-line="159" selection-end-column="53" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+            <element signature="e#381#592#0" expanded="false" />
+            <element signature="e#594#2901#0" expanded="false" />
+            <element signature="e#2903#3246#0" expanded="false" />
+            <element signature="e#3248#3415#0" expanded="false" />
+            <element signature="e#5559#6372#0" expanded="false" />
+            <element signature="e#6374#8195#0" expanded="false" />
+            <element signature="e#8197#8456#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/CycleInGrid1(9, 12, 9).txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="5" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/RandomHypernet(9, 12, 12).txt">
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/CycleInGrid2(9, 12, 9).txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="25" lean-forward="false" selection-start-line="0" selection-start-column="25" selection-end-line="0" selection-end-column="25" />
+        <state relative-caret-position="181">
+          <caret line="21" column="3" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/RandomHypernet(6, 7, 8).txt">
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/CycleInGrid3(9, 12, 9).txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="23" lean-forward="false" selection-start-line="0" selection-start-column="23" selection-end-line="0" selection-end-column="23" />
+        <state relative-caret-position="235">
+          <caret line="50" column="1" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/StarInGrid(9, 12, 8).txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="3" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/input.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="861">
+          <caret line="55" column="0" lean-forward="false" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Globals.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="33" lean-forward="false" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="33" />
+        <state relative-caret-position="340">
+          <caret line="20" column="31" lean-forward="true" selection-start-line="20" selection-start-column="31" selection-end-line="20" selection-end-column="31" />
           <folding />
         </state>
       </provider>
