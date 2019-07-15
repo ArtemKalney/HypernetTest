@@ -28,8 +28,8 @@
       <file leaf-file-name="Main.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="296">
-              <caret line="358" column="9" lean-forward="false" selection-start-line="358" selection-start-column="9" selection-end-line="358" selection-end-column="9" />
+            <state relative-caret-position="5066">
+              <caret line="298" column="65" lean-forward="false" selection-start-line="298" selection-start-column="65" selection-end-line="298" selection-end-column="65" />
               <folding>
                 <element signature="e#467#678#0" expanded="false" />
                 <element signature="e#680#3199#0" expanded="false" />
@@ -43,42 +43,12 @@
                 <element signature="e#8016#8555#0" expanded="false" />
                 <element signature="e#8557#9513#0" expanded="false" />
                 <element signature="e#9515#9774#0" expanded="false" />
-                <element signature="e#9776#10192#0" expanded="false" />
-                <element signature="e#10194#10752#0" expanded="false" />
-                <element signature="e#15961#16525#0" expanded="false" />
-                <element signature="e#16527#18183#0" expanded="false" />
-                <element signature="e#18185#19204#0" expanded="false" />
+                <element signature="e#9776#10033#0" expanded="false" />
+                <element signature="e#10035#10593#0" expanded="false" />
+                <element signature="e#15802#16366#0" expanded="false" />
+                <element signature="e#16368#18024#0" expanded="false" />
+                <element signature="e#18026#19045#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PairConnectivity.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/PairConnectivity.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
-              <caret line="54" column="37" lean-forward="false" selection-start-line="54" selection-start-column="37" selection-end-line="54" selection-end-column="37" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Reductions.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/HypernetBase/Reductions.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="4" column="23" lean-forward="false" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Hypernet.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/HypernetBase/Hypernet.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
-              <caret line="89" column="24" lean-forward="false" selection-start-line="89" selection-start-column="24" selection-end-line="89" selection-end-column="24" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -86,8 +56,8 @@
       <file leaf-file-name="Globals.h" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Globals.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" column="30" lean-forward="false" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+            <state relative-caret-position="136">
+              <caret line="8" column="33" lean-forward="false" selection-start-line="8" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -169,17 +139,17 @@
         <option value="$PROJECT_DIR$/Stdafx.h" />
         <option value="$PROJECT_DIR$/Funcs.h" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/cmake-build-debug/input.txt" />
-        <option value="$PROJECT_DIR$/Main.cpp" />
         <option value="$PROJECT_DIR$/HypernetBase/Stdafx.h" />
         <option value="$PROJECT_DIR$/HypernetBase/Branch.h" />
         <option value="$PROJECT_DIR$/HypernetBase/Node.h" />
         <option value="$PROJECT_DIR$/HypernetBase/Route.h" />
         <option value="$PROJECT_DIR$/SerializationExtensions.h" />
-        <option value="$PROJECT_DIR$/Globals.h" />
         <option value="$PROJECT_DIR$/PairConnectivity.cpp" />
         <option value="$PROJECT_DIR$/HypernetBase/Reductions.cpp" />
         <option value="$PROJECT_DIR$/HypernetBase/Hypernet.h" />
+        <option value="$PROJECT_DIR$/Globals.h" />
+        <option value="$PROJECT_DIR$/Main.cpp" />
+        <option value="$PROJECT_DIR$/cmake-build-debug/input.txt" />
       </list>
     </option>
   </component>
@@ -218,11 +188,6 @@
             <path>
               <item name="MPIHypernetTest" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
               <item name="MPIHypernetTest" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MPIHypernetTest" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="MPIHypernetTest" type="462c0819:PsiDirectoryNode" />
-              <item name="HypernetBase" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -448,11 +413,15 @@
       <workItem from="1554735410688" duration="1474000" />
       <workItem from="1554737224099" duration="9000" />
       <workItem from="1555333003298" duration="1713000" />
+      <workItem from="1563018143492" duration="91000" />
+      <workItem from="1563113044181" duration="159000" />
+      <workItem from="1563114155506" duration="2176000" />
+      <workItem from="1563128087560" duration="694000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="630351000" />
+    <option name="totallyTimeSpent" value="633471000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -467,7 +436,7 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14488935" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1564805" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38043478" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2652174" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -526,7 +495,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="1953" />
+      <option name="time" value="1954" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="CMakeRunConfiguration">
@@ -564,17 +533,9 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/Htree(9, 12, 8).txt" />
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/Htree(16, 24, 15).txt" />
     <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/Hcycle1(9, 12, 9).txt" />
     <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/Hwheel(9, 12, 16).txt" />
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/ex6.1.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="1" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/ex6.1.txt" />
     <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/Htree(25, 40, 24).txt" />
     <entry file="file://$PROJECT_DIR$/../HypernetBase/Reductions.cpp" />
     <entry file="file://$PROJECT_DIR$/../HypernetBase/Route.cpp" />
@@ -675,13 +636,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/RandomHypernet.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="57" column="16" lean-forward="false" selection-start-line="57" selection-start-column="16" selection-end-line="57" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/HypernetBase/Route.cpp" />
     <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/WheelInGrid(9, 12, 16).txt">
       <provider selected="true" editor-type-id="text-editor">
@@ -747,13 +701,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/input.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="861">
-          <caret line="170" column="3" lean-forward="false" selection-start-line="170" selection-start-column="3" selection-end-line="170" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/HypernetBase/Stdafx.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -796,10 +743,61 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/PairConnectivity.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1350">
+          <caret line="54" column="37" lean-forward="false" selection-start-line="54" selection-start-column="37" selection-end-line="54" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HypernetBase/Reductions.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="4" column="23" lean-forward="false" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HypernetBase/Hypernet.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2225">
+          <caret line="89" column="24" lean-forward="false" selection-start-line="89" selection-start-column="24" selection-end-line="89" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RandomHypernet.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="393">
+          <caret line="57" column="16" lean-forward="false" selection-start-line="57" selection-start-column="16" selection-end-line="57" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/RandomHypernet1(78, 109, 38).txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="3" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="412" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/inputs/RandomHypernet2(78, 109, 38).txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="3" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="412" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/input.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="793">
+          <caret line="412" column="0" lean-forward="true" selection-start-line="412" selection-start-column="0" selection-end-line="412" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="358" column="9" lean-forward="false" selection-start-line="358" selection-start-column="9" selection-end-line="358" selection-end-column="9" />
+        <state relative-caret-position="5066">
+          <caret line="298" column="65" lean-forward="false" selection-start-line="298" selection-start-column="65" selection-end-line="298" selection-end-column="65" />
           <folding>
             <element signature="e#467#678#0" expanded="false" />
             <element signature="e#680#3199#0" expanded="false" />
@@ -813,43 +811,19 @@
             <element signature="e#8016#8555#0" expanded="false" />
             <element signature="e#8557#9513#0" expanded="false" />
             <element signature="e#9515#9774#0" expanded="false" />
-            <element signature="e#9776#10192#0" expanded="false" />
-            <element signature="e#10194#10752#0" expanded="false" />
-            <element signature="e#15961#16525#0" expanded="false" />
-            <element signature="e#16527#18183#0" expanded="false" />
-            <element signature="e#18185#19204#0" expanded="false" />
+            <element signature="e#9776#10033#0" expanded="false" />
+            <element signature="e#10035#10593#0" expanded="false" />
+            <element signature="e#15802#16366#0" expanded="false" />
+            <element signature="e#16368#18024#0" expanded="false" />
+            <element signature="e#18026#19045#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PairConnectivity.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="54" column="37" lean-forward="false" selection-start-line="54" selection-start-column="37" selection-end-line="54" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HypernetBase/Reductions.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="4" column="23" lean-forward="false" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HypernetBase/Hypernet.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="89" column="24" lean-forward="false" selection-start-line="89" selection-start-column="24" selection-end-line="89" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Globals.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="30" lean-forward="false" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+        <state relative-caret-position="136">
+          <caret line="8" column="33" lean-forward="false" selection-start-line="8" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
           <folding />
         </state>
       </provider>

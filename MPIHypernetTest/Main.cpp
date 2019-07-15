@@ -298,10 +298,6 @@ void ErrorHandler(const char *str) {
 
 void ComputeHypernet(H &initialHypernet, int &size, int &option) {
     initialHypernet.RemoveEmptyBranches();
-    // In the beginning we consider only connected hypernets
-    if (!initialHypernet.IsSNconnected()) {
-        throw "Unconnected hypernet on input!";
-    }
     if (option == 1) {
         ComputeAPC(initialHypernet, size);
     } else if (option == 2) {
