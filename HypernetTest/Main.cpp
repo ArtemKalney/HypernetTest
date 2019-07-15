@@ -6,7 +6,10 @@ std::ifstream input;
 std::ofstream output;
 int n = 0, m = 0, k = 0;
 int ReliableHypernets = 0, UnconnectedHypernets = 0, TwoNodesHypernets = 0, ChainsReduced = 0,
-        UnconnectedNodesReduced = 0, PairConnectivityCalls = 0, EdgesReduced = 0, ComplexChains = 0;
+        UnconnectedNodesReduced = 0, PairConnectivityCalls = 0, EdgesReduced = 0, ComplexChains = 0,
+        FirstTreeMappingNodes = 0, SecondTreeMappingNodes = 0, TreeNodeMappingIntersections = 0,
+        TreeNodeIntersections = 0;
+int FirstRoot = TEST_HYPERNET_FIRST_TREE_ROOT, SecondRoot = TEST_HYPERNET_SECOND_TREE_ROOT;
 std::vector<Branch> Bin;
 double p = 0.9, z = 0.1;
 
@@ -185,6 +188,9 @@ void ComputeMENC(Branch& sum, const H& initialHypernet, Branch& pseudoBranch) {
             int startPos = 0;
             FullEnumeration(H, H.GetFN(), sum, brancheMask, startPos);
         }
+        if (IS_DEBUG == 1) {
+            output << "+R1" << "," << i + 1 << std::endl;
+        }
     }
 
     sum = sum + Branch::GetUnity();
@@ -229,6 +235,9 @@ void ComputeAPC(Branch& sum, const H& initialHypernet, Branch& pseudoBranch) {
                 int startPos = 0;
                 FullEnumeration(H, H.GetFN(), sum, brancheMask, startPos);
             }
+            if (IS_DEBUG == 1) {
+                output << "+R" << i + 1 << "," << j + 1 << std::endl;
+            }
         }
     }
 
@@ -244,6 +253,27 @@ void ErrorHandler(const char *str) {
     std::cout << "Occurred next error:" << std::endl;
     std::cout << str << std::endl;
     std::cout << "--------------------------------" << std::endl;
+}
+
+void LogHypernet(H &H) {
+    output << "RandomHypernet(" << n << ", " << m << ", " << H.GetF().size() << ")" << std::endl;
+    output << H.GetNodes().size() << " " << H.GetFN().size() << " "  << H.GetF().size() << std::endl;
+    for(auto &branch : H.GetFN()) {
+        output << branch.GetId() << std::endl;
+        output << branch.GetFirstNode() + 1 << " " << branch.GetSecondNode() + 1 << std::endl;
+        for (auto &item : branch.GetRoutes()) {
+            output << item.GetId() + 1 << " ";
+        }
+        output << 0 << std::endl;
+    }
+    for(auto &route : H.GetF()) {
+        output << route.GetId() + 1 << std::endl;
+        for (auto &item : *route.Ptr) {
+            output << item + 1 << " ";
+        }
+        output << 0 << std::endl;
+    }
+    output << "$$$" << std::endl;
 }
 
 int main(int argc, char** argv) {
@@ -269,31 +299,47 @@ int main(int argc, char** argv) {
         return 0;
     }
 
-    std::cout << "Press 1 to get APC polynomial" << std::endl;
-    std::cout << "Press 2 to get MENC polynomial" << std::endl;
-    std::cout << "Press 3 to get pairwise connectivities" << std::endl;
     int option;
-    std::cin >> option;
-    if (option != 1 && option != 2 && option != 3) {
-        std::cout << "Wrong number" << std::endl;
-        if (IS_DEBUG != 1) {
-            system("pause>>void");
+    if (IS_TEST_HYPERNET != 1) {
+        std::cout << "Press 1 to get APC polynomial" << std::endl;
+        std::cout << "Press 2 to get MENC polynomial" << std::endl;
+        std::cout << "Press 3 to get pairwise connectivities" << std::endl;
+        std::cin >> option;
+        if (option != 1 && option != 2 && option != 3) {
+            std::cout << "Wrong number" << std::endl;
+            if (IS_DEBUG != 1) {
+                system("pause>>void");
+            }
+            return 0;
         }
-        return 0;
     }
     // Create an initialHypernet
-    H initialHypernet = H(std::move(branches), std::move(nodes), std::move(routes));
+    H initialHypernet;
+    if (IS_TEST_HYPERNET == 1) {
+        initialHypernet = GetRandomHypernet(branches, nodes);
+        LogHypernet(initialHypernet);
+        output << " FirstRoot " << FirstRoot << std::endl;
+        output << " SecondRoot " << SecondRoot << std::endl;
+        output << " FirstTreeMappingNodes " << FirstTreeMappingNodes << std::endl;
+        output << " SecondTreeMappingNodes " << SecondTreeMappingNodes << std::endl;
+        output << " TreeNodeMappingIntersections " << TreeNodeMappingIntersections << std::endl;
+        output << " TreeNodeIntersections " << TreeNodeIntersections << std::endl;
+        return 0;
+    } else {
+        initialHypernet = H(std::move(branches), std::move(nodes), std::move(routes));
+    }
     initialHypernet.RemoveEmptyBranches();
     // In the beginning we consider only connected hypernets
-    if (!initialHypernet.IsSNconnected()) {
-        std::cout << "Unconnected hypernet on input!" << std::endl;
-        if (IS_DEBUG != 1) {
-            system("pause>>void");
-        }
-        return 0;
-    }
+//    if (!initialHypernet.IsSNconnected()) {
+//        std::cout << "Unconnected hypernet on input!" << std::endl;
+//        if (IS_DEBUG != 1) {
+//            system("pause>>void");
+//        }
+//        return 0;
+//    }
 
     ComputeBinomialCoefficients();
+    auto res = Bin;
     // Create a pseudo-branch F, which we multiply by the end of the calculations
     Branch pseudoBranch = Branch::GetBranch(0);
     unsigned int startTime = clock();
@@ -349,7 +395,7 @@ int main(int argc, char** argv) {
         }
         output << std::endl;
     } else {
-        std::cout << "no sum :(" << std::endl;
+        std::cout << "unconnected hypernet" << std::endl;
     }
 
     input.close();

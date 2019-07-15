@@ -224,6 +224,9 @@
 		<Unit filename="E:/Projects/Git repositories/HypernetTest/HypernetTest/PairConnectivity.cpp">
 			<Option target="HypernetTest"/>
 		</Unit>
+		<Unit filename="E:/Projects/Git repositories/HypernetTest/HypernetTest/RandomHypernet.cpp">
+			<Option target="HypernetTest"/>
+		</Unit>
 		<Unit filename="E:/Projects/Git repositories/HypernetTest/HypernetTest/Tests.cpp">
 			<Option target="HypernetTest"/>
 		</Unit>

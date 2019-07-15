@@ -9,3 +9,4 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
 void ComputeBinomialCoefficients();
 void ComputeAPC(Branch& sum, const H& initialHypernet, Branch& pseudoBranch);
 void ComputeMENC(Branch& sum, const H& initialHypernet, Branch& pseudoBranch);
+H GetRandomHypernet(std::vector<Branch> &primaryNetwork, std::vector<Node> &nodes);

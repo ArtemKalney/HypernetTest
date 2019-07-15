@@ -31,8 +31,25 @@ Branch SimpleCase(std::vector<Branch>& FN, const Branch& pseudoBranch) {
     }
 }
 
+void LogData() {
+    time_t rawTime;
+    time(&rawTime);
+    output << ctime(&rawTime);
+    output << PairConnectivityCalls << " ";
+    output << UnconnectedNodesReduced << " ";
+    output << EdgesReduced << " ";
+    output << ChainsReduced << " ";
+    output << ComplexChains << " ";
+    output << ReliableHypernets << " ";
+    output << UnconnectedHypernets << " ";
+    output << TwoNodesHypernets << std::endl;
+}
+
 Branch PairConnectivity(H &H, Branch &pseudoBranch) {
     PairConnectivityCalls++;
+    if (IS_DEBUG == 1) {
+        LogData();
+    }
 
     if(ENABLE_BRIDGE_REDUCTION == 1 && H.BridgeReduction()) {
         return Branch::GetZero();
