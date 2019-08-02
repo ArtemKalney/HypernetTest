@@ -19,17 +19,12 @@ void FullEnumeration(const H &H, const std::vector<Branch> &branchList, Branch &
             Branch result = Branch::GetBranch(0);
             for (bool item : branchMask) {
                 if (item) {
-                    result.SetPower(result.GetPower() + 1);
+                    result = result * Branch::GetSimpleBranch();
                 } else {
-                    result.SetPower(result.GetPower() + 1);
-                    result.GetC().insert(result.GetC().begin(), 0);
-                    result.GetC().pop_back();
+                    result = result * ~Branch::GetSimpleBranch();
                 }
             }
 
-            if (result.GetPower() != branchList.size()) {
-                throw "FullEnumeration: strange result power";
-            }
             sum = sum + result;
         } else {
             UnconnectedHypernets++;

@@ -239,6 +239,10 @@ void ComputeAPC(Branch& sum, const H& initialHypernet, Branch& pseudoBranch) {
         }
     }
 
+    if (IS_NUMBER_COMPUTATION == 1) {
+        sum.SetValue(sum.GetValue() / Bin[n].GetC()[2]);
+        return;
+    }
     for (int i = 0; i < sum.GetC().size(); i++) {
         auto sumVector = sum.GetC();
         sumVector[i] = sumVector[i] / Bin[n].GetC()[2];

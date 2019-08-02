@@ -3,7 +3,8 @@
 #include <gtest/gtest.h>
 
 // 14-й знак может отличаться на 1-9, но на деле только 1 (из-за округления)
-const double Eps = 0.0000000000001;
+// Вычисленная точность для совместимости со значениями полинома
+const double Eps = IS_NUMBER_COMPUTATION == 1 ? 0.00001 : 0.0000000000001;
 
 class TestCriteria : public ::testing::Test {
 public:
