@@ -404,8 +404,8 @@ RandomHypernet1(78, 109, 38)
 38
 64 60 0
 $$$
- FirstRoot 56
- SecondRoot 59
+ FirstRoot 57
+ SecondRoot 60
  FirstTreeMappingNodes 63
  SecondTreeMappingNodes 59
  TreeNodeMappingIntersections 54

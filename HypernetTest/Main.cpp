@@ -7,9 +7,7 @@ std::ofstream output;
 int n = 0, m = 0, k = 0;
 int ReliableHypernets = 0, UnconnectedHypernets = 0, TwoNodesHypernets = 0, ChainsReduced = 0,
         UnconnectedNodesReduced = 0, PairConnectivityCalls = 0, EdgesReduced = 0, ComplexChains = 0,
-        FirstTreeMappingNodes = 0, SecondTreeMappingNodes = 0, TreeNodeMappingIntersections = 0,
-        TreeNodeIntersections = 0;
-int FirstRoot = TEST_HYPERNET_FIRST_TREE_ROOT, SecondRoot = TEST_HYPERNET_SECOND_TREE_ROOT;
+        TreeNodeIntersections = 0, UnconnectedTreeNodes = 0;
 std::vector<Branch> Bin;
 double p = 0.9, z = 0.1;
 
@@ -318,31 +316,21 @@ int main(int argc, char** argv) {
     if (IS_TEST_HYPERNET == 1) {
         initialHypernet = GetRandomHypernet(branches, nodes);
         LogHypernet(initialHypernet);
-        output << " FirstRoot " << FirstRoot << std::endl;
-        output << " SecondRoot " << SecondRoot << std::endl;
-        output << " FirstTreeMappingNodes " << FirstTreeMappingNodes << std::endl;
-        output << " SecondTreeMappingNodes " << SecondTreeMappingNodes << std::endl;
-        output << " TreeNodeMappingIntersections " << TreeNodeMappingIntersections << std::endl;
-        output << " TreeNodeIntersections " << TreeNodeIntersections << std::endl;
+        output << "FirstRoot " << TEST_HYPERNET_FIRST_TREE_ROOT + 1 << std::endl;
+        output << "SecondRoot " << TEST_HYPERNET_SECOND_TREE_ROOT + 1 << std::endl;
+        output << "TreeNodeIntersections " << TreeNodeIntersections << std::endl;
+        output << "UnconnectedTreeNodes " << UnconnectedTreeNodes << std::endl;
         return 0;
     } else {
         initialHypernet = H(std::move(branches), std::move(nodes), std::move(routes));
     }
     initialHypernet.RemoveEmptyBranches();
-    // In the beginning we consider only connected hypernets
-//    if (!initialHypernet.IsSNconnected()) {
-//        std::cout << "Unconnected hypernet on input!" << std::endl;
-//        if (IS_DEBUG != 1) {
-//            system("pause>>void");
-//        }
-//        return 0;
-//    }
 
     ComputeBinomialCoefficients();
     auto res = Bin;
     // Create a pseudo-branch F, which we multiply by the end of the calculations
     Branch pseudoBranch = Branch::GetBranch(0);
-    unsigned int startTime = clock();
+    int startTime = clock();
     Branch sum;
     try {
         if (option == 1) {
