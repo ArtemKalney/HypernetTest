@@ -8,6 +8,7 @@ class Branch : public IIdentity
 {
 private:
     int _id;
+    double _value;
     std::vector<double> _C;
     std::vector<Route>  _routes;
     int _power;
@@ -19,6 +20,7 @@ private:
     template<typename Archive>
     void serialize(Archive &ar, const unsigned version) {
         ar & _id;
+        ar & _value;
         ar & _C;
         ar & _routes;
         ar & _power;
@@ -29,9 +31,10 @@ private:
 public:
     Branch() = default;
 
-    Branch(const int& id, std::vector<double> C, std::vector<Route>& routes, const int& power, const int& firstNode,
+    Branch(const int& id, double value, std::vector<double> C, std::vector<Route>& routes, const int& power, const int& firstNode,
            const int& secondNode, bool isReliable) :
             _id(id),
+            _value(value),
             _C(std::move(C)),
             _routes(std::move(routes)),
             _power(power),
@@ -39,17 +42,9 @@ public:
             _secondNode(secondNode),
             _isReliable(isReliable) {}
 
-    Branch(const int& id, std::vector<double> C, const int& power, const int& firstNode, const int& secondNode,
-           bool isReliable) :
-            _id(id),
-            _C(std::move(C)),
-            _power(power),
-            _firstNode(firstNode),
-            _secondNode(secondNode),
-            _isReliable(isReliable) {}
-
     Branch(const Branch& branch) :
             _id(branch._id),
+            _value(branch._value),
             _C(branch._C),
             _routes(branch._routes),
             _power(branch._power),
@@ -64,6 +59,11 @@ public:
 
     int GetId() const override {
         return _id;
+    }
+
+    void SetValue(const double& value)
+    {
+        _value = value;
     }
 
     void SetC(const std::vector<double>& C)
@@ -128,6 +128,7 @@ public:
     //todo уменьшить static функкций
     static Branch GetBranch(const int& vectorSize, const int& power);
     static Branch GetBranch(const int& power);
+    static Branch GetSimpleBranch();
     static Branch GetSimpleBranch(const int& id, const int& firstNode, const int& secondNode);
     static Branch GetZero();
     static Branch GetUnity();

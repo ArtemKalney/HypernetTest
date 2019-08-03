@@ -6,6 +6,7 @@
 //template<typename Archive>
 //void serialize(Archive &ar, const unsigned version) {
 //    ar & _id;
+//    ar & _value;
 //    ar & _C;
 //    ar & _routes;
 //    ar & _power;

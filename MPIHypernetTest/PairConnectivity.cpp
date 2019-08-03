@@ -68,17 +68,8 @@ Branch PairConnectivity(H &H, Branch &pseudoBranch) {
     }
 
     Branch pseudoBranch1, pseudoBranch2;
-    if (allowingBranch.IsSimpleBranch()) {
-        pseudoBranch1 = pseudoBranch;
-        pseudoBranch1.SetPower(pseudoBranch1.GetPower() + 1);
-        pseudoBranch2 = pseudoBranch;
-        pseudoBranch2.SetPower(pseudoBranch2.GetPower() + 1);
-        pseudoBranch2.GetC().insert(pseudoBranch2.GetC().begin(), 0);
-        pseudoBranch2.GetC().pop_back();
-    } else {
-        pseudoBranch1 = pseudoBranch * allowingBranch;
-        pseudoBranch2 = pseudoBranch * ~allowingBranch;
-    }
+    pseudoBranch1 = pseudoBranch * allowingBranch;
+    pseudoBranch2 = pseudoBranch * ~allowingBranch;
 
     auto HwithReliableBranch = H, HwithRemovedBranch = H;
     HwithReliableBranch.MakeReliableBranch(allowingBranch);

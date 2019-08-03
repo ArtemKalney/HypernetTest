@@ -399,10 +399,14 @@ void Master(int size) {
     }
 
     if (option == 1) {
-        for (int i = 0; i < sum.GetC().size(); i++) {
-            auto sumVector = sum.GetC();
-            sumVector[i] = sumVector[i] / Bin[n].GetC()[2];
-            sum.SetC(sumVector);
+        if (IS_NUMBER_COMPUTATION == 1) {
+            sum.SetValue(sum.GetValue() / Bin[n].GetC()[2]);
+        } else {
+            for (int i = 0; i < sum.GetC().size(); i++) {
+                auto sumVector = sum.GetC();
+                sumVector[i] = sumVector[i] / Bin[n].GetC()[2];
+                sum.SetC(sumVector);
+            }
         }
     } else if (option == 2) {
         sum = sum + Branch::GetUnity();
