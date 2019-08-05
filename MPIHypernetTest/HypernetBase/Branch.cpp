@@ -197,6 +197,7 @@ Branch operator +(Branch firstBranch, Branch secondBranch) {
     return result;
 }
 
+//todo fix
 Branch operator -(Branch firstBranch, Branch secondBranch) {
     Branch result = Branch::GetZero();
     if (IS_NUMBER_COMPUTATION == 1) {

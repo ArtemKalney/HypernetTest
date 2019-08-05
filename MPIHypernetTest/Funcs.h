@@ -8,3 +8,4 @@ void Send(const T &object, int processorNumber);
 template <class T>
 T Recv();
 H GetRandomHypernet();
+H GetRandomHypernet(std::vector<Branch> &primaryNetwork, std::vector<Node> &nodes);
