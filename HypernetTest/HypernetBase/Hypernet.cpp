@@ -471,6 +471,27 @@ void H::PrintHypernet() {
     }
 }
 
+void H::LogHypernet() {
+    output << "Hypernet(" << n << ", " << m << ", " << _F.size() << ")" << std::endl;
+    output << _nodes.size() << " " << _FN.size() << " "  << _F.size() << std::endl;
+    for(auto &branch : _FN) {
+        output << branch.GetId() << std::endl;
+        output << branch.GetFirstNode() + 1 << " " << branch.GetSecondNode() + 1 << std::endl;
+        for (auto &item : branch.GetRoutes()) {
+            output << item.GetId() + 1 << " ";
+        }
+        output << 0 << std::endl;
+    }
+    for(auto &route : _F) {
+        output << route.GetId() + 1 << std::endl;
+        for (auto &item : *route.Ptr) {
+            output << item + 1 << " ";
+        }
+        output << 0 << std::endl;
+    }
+    output << "$$$" << std::endl;
+}
+
 void H::RenumerateNodesForGen(const int& firstNode, const int& secondNode) {
     if (firstNode == secondNode) {
         return;

@@ -257,27 +257,6 @@ void ErrorHandler(const char *str) {
     std::cout << "--------------------------------" << std::endl;
 }
 
-void LogHypernet(H &H) {
-    output << "RandomHypernet(" << n << ", " << m << ", " << H.GetF().size() << ")" << std::endl;
-    output << H.GetNodes().size() << " " << H.GetFN().size() << " "  << H.GetF().size() << std::endl;
-    for(auto &branch : H.GetFN()) {
-        output << branch.GetId() << std::endl;
-        output << branch.GetFirstNode() + 1 << " " << branch.GetSecondNode() + 1 << std::endl;
-        for (auto &item : branch.GetRoutes()) {
-            output << item.GetId() + 1 << " ";
-        }
-        output << 0 << std::endl;
-    }
-    for(auto &route : H.GetF()) {
-        output << route.GetId() + 1 << std::endl;
-        for (auto &item : *route.Ptr) {
-            output << item + 1 << " ";
-        }
-        output << 0 << std::endl;
-    }
-    output << "$$$" << std::endl;
-}
-
 int main(int argc, char** argv) {
     if (IS_TEST == 1) {
         testing::InitGoogleTest(&argc, argv);
@@ -319,12 +298,12 @@ int main(int argc, char** argv) {
     H initialHypernet;
     if (IS_TEST_HYPERNET == 1) {
         initialHypernet = GetRandomHypernet(branches, nodes);
-        LogHypernet(initialHypernet);
+        initialHypernet.LogHypernet();
         output << "FirstRoot " << TEST_HYPERNET_FIRST_TREE_ROOT + 1 << std::endl;
         output << "SecondRoot " << TEST_HYPERNET_SECOND_TREE_ROOT + 1 << std::endl;
         output << "TreeNodeIntersections " << TreeNodeIntersections << std::endl;
         output << "UnconnectedTreeNodes " << UnconnectedTreeNodes << std::endl;
-        return 0;
+//        return 0;
     } else {
         initialHypernet = H(std::move(branches), std::move(nodes), std::move(routes));
     }

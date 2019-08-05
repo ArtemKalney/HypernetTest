@@ -83,6 +83,7 @@ public:
     bool BridgeReduction();
     void EdgeReduction();
     void PrintHypernet();
+    void LogHypernet();
     // to debug
     void RenumerateNodesForGen(const int &firstNode, const int &secondNode);
     std::vector<std::vector<int>> GetRoutesF();

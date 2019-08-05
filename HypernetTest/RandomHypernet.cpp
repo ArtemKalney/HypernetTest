@@ -29,7 +29,7 @@ std::vector<Branch> GetRandomTree(const int &nodesCount, std::vector<int> &nodes
     return tree;
 }
 
-void Mapping(const std::vector<Branch> primaryNetwork, std::vector<std::vector<int>> &nodeRotes,
+void Mapping(const std::vector<Branch> &primaryNetwork, std::vector<std::vector<int>> &nodeRotes,
              std::vector<std::vector<Branch>> &branchRoutes, std::vector<bool> &isVisited, std::vector<int> &nodeRote,
              std::vector<Branch> &branchRoute, int &node, const int &endNode, const int &startTime) {
     isVisited[node] = true;
@@ -77,12 +77,6 @@ void SetMapping(std::vector<Branch> &primaryNetwork, std::vector<Branch> &second
         int randomIndex = nodeRotes.size() > 1 ? rand() % (nodeRotes.size() - 1) : 0;
         nodeRote = nodeRotes[randomIndex];
         branchRoute = branchRoutes[randomIndex];
-
-        for (auto &item : nodeRote) {
-            output << item + 1 << " ";
-        }
-        output << std::endl;
-
         routes.emplace_back(routes.size(), std::make_shared<std::vector<int>>(nodeRote));
         for(auto &item : branchRoute) {
             std::find(primaryNetwork.begin(), primaryNetwork.end(), item) -> GetRoutes().push_back(routes.back());
@@ -90,7 +84,7 @@ void SetMapping(std::vector<Branch> &primaryNetwork, std::vector<Branch> &second
     }
 }
 
-H TryGetRandomHypernet(std::vector<Branch> &primaryNetwork, std::vector<Node> &nodes) {
+H TryGetRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nodes) {
     srand(time(0));
     std::vector<int> firstTreeNodes{TEST_HYPERNET_FIRST_TREE_ROOT};
     std::vector<int> forbiddenNodes{TEST_HYPERNET_SECOND_TREE_ROOT};
@@ -118,7 +112,9 @@ H GetRandomHypernet(std::vector<Branch> &primaryNetwork, std::vector<Node> &node
     try {
         return TryGetRandomHypernet(primaryNetwork, nodes);
     } catch (const char *str) {
-        output << str << std::endl;
+        if (IS_DEBUG == 1) {
+            output << str << std::endl;
+        }
         TreeNodeIntersections = 0;
         UnconnectedTreeNodes = 0;
         return GetRandomHypernet(primaryNetwork, nodes);
