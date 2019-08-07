@@ -55,7 +55,7 @@ double GetAPCValueForTest () {
     }
 
     std::stringstream tmp;
-    tmp << std::setprecision(14) << std::fixed << sum.GetValue();
+    tmp << std::setprecision(14) << std::fixed << sum.GetPolynomialValue(p);
     return stod(tmp.str());
 }
 
@@ -70,7 +70,7 @@ double GetMENCValueForTest () {
     }
 
     std::stringstream tmp;
-    tmp << std::setprecision(14) << std::fixed << sum.GetValue();
+    tmp << std::setprecision(14) << std::fixed << sum.GetPolynomialValue(p);
     return stod(tmp.str());
 }
 

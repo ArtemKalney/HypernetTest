@@ -8,14 +8,14 @@
 #define IS_TEST_HYPERNET 1
 #define IS_TEST_HYPERNET_SIMPLE_MAPPING 1
 #define IS_TEST_HYPERNET_DOUBLE_TREE_MAP 1
-#define TEST_HYPERNET_TREE_SIZE 20
-#define TEST_HYPERNET_FIRST_TREE_ROOT 76
-#define TEST_HYPERNET_SECOND_TREE_ROOT 77
-#define TEST_HYPERNET_MAPPING_TIME 45000
+#define TEST_HYPERNET_TREE_SIZE 30
+#define TEST_HYPERNET_FIRST_TREE_ROOT 48
+#define TEST_HYPERNET_SECOND_TREE_ROOT 58
+#define TEST_HYPERNET_MAPPING_TIME 300000
 
 #define IS_FULL_ENUMERATION 0
 
-#define IS_NUMBER_COMPUTATION 1
+#define IS_NUMBER_COMPUTATION 0
 
 #define MAX_DIMENSIONAL 3
 
@@ -36,6 +36,6 @@ extern std::vector<Branch> Bin;
 extern int n, m, k;
 extern int ReliableHypernets, UnconnectedHypernets, TwoNodesHypernets, ChainsReduced, UnconnectedNodesReduced,
         PairConnectivityCalls, EdgesReduced, ComplexChains, TreeNodeIntersections, UnconnectedTreeNodes;
-extern double p, z;
+extern const double p, z;
 extern std::ifstream input;
 extern std::ofstream output;

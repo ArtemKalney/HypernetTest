@@ -48,6 +48,10 @@ public:
         return _id;
     }
 
+    double GetValue() const {
+        return _value;
+    }
+
     void SetValue(const double& value)
     {
         _value = value;
@@ -127,7 +131,7 @@ public:
     bool IsSimpleBranch();
     void PrintBranch();
     bool operator <(const Branch& branch) const;
-    double GetValue();
+    double GetPolynomialValue(double point);
     int GetBranchSaturation();
 };
 

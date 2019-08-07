@@ -9,7 +9,7 @@ int ReliableHypernets = 0, UnconnectedHypernets = 0, TwoNodesHypernets = 0, Chai
         UnconnectedNodesReduced = 0, PairConnectivityCalls = 0, EdgesReduced = 0, ComplexChains = 0,
         TreeNodeIntersections = 0, UnconnectedTreeNodes = 0;
 std::vector<Branch> Bin;
-double p = 0.9, z = 0.1;
+const double p = 0.9, z = 0.1;
 
 template <class T>
 bool IsUniqueId(const T &items, const int &id) {
@@ -356,11 +356,9 @@ int main(int argc, char** argv) {
     std::cout << " ReliableHypernets " << ReliableHypernets << std::endl;
     std::cout << " UnconnectedHypernets " << UnconnectedHypernets << std::endl;
     std::cout << " TwoNodesHypernets " << TwoNodesHypernets << std::endl;
-    std::cout << "Solution:" << std::endl;
     if (!sum.IsZero()) {
         NormalizeSolution(sum);
-        sum.PrintBranch();
-        std::cout << "Value at point " << p << ": " << std::setprecision(14) << sum.GetValue() << std::endl;
+        std::cout << "Value at point " << p << ": " << std::setprecision(14) << sum.GetPolynomialValue(p) << std::endl;
         for (auto &item : sum.GetC()) {
             output << std::setprecision(14) << item << " ";
         }
