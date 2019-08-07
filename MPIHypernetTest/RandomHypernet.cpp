@@ -1,14 +1,15 @@
 #include "Funcs.h"
 #include "Globals.h"
-
+// генератор случайных сетей для построения случайной гиперсети
 std::vector<Branch> GetRandomNetwork(int &nodesCount, int &edgeCount) {
     std::vector<Branch> network;
-    std::vector<int> nodes1;
+    std::vector<int> nodes1; // набор вершин 1
     for (int i = 0; i < nodesCount; i++) {
         nodes1.push_back(i);
     }
-    std::vector<int> nodes2;
+    std::vector<int> nodes2; // набор вершин 2
     int j = rand() % (nodes1.size() - 1);
+    // цикл построения случайного дерева, гарантирует связность сети
     for (int i = 0; i < nodesCount - 1; i++) {
         nodes2.push_back(nodes1[j]);
         nodes1.erase(nodes1.begin() + j);
@@ -17,6 +18,7 @@ std::vector<Branch> GetRandomNetwork(int &nodesCount, int &edgeCount) {
         j = firstPosition;
         network.push_back(Branch::GetSimpleBranch(network.size(), nodes1[firstPosition], nodes2[secondPosition]));
     }
+    // расстановка оставшихся рёбер
     for (int i = 0; i < edgeCount - nodesCount + 1; i++) {
         int firstNode = rand() % nodesCount, secondNode = rand() % nodesCount;
         while (firstNode == secondNode)
@@ -26,7 +28,7 @@ std::vector<Branch> GetRandomNetwork(int &nodesCount, int &edgeCount) {
 
     return network;
 }
-
+// получение случайного дерева заданного размера с запретами использования конкретных вершин 
 std::vector<Branch> GetRandomTree(const int &nodesCount, std::vector<int> &nodes,
                                   const std::vector<int> &forbiddenNodes) {
     std::vector<Branch> tree;
@@ -54,7 +56,7 @@ std::vector<Branch> GetRandomTree(const int &nodesCount, std::vector<int> &nodes
 
     return tree;
 }
-
+// укладка ребра в первичную сеть
 void Mapping(const std::vector<Branch> &primaryNetwork, std::vector<std::vector<int>> &nodeRotes,
              std::vector<std::vector<Branch>> &branchRoutes, std::vector<bool> &isVisited, std::vector<int> &nodeRote,
              std::vector<Branch> &branchRoute, int &node, const int &endNode, const int &startTime) {
@@ -89,7 +91,7 @@ void Mapping(const std::vector<Branch> &primaryNetwork, std::vector<std::vector<
 
     isVisited[node] = false;
 }
-
+// получение укладки ребра в первичную сеть
 void SetMapping(std::vector<Branch> &primaryNetwork, std::vector<Branch> &secondaryNetwork,
                 std::vector<Route> &routes) {
     for (auto &edge : secondaryNetwork) {
@@ -110,7 +112,7 @@ void SetMapping(std::vector<Branch> &primaryNetwork, std::vector<Branch> &second
         }
     }
 }
-
+// получение случайной гиперсети необходимой для работы алгоритма оптимизации (возможен timeout)
 H TryGetRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nodes) {
     srand(seed++);
     std::vector<int> firstTreeNodes{FirstRoot};
@@ -134,7 +136,7 @@ H TryGetRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &no
 
     return H(std::move(primaryNetwork), std::move(nodes), std::move(routes));
 }
-
+// получение случайной гиперсети
 H GetRandomHypernet() {
     srand(seed++);
     auto primaryNetwork = GetRandomNetwork(n, m);
@@ -149,7 +151,7 @@ H GetRandomHypernet() {
 
     return H(std::move(primaryNetwork), std::move(nodes), std::move(routes));
 }
-
+// получение случайной гиперсети необходимой для работы алгоритма оптимизации
 H GetRandomHypernet(std::vector<Branch> &primaryNetwork, std::vector<Node> &nodes) {
     try {
         return TryGetRandomHypernet(primaryNetwork, nodes);

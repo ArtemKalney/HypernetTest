@@ -82,7 +82,7 @@ void Branch::PrintBranch() {
     }
 }
 
-double Branch::GetValue() {
+double Branch::GetPolynomialValue(double point) {
     if (IS_NUMBER_COMPUTATION == 1) {
         return _value;
     }
@@ -92,7 +92,7 @@ double Branch::GetValue() {
         return value;
     }
     for (int i = 0; i <= _power; i++) {
-        value += _C[i] * pow(p, _power - i) * pow(z, i);
+        value += _C[i] * pow(point, _power - i) * pow(1 - point, i);
     }
 
     return value;

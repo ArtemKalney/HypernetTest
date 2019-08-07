@@ -1,7 +1,7 @@
 #pragma once
 
 #include "HypernetBase/Branch.h"
-
+// определения глобальных переменных и конфигурации приложения
 #define IS_TEST_TIME 0
 #define TEST_HYPERNETS 50
 #define TEST_HYPERNET_NODES 25
@@ -11,10 +11,10 @@
 #define IS_TEST_HYPERNET 1
 #define IS_TEST_HYPERNET_SIMPLE_MAPPING 1
 #define IS_TEST_HYPERNET_DOUBLE_TREE_MAP 1
-#define TEST_HYPERNET_TREE_SIZE 20
+#define TEST_HYPERNET_TREE_SIZE 28
 #define TEST_HYPERNET_MAPPING_TIME 300000
 
-#define IS_NUMBER_COMPUTATION 1
+#define IS_NUMBER_COMPUTATION 0
 
 #define IS_DEBUG 1
 #define IS_TWO_LEVEL_PARALLELIZATION 1
@@ -51,7 +51,7 @@ extern int n, m, k, l;
 extern int ReliableHypernets, UnconnectedHypernets, TwoNodesHypernets, ChainsReduced, UnconnectedNodesReduced,
         PairConnectivityCalls, EdgesReduced, ComplexChains, HelpProcessors, TreeNodeIntersections, UnconnectedTreeNodes;
 extern int FirstRoot, SecondRoot;
-extern double p, z;
+extern const double p, z;
 extern unsigned long long int TotalBytesTransfer;
 extern int seed;
 extern std::ifstream input;

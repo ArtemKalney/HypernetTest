@@ -2,13 +2,14 @@
 #include "DTO.h"
 #include "Globals.h"
 
-// Obtain a allowing Branch of max saturation
+// получение разрешай ветви с максимальной насыщенностью
 Branch GetAllowingBranch(H& H) {
     auto FN = H.GetFN();
 //    std::sort(FN.begin(), FN.end());
     Branch allowingBranch;
     int maxSaturation = 0;
-    for(auto &branch : FN) {
+    // цикл поиска ветви
+    for(auto &branch : FN) { 
         if (!branch.GetIsReliable()) {
             int saturation = branch.GetBranchSaturation();
             if (maxSaturation < saturation) {
@@ -20,21 +21,22 @@ Branch GetAllowingBranch(H& H) {
 
     return allowingBranch;
 }
-
+// явный расчёт гиперсети
 Branch SimpleCase (std::vector<Branch>& FN, const Branch& pseudoBranch) {
     TwoNodesHypernets++;
     if (FN.size() == 1) {
         return FN.front().GetIsReliable() ? pseudoBranch : pseudoBranch*FN.front();
     } else {
+        // убираем надёжные ветви, они уже учтены
         FN.erase(std::remove_if(FN.begin(), FN.end(), [](Branch &item) ->
                 bool { return item.GetIsReliable(); }), FN.end());
         return pseudoBranch*Branch::ParallelReduction(FN);
     }
 }
-
+// расчёт парной связности гиперсети
 Branch PairConnectivity(H &H, Branch &pseudoBranch) {
     PairConnectivityCalls++;
-
+    // конфигурация метода
     if(ENABLE_BRIDGE_REDUCTION == 1 && H.BridgeReduction()) {
         return Branch::GetZero();
     }
@@ -61,20 +63,20 @@ Branch PairConnectivity(H &H, Branch &pseudoBranch) {
             return SimpleCase(H.GetFN(), pseudoBranch);
         }
     }
-
+    // получение разрешающей ветви
     Branch allowingBranch = GetAllowingBranch(H);
     if (allowingBranch.IsUnacceptableBranch()) {
         throw "PairConnectivity: unacceptable allowingBranch";
     }
-
+    // вычисленние множителей для метода факторизации 
     Branch pseudoBranch1, pseudoBranch2;
     pseudoBranch1 = pseudoBranch * allowingBranch;
     pseudoBranch2 = pseudoBranch * ~allowingBranch;
-
+    // вычисление гиперсетей для метода факторизации 
     auto HwithReliableBranch = H, HwithRemovedBranch = H;
     HwithReliableBranch.MakeReliableBranch(allowingBranch);
     HwithRemovedBranch.RemoveBranch(allowingBranch);
-
+    // расчёт парной связности
     if (!HwithRemovedBranch.IsSNconnected()) {
         UnconnectedHypernets++;
         if (HwithReliableBranch.HasReliablePath()) {
@@ -88,6 +90,7 @@ Branch PairConnectivity(H &H, Branch &pseudoBranch) {
             ReliableHypernets++;
             return pseudoBranch1 * Branch::GetUnity() + PairConnectivity(HwithRemovedBranch, pseudoBranch2);
         } else {
+            // назначение исполняющих процессов (запрос помощи процессом)
             int value, helpProcessor = 0;
             if (HwithReliableBranch.GetNodes().size() >= MAX_DIMENSIONAL) {
                 MPI_Status status;

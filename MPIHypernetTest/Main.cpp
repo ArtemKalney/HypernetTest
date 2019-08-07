@@ -2,6 +2,7 @@
 #include "Funcs.h"
 #include "DTO.h"
 
+// инициализация глобальных переменных
 std::ifstream input;
 std::ofstream output;
 int n = 0, m = 0, k = 0, l = 0;
@@ -10,10 +11,11 @@ int ReliableHypernets = 0, UnconnectedHypernets = 0, TwoNodesHypernets = 0, Chai
         TreeNodeIntersections = 0, UnconnectedTreeNodes = 0;
 int FirstRoot, SecondRoot;
 std::vector<Branch> Bin;
-double p = 0.9, z = 0.1;
+const double p = 0.9, z = 0.1;
 unsigned long long int TotalBytesTransfer = 0;
 int seed = time(0);
 
+// проверка уникальности индекса в списке
 template <class T>
 bool IsUniqueId(const T &items, const int &id) {
     int count = 0;
@@ -25,6 +27,7 @@ bool IsUniqueId(const T &items, const int &id) {
     return count < 2;
 }
 
+// получение данных из файла
 void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vector<Route>& routes,
              std::vector<int>& testNodes) {
     if (IS_TEST_TIME == 1) {
@@ -112,6 +115,7 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
     }
 }
 
+// вычисление биномиальных коэффицентов
 void ComputeBinomialCoefficients() {
     Bin.resize(m + 1, Branch::GetBranch(m + 1, 0));
     for (int i = 0; i < Bin.size(); i++) {
@@ -124,6 +128,7 @@ void ComputeBinomialCoefficients() {
     }
 }
 
+// метод необходимый для изменения размера ветви
 void NormalizeSolution(Branch &branch){
     branch.GetC().resize(m + 1);
     if (branch.GetPower() < m) {
@@ -131,6 +136,7 @@ void NormalizeSolution(Branch &branch){
     }
 }
 
+// отправления объекта ядру для расчёта
 template <class T>
 void Send(const T &object, int processorNumber){
     std::stringstream ss;
@@ -141,6 +147,7 @@ void Send(const T &object, int processorNumber){
     MPI_Send((void *) ss.str().c_str(), length, MPI_BYTE, processorNumber, SEND_RECV_TAG, MPI_COMM_WORLD);
 }
 
+// получение объекта ядру для расчёта
 template <class T>
 T Recv() {
     MPI_Status status;
@@ -158,6 +165,7 @@ T Recv() {
     return object;
 }
 
+// управление исполнением программы используя MPI (уровень 2)
 void SendControl(std::vector<H> &hypernetList, int &size) {
     std::stack<int> freeProcessors;
     for (int i = 1; i < size; ++i) {
@@ -196,6 +204,7 @@ void SendControl(std::vector<H> &hypernetList, int &size) {
     }
 }
 
+// управление исполнением программы используя MPI (уровень 1)
 void SendControl(H &H, int &size) {
     std::stack<int> freeProcessors;
     for (int i = 1; i < size; ++i) {
@@ -225,6 +234,7 @@ void SendControl(H &H, int &size) {
     }
 }
 
+// вычисление MENC
 void ComputeMENC(const H& initialHypernet,  int &size) {
     std::vector<H> hypernetList;
     for (int i = 1; i < n; i++) {
@@ -246,6 +256,7 @@ void ComputeMENC(const H& initialHypernet,  int &size) {
     }
 }
 
+// вычисление APC
 void ComputeAPC(const H& initialHypernet, int &size) {
     std::vector<H> hypernetList;
     for (int i = 0; i < n; i++) {
@@ -278,6 +289,7 @@ void ComputeAPC(const H& initialHypernet, int &size) {
     }
 }
 
+// обработчик ошибок
 void ErrorHandler(const char *str) {
     std::cout << "--------------------------------" << std::endl;
     std::cout << "Occurred next error:" << std::endl;
@@ -285,6 +297,7 @@ void ErrorHandler(const char *str) {
     std::cout << "--------------------------------" << std::endl;
 }
 
+// вычисление гиперсети
 void ComputeHypernet(H &initialHypernet, int &size, int &option) {
     initialHypernet.RemoveEmptyBranches();
     if (option == 1) {
@@ -294,6 +307,7 @@ void ComputeHypernet(H &initialHypernet, int &size, int &option) {
     }
 }
 
+// отправка дыннх от процесса мастера испольнителям
 void BcastDataByMaster() {
     std::stringstream ss;
     boost::archive::binary_oarchive oarchive{ss};
@@ -306,10 +320,40 @@ void BcastDataByMaster() {
     MPI_Bcast(&m, 1, MPI_INT, HOST_PROCESSOR, MPI_COMM_WORLD);
     MPI_Bcast(&k, 1, MPI_INT, HOST_PROCESSOR, MPI_COMM_WORLD);
 }
+// вывод расчётных данных
+void PrintSolution(Branch &solution, double &time) {
+    std::cout << "Time of programm " << time << " sec" << std::endl;
+    std::cout << "PairConnectivityCalls " << PairConnectivityCalls << std::endl;
+    std::cout << "Reductions : " << std::endl;
+    std::cout << " UnconnectedNodesReduced " << UnconnectedNodesReduced << std::endl;
+    std::cout << " EdgesReduced " << EdgesReduced << std::endl;
+    std::cout << " ChainsReduced " << ChainsReduced << std::endl;
+    if (IS_DEBUG == 1) {
+        std::cout << " ComplexChains " << ComplexChains << std::endl;
+    }
+    std::cout << "Were ends of recursion : " << ReliableHypernets + UnconnectedHypernets +
+                                                TwoNodesHypernets << std::endl;
+    std::cout << " ReliableHypernets " << ReliableHypernets << std::endl;
+    std::cout << " UnconnectedHypernets " << UnconnectedHypernets << std::endl;
+    std::cout << " TwoNodesHypernets " << TwoNodesHypernets << std::endl;
+    if (IS_DEBUG == 1) {
+        std::cout << "TotalBytesTransfer : " << TotalBytesTransfer << std::endl;
+        std::cout << "HelpProcessors : " << HelpProcessors << std::endl;
+    }
+    if (!solution.IsZero()) {
+        NormalizeSolution(solution);
+        std::cout << "Value at point " << p << ": " << std::setprecision(11) << solution.GetPolynomialValue(p)
+                  << std::endl;
+    } else {
+        std::cout << "unconnected hypernet" << std::endl;
+    }
+}
 
+// получение решения
 Branch GetSolution(int &size, int &option, std::vector<Branch> branches, std::vector<Node> nodes,
                    std::vector<Route> routes, double &time) {
-    double startTime, averageTime = 0;
+    double startTime, averageTime = 0; // переменные начала времени расчёта и среднего времени расчёта
+    // выбор тестирования по конфигурации приложения (время, оптимизация, расчёт гиперсети)
     if (IS_TEST_TIME == 1) {
         for (int i = 0; i < TEST_HYPERNETS; i++) {
             H initialHypernet = GetRandomHypernet();
@@ -324,6 +368,7 @@ Branch GetSolution(int &size, int &option, std::vector<Branch> branches, std::ve
         }
     } else {
         H initialHypernet;
+        // выбор метода получения гиперстеи (случайно или из аргументов функции)
         if (IS_TEST_HYPERNET == 1) {
             initialHypernet = GetRandomHypernet(branches, nodes);
             if (IS_DEBUG == 1) {
@@ -336,22 +381,22 @@ Branch GetSolution(int &size, int &option, std::vector<Branch> branches, std::ve
         startTime = MPI_Wtime();
         ComputeHypernet(initialHypernet, size, option);
     }
-
+    // запрос значений от процессов испольнителей
     for (int i = 1; i < size; i++) {
         MPI_Send(&i, 0, MPI_INT, i, SEND_SOLUTION_TAG, MPI_COMM_WORLD);
     }
 
     Branch sum;
+    // сохранение среденего времени 
     if (IS_TEST_TIME == 1 && TEST_HYPERNETS > 1) {
         averageTime = averageTime / TEST_HYPERNETS;
-        std::cout << "Average time = " << averageTime;
         output << "Average time = " << averageTime;
         return sum;
     }
 
     MPI_Status status;
     for (int i = 1; i < size; i++) {
-        Branch branch = Recv<Branch>();
+        Branch branch = Recv<Branch>(); // получение значения от процесса исполнителя
         sum = sum + branch;
         int buff;
         MPI_Recv(&buff, 1, MPI_INT, MPI_ANY_SOURCE, RELIABLE_HYPERNETS_COUNT_TAG, MPI_COMM_WORLD, &status);
@@ -376,7 +421,7 @@ Branch GetSolution(int &size, int &option, std::vector<Branch> branches, std::ve
         MPI_Recv(&longBuff, 1, MPI_UNSIGNED_LONG_LONG, MPI_ANY_SOURCE, TOTAL_BYTES_TRANSFER_TAG, MPI_COMM_WORLD, &status);
         TotalBytesTransfer += longBuff;
     }
-
+    // обработка полченного значения в завсимости от выбранного критериия 
     if (option == 1) {
         if (IS_NUMBER_COMPUTATION == 1) {
             sum.SetValue(sum.GetValue() / Bin[n].GetC()[2]);
@@ -391,36 +436,11 @@ Branch GetSolution(int &size, int &option, std::vector<Branch> branches, std::ve
         sum = sum + Branch::GetUnity();
     }
     time = MPI_Wtime() - startTime;
-    std::cout << "Time of programm " << time << " sec" << std::endl;
-    std::cout << "PairConnectivityCalls " << PairConnectivityCalls << std::endl;
-    std::cout << "Reductions : " << std::endl;
-    std::cout << " UnconnectedNodesReduced " << UnconnectedNodesReduced << std::endl;
-    std::cout << " EdgesReduced " << EdgesReduced << std::endl;
-    std::cout << " ChainsReduced " << ChainsReduced << std::endl;
-    if (IS_DEBUG == 1) {
-        std::cout << " ComplexChains " << ComplexChains << std::endl;
-    }
-    std::cout << "Were ends of recursion : " << ReliableHypernets + UnconnectedHypernets +
-                                                TwoNodesHypernets << std::endl;
-    std::cout << " ReliableHypernets " << ReliableHypernets << std::endl;
-    std::cout << " UnconnectedHypernets " << UnconnectedHypernets << std::endl;
-    std::cout << " TwoNodesHypernets " << TwoNodesHypernets << std::endl;
-    if (IS_DEBUG == 1) {
-        std::cout << "TotalBytesTransfer : " << TotalBytesTransfer << std::endl;
-        std::cout << "HelpProcessors : " << HelpProcessors << std::endl;
-    }
-    std::cout << "Solution:" << std::endl;
-    if (!sum.IsZero()) {
-        NormalizeSolution(sum);
-        sum.PrintBranch();
-        std::cout << "Value at point " << p << ": " << std::setprecision(15) << sum.GetValue() << std::endl;
-    } else {
-        std::cout << "unconnected hypernet" << std::endl;
-    }
 
     return sum;
 }
 
+// инициализация работы процесса мастера
 void Master(int size) {
     input.open("input.txt");
     output.open("output.txt");
@@ -443,6 +463,7 @@ void Master(int size) {
     double time;
     if (IS_TEST_HYPERNET != 1) {
         Branch solution = GetSolution(size, option, branches, nodes, routes, time);
+        PrintSolution(solution, time);
         for (auto &item : solution.GetC()) {
             output << std::setprecision(14) << item << " ";
         }
@@ -453,10 +474,16 @@ void Master(int size) {
             for(int j=i+1; j<testNodes.size(); j++) {
                 SecondRoot = testNodes[j];
                 Branch solution = GetSolution(size, option, branches, nodes, routes, time);
+                if (IS_DEBUG == 1) {
+                    PrintSolution(solution, time);
+                }
                 output << FirstRoot + 1 << " " << SecondRoot + 1 << " " << TreeNodeIntersections << " "
                        << UnconnectedTreeNodes << " ";
-                output << std::setprecision(15) << solution.GetValue() << " ";
+                output << std::setprecision(15) << solution.GetPolynomialValue(p) << " ";
+                output << std::setprecision(15) << solution.GetPolynomialValue(0.99) << " ";
                 output << time << std::endl;
+                TreeNodeIntersections = 0;
+                UnconnectedTreeNodes = 0;
             }
         }
     }
@@ -465,6 +492,7 @@ void Master(int size) {
     }
 }
 
+// полчение дыннх от процесса мастера
 void BcastDataBySlaves() {
     int length;
     MPI_Bcast(&length, 1, MPI_INT, HOST_PROCESSOR, MPI_COMM_WORLD);
@@ -480,6 +508,7 @@ void BcastDataBySlaves() {
     MPI_Bcast(&k, 1, MPI_INT, HOST_PROCESSOR, MPI_COMM_WORLD);
 }
 
+// инициализация работы процессов исполнителей
 void Slaves(int rank) {
     BcastDataBySlaves();
     int value;
@@ -507,12 +536,23 @@ void Slaves(int rank) {
             MPI_Send(&TotalBytesTransfer, 1, MPI_UNSIGNED_LONG_LONG, HOST_PROCESSOR, TOTAL_BYTES_TRANSFER_TAG,
                      MPI_COMM_WORLD);
             sum = Branch::GetZero();
+            ReliableHypernets = 0;
+            UnconnectedHypernets = 0;
+            TwoNodesHypernets = 0;
+            ChainsReduced = 0;
+            UnconnectedNodesReduced = 0;
+            PairConnectivityCalls = 0;
+            EdgesReduced = 0;
+            ComplexChains = 0;
+            HelpProcessors = 0;
+            TotalBytesTransfer = 0;
         }
     } while (status.MPI_TAG != STOP_TAG);
 }
 
 int main(int argc, char **argv) {
     int rank, size;
+    // инциализация MPI
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -521,6 +561,7 @@ int main(int argc, char **argv) {
             std::cerr << "Require at least 2 tasks" << std::endl;
         MPI_Abort(MPI_COMM_WORLD, 1);
     }
+    // обработчик ошибок
     try {
         rank == 0 ? Master(size) : Slaves(rank);
     } catch (const std::overflow_error &e) {
@@ -534,7 +575,7 @@ int main(int argc, char **argv) {
     } catch (...) {
         std::cout << "throw std::string or int or any other unrelated type";
     }
-    MPI_Finalize();
+    MPI_Finalize(); // окончание работы MPI
     input.close();
     output.close();
     return 0;

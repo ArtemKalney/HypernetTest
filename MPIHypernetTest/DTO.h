@@ -1,7 +1,7 @@
 #pragma once
 
 #include "HypernetBase/Hypernet.h"
-
+// структура для коммуникациями между процессами
 struct DTO {
     DTO(const H &H, const Branch &branch) :
             H(H),
