@@ -43,7 +43,7 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
     }
     char str[50];
     input.getline(str, 50);
-    std::cout << "Input graph : " << str << std::endl;
+    std::cout << "Input hypernet : " << str << std::endl;
     int buf;
     input >> buf; n = buf;
     input >> buf; m = buf;
