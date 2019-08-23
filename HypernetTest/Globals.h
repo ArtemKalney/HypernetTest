@@ -5,13 +5,15 @@
 #define IS_TEST 0
 #define IS_TEST_CHECK_SPECIFICATIONS 1
 
-#define IS_TEST_HYPERNET 1
 #define IS_TEST_HYPERNET_SIMPLE_MAPPING 1
-#define IS_TEST_HYPERNET_DOUBLE_TREE_MAP 1
-#define TEST_HYPERNET_TREE_SIZE 30
-#define TEST_HYPERNET_FIRST_TREE_ROOT 48
-#define TEST_HYPERNET_SECOND_TREE_ROOT 58
-#define TEST_HYPERNET_MAPPING_TIME 300000
+
+#define IS_OPTIMIZATION 1
+#define IS_OPTIMIZATION_AOSH 0
+#define OPTIMIZATION_TREE_SIZE 8// if IS_OPTIMIZATION_AOSH != 1 must be <= 20
+#define OPTIMIZATION_KP_COUNT 0
+#define OPTIMIZATION_FIRST_TREE_ROOT 0
+#define OPTIMIZATION_SECOND_TREE_ROOT 1
+#define OPTIMIZATION_MAPPING_TIME 300000
 
 #define IS_FULL_ENUMERATION 0
 
@@ -33,9 +35,10 @@
 #define IS_REDUCE_RELIABLE_CHAINS 0
 
 extern std::vector<Branch> Bin;
+extern std::vector<int> KpNodesCombination;
 extern int n, m, k;
 extern int ReliableHypernets, UnconnectedHypernets, TwoNodesHypernets, ChainsReduced, UnconnectedNodesReduced,
         PairConnectivityCalls, EdgesReduced, ComplexChains, TreeNodeIntersections, UnconnectedTreeNodes;
-extern const double p, z;
+extern const double p;
 extern std::ifstream input;
 extern std::ofstream output;

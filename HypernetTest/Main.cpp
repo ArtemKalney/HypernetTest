@@ -9,7 +9,8 @@ int ReliableHypernets = 0, UnconnectedHypernets = 0, TwoNodesHypernets = 0, Chai
         UnconnectedNodesReduced = 0, PairConnectivityCalls = 0, EdgesReduced = 0, ComplexChains = 0,
         TreeNodeIntersections = 0, UnconnectedTreeNodes = 0;
 std::vector<Branch> Bin;
-const double p = 0.9, z = 0.1;
+std::vector<int> KpNodesCombination{0, 6, 12, 18, 24};
+const double p = 0.9;
 
 template <class T>
 bool IsUniqueId(const T &items, const int &id) {
@@ -281,7 +282,7 @@ int main(int argc, char** argv) {
     }
 
     int option;
-    if (IS_TEST_HYPERNET != 1) {
+    if (IS_OPTIMIZATION != 1) {
         std::cout << "Press 1 to get APC polynomial" << std::endl;
         std::cout << "Press 2 to get MENC polynomial" << std::endl;
         std::cout << "Press 3 to get pairwise connectivities" << std::endl;
@@ -296,14 +297,14 @@ int main(int argc, char** argv) {
     }
     // Create an initialHypernet
     H initialHypernet;
-    if (IS_TEST_HYPERNET == 1) {
+    if (IS_OPTIMIZATION == 1) {
         initialHypernet = GetRandomHypernet(branches, nodes);
         initialHypernet.LogHypernet();
-        output << "FirstRoot " << TEST_HYPERNET_FIRST_TREE_ROOT + 1 << std::endl;
-        output << "SecondRoot " << TEST_HYPERNET_SECOND_TREE_ROOT + 1 << std::endl;
+        output << "FirstRoot " << OPTIMIZATION_FIRST_TREE_ROOT + 1 << std::endl;
+        output << "SecondRoot " << OPTIMIZATION_SECOND_TREE_ROOT + 1 << std::endl;
         output << "TreeNodeIntersections " << TreeNodeIntersections << std::endl;
         output << "UnconnectedTreeNodes " << UnconnectedTreeNodes << std::endl;
-//        return 0;
+        return 0;
     } else {
         initialHypernet = H(std::move(branches), std::move(nodes), std::move(routes));
     }
