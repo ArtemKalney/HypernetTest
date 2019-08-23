@@ -11,7 +11,8 @@ int ReliableHypernets = 0, UnconnectedHypernets = 0, TwoNodesHypernets = 0, Chai
         TreeNodeIntersections = 0, UnconnectedTreeNodes = 0;
 int FirstRoot, SecondRoot;
 std::vector<Branch> Bin;
-const double p = 0.9, z = 0.1;
+std::vector<int> KpNodesCombination;
+const double p = 0.9;
 unsigned long long int TotalBytesTransfer = 0;
 int seed = time(0);
 
@@ -48,7 +49,7 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
     input >> buf; n = buf;
     input >> buf; m = buf;
     input >> buf; k = buf;
-    if (IS_TEST_HYPERNET == 1) {
+    if (IS_OPTIMIZATION == 1) {
         input >> buf; l = buf;
     }
     // Fill all nodes
@@ -92,7 +93,7 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
             throw "GetData: not unique route id";
         }
     }
-    // Read all routes from input.txt
+    // Read all test nodes from input.txt
     for (int i = 0; i < l; i++) {
         input >> buf;
         testNodes.push_back(--buf);
@@ -369,7 +370,7 @@ Branch GetSolution(int &size, int &option, std::vector<Branch> branches, std::ve
     } else {
         H initialHypernet;
         // выбор метода получения гиперстеи (случайно или из аргументов функции)
-        if (IS_TEST_HYPERNET == 1) {
+        if (IS_OPTIMIZATION == 1) {
             initialHypernet = GetRandomHypernet(branches, nodes);
             if (IS_DEBUG == 1) {
                 initialHypernet.LogHypernet();
@@ -440,6 +441,19 @@ Branch GetSolution(int &size, int &option, std::vector<Branch> branches, std::ve
     return sum;
 }
 
+void ComputeCombinations(const std::vector<int> &vector, std::vector<std::vector<int>> &combinations,
+                         std::vector<int> &combination, int offset, int k) {
+    if (k == 0) {
+        combinations.push_back(combination);
+        return;
+    }
+
+    for (int i = offset; i <= vector.size() - k; ++i) {
+        combination.push_back(vector[i]);
+        ComputeCombinations(vector, combinations, combination, i + 1, k - 1);
+        combination.pop_back();
+    }
+}
 // инициализация работы процесса мастера
 void Master(int size) {
     input.open("input.txt");
@@ -461,7 +475,7 @@ void Master(int size) {
     ComputeBinomialCoefficients();
     BcastDataByMaster();
     double time;
-    if (IS_TEST_HYPERNET != 1) {
+    if (IS_OPTIMIZATION != 1) {
         Branch solution = GetSolution(size, option, branches, nodes, routes, time);
         PrintSolution(solution, time);
         for (auto &item : solution.GetC()) {
@@ -469,16 +483,38 @@ void Master(int size) {
         }
         output << std::endl;
     } else {
-        for(int i=0; i<testNodes.size() - 1; i++) {
-            FirstRoot = testNodes[i];
-            for(int j=i+1; j<testNodes.size(); j++) {
-                SecondRoot = testNodes[j];
+        if (IS_OPTIMIZATION_AOSH == 1) {
+            for(int i=0; i<testNodes.size() - 1; i++) {
+                FirstRoot = testNodes[i];
+                for(int j=i+1; j<testNodes.size(); j++) {
+                    SecondRoot = testNodes[j];
+                    Branch solution = GetSolution(size, option, branches, nodes, routes, time);
+                    if (IS_DEBUG == 1) {
+                        PrintSolution(solution, time);
+                    }
+                    output << FirstRoot + 1 << " " << SecondRoot + 1 << " " << TreeNodeIntersections << " "
+                           << UnconnectedTreeNodes << " ";
+                    output << std::setprecision(15) << solution.GetPolynomialValue(p) << " ";
+                    output << std::setprecision(15) << solution.GetPolynomialValue(0.99) << " ";
+                    output << time << std::endl;
+                    TreeNodeIntersections = 0;
+                    UnconnectedTreeNodes = 0;
+                }
+            }
+        } else {
+            std::vector<std::vector<int>> combinations;
+            std::vector<int> combination;
+            ComputeCombinations(testNodes, combinations, combination, 0, OPTIMIZATION_KP_COUNT);
+            for(auto &item : combinations) {
+                KpNodesCombination = item;
                 Branch solution = GetSolution(size, option, branches, nodes, routes, time);
                 if (IS_DEBUG == 1) {
                     PrintSolution(solution, time);
                 }
-                output << FirstRoot + 1 << " " << SecondRoot + 1 << " " << TreeNodeIntersections << " "
-                       << UnconnectedTreeNodes << " ";
+                for(int i=0; i<KpNodesCombination.size()-1; i++) {
+                    output << KpNodesCombination[i] + 1 << ",";
+                }
+                output << KpNodesCombination.back() + 1 << " ";
                 output << std::setprecision(15) << solution.GetPolynomialValue(p) << " ";
                 output << std::setprecision(15) << solution.GetPolynomialValue(0.99) << " ";
                 output << time << std::endl;

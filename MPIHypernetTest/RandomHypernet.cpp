@@ -33,7 +33,7 @@ std::vector<Branch> GetRandomTree(const int &nodesCount, std::vector<int> &nodes
                                   const std::vector<int> &forbiddenNodes) {
     std::vector<Branch> tree;
     while (nodes.size() != nodesCount) {
-        int node = rand() % (n - 1);
+        int node = rand() % n;
         std::vector<int> newForbiddenNodes;
         newForbiddenNodes.reserve(nodes.size() + forbiddenNodes.size());
         newForbiddenNodes.insert(newForbiddenNodes.end(), nodes.begin(), nodes.end());
@@ -67,7 +67,7 @@ void Mapping(const std::vector<Branch> &primaryNetwork, std::vector<std::vector<
     }
     for(auto &branch : primaryNetwork) {
         int searchTime = clock() - startTime;
-        if (searchTime >= TEST_HYPERNET_MAPPING_TIME) {
+        if (searchTime >= OPTIMIZATION_MAPPING_TIME) {
             throw "Timeout";
         }
         if (IS_TEST_HYPERNET_SIMPLE_MAPPING == 1 && !nodeRotes.empty() && !branchRoutes.empty()) {
@@ -113,25 +113,45 @@ void SetMapping(std::vector<Branch> &primaryNetwork, std::vector<Branch> &second
     }
 }
 // получение случайной гиперсети необходимой для работы алгоритма оптимизации (возможен timeout)
-H TryGetRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nodes) {
+H TryGetAoshRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nodes) {
     srand(seed++);
     std::vector<int> firstTreeNodes{FirstRoot};
     std::vector<int> forbiddenNodes{SecondRoot};
-    auto firstRandomTree = GetRandomTree(TEST_HYPERNET_TREE_SIZE, firstTreeNodes, forbiddenNodes);
+    auto firstRandomTree = GetRandomTree(OPTIMIZATION_TREE_SIZE, firstTreeNodes, forbiddenNodes);
     std::vector<Route> routes;
     SetMapping(primaryNetwork, firstRandomTree, routes);
-    if (IS_TEST_HYPERNET_DOUBLE_TREE_MAP == 1) {
-        std::vector<int> secondTreeNodes{FirstRoot};
-        forbiddenNodes.clear();
-        auto secondRandomTree = GetRandomTree(TEST_HYPERNET_TREE_SIZE, secondTreeNodes, forbiddenNodes);
-        SetMapping(primaryNetwork, secondRandomTree, routes);
-        for (auto &node : firstTreeNodes) {
-            if (std::find(secondTreeNodes.begin(), secondTreeNodes.end(), node) != secondTreeNodes.end()) {
-                TreeNodeIntersections++;
+    std::vector<int> secondTreeNodes{FirstRoot};
+    forbiddenNodes.clear();
+    auto secondRandomTree = GetRandomTree(OPTIMIZATION_TREE_SIZE, secondTreeNodes, forbiddenNodes);
+    SetMapping(primaryNetwork, secondRandomTree, routes);
+    for (auto &node : firstTreeNodes) {
+        if (std::find(secondTreeNodes.begin(), secondTreeNodes.end(), node) != secondTreeNodes.end()) {
+            TreeNodeIntersections++;
+        }
+    }
+    UnconnectedTreeNodes = n - firstTreeNodes.size() - secondTreeNodes.size() +
+                           TreeNodeIntersections;
+
+    return H(std::move(primaryNetwork), std::move(nodes), std::move(routes));
+}
+
+H TryGetKpRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nodes) {
+    srand(seed++);
+    std::vector<Route> routes;
+    std::vector<int> forbiddenNodes = KpNodesCombination;
+    for (auto &root : KpNodesCombination) {
+        std::vector<int> treeNodes{root};
+        int nodesCount = OPTIMIZATION_TREE_SIZE;
+        if (n - forbiddenNodes.size() + 1 < OPTIMIZATION_TREE_SIZE) {
+            nodesCount = n - forbiddenNodes.size() + 1;
+        }
+        auto randomTree = GetRandomTree(nodesCount, treeNodes, forbiddenNodes);
+        for(auto &item : treeNodes) {
+            if (std::find(forbiddenNodes.begin(), forbiddenNodes.end(), item) == forbiddenNodes.end()) {
+                forbiddenNodes.push_back(item);
             }
         }
-        UnconnectedTreeNodes = n - firstTreeNodes.size() - secondTreeNodes.size() +
-                               TreeNodeIntersections;
+        SetMapping(primaryNetwork, randomTree, routes);
     }
 
     return H(std::move(primaryNetwork), std::move(nodes), std::move(routes));
@@ -154,7 +174,11 @@ H GetRandomHypernet() {
 // получение случайной гиперсети необходимой для работы алгоритма оптимизации
 H GetRandomHypernet(std::vector<Branch> &primaryNetwork, std::vector<Node> &nodes) {
     try {
-        return TryGetRandomHypernet(primaryNetwork, nodes);
+        if (IS_OPTIMIZATION_AOSH == 1) {
+            return TryGetAoshRandomHypernet(primaryNetwork, nodes);
+        } else {
+            return TryGetKpRandomHypernet(primaryNetwork, nodes);
+        }
     } catch (const char *str) {
         if (IS_DEBUG == 1) {
             output << str << std::endl;

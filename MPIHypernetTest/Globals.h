@@ -2,21 +2,24 @@
 
 #include "HypernetBase/Branch.h"
 // определения глобальных переменных и конфигурации приложения
+
 #define IS_TEST_TIME 0
+
+#define IS_TEST_HYPERNET_SIMPLE_MAPPING 1
 #define TEST_HYPERNETS 50
 #define TEST_HYPERNET_NODES 25
 #define TEST_HYPERNET_BRANCHES 30
 #define TEST_HYPERNET_EDGES 30
 
-#define IS_TEST_HYPERNET 1
-#define IS_TEST_HYPERNET_SIMPLE_MAPPING 1
-#define IS_TEST_HYPERNET_DOUBLE_TREE_MAP 1
-#define TEST_HYPERNET_TREE_SIZE 17
-#define TEST_HYPERNET_MAPPING_TIME 300000
+#define IS_OPTIMIZATION 1
+#define IS_OPTIMIZATION_AOSH 0
+#define OPTIMIZATION_TREE_SIZE 8 // if IS_OPTIMIZATION_AOSH != 1 must be <= 20
+#define OPTIMIZATION_KP_COUNT 5
+#define OPTIMIZATION_MAPPING_TIME 300000
 
 #define IS_NUMBER_COMPUTATION 0
 
-#define IS_DEBUG 0
+#define IS_DEBUG 1
 
 #define IS_TWO_LEVEL_PARALLELIZATION 1
 
@@ -49,11 +52,12 @@
 #define TOTAL_BYTES_TRANSFER_TAG 14
 
 extern std::vector<Branch> Bin;
+extern std::vector<int> KpNodesCombination;
 extern int n, m, k, l;
 extern int ReliableHypernets, UnconnectedHypernets, TwoNodesHypernets, ChainsReduced, UnconnectedNodesReduced,
         PairConnectivityCalls, EdgesReduced, ComplexChains, HelpProcessors, TreeNodeIntersections, UnconnectedTreeNodes;
 extern int FirstRoot, SecondRoot;
-extern const double p, z;
+extern const double p;
 extern unsigned long long int TotalBytesTransfer;
 extern int seed;
 extern std::ifstream input;
