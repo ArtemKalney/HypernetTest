@@ -257,6 +257,33 @@ void ComputeMENC(const H& initialHypernet,  int &size) {
     }
 }
 
+// вычисление AverageMENC
+void ComputeAverageMENC(const H& initialHypernet,  int &size) {
+    std::vector<H> hypernetList;
+    for(auto &item : KpNodesCombination) {
+        auto H = initialHypernet;
+        if (item != 1) {
+            H.RenumerateNodes(item, 1);
+        }
+        for (int i = 1; i < n; i++) {
+            if (i != 1) {
+                H.RenumerateNodes(i, 1);
+            }
+            if (H.IsSNconnected()) {
+                if (IS_TWO_LEVEL_PARALLELIZATION == 1) {
+                    hypernetList.push_back(H);
+                } else {
+                    SendControl(H, size);
+                }
+            }
+        }
+    }
+
+    if (IS_TWO_LEVEL_PARALLELIZATION == 1) {
+        SendControl(hypernetList, size);
+    }
+}
+
 // вычисление APC
 void ComputeAPC(const H& initialHypernet, int &size) {
     std::vector<H> hypernetList;
@@ -303,6 +330,8 @@ void ComputeHypernet(H &initialHypernet, int &size, int &option) {
     initialHypernet.RemoveEmptyBranches();
     if (option == 1) {
         ComputeAPC(initialHypernet, size);
+    } else if (option == 2 && IS_OPTIMIZATION == 1) {
+        ComputeAverageMENC(initialHypernet, size);
     } else if (option == 2) {
         ComputeMENC(initialHypernet, size);
     }
@@ -430,6 +459,16 @@ Branch GetSolution(int &size, int &option, std::vector<Branch> branches, std::ve
             for (int i = 0; i < sum.GetC().size(); i++) {
                 auto sumVector = sum.GetC();
                 sumVector[i] = sumVector[i] / Bin[n].GetC()[2];
+                sum.SetC(sumVector);
+            }
+        }
+    } else if (option == 2 && IS_OPTIMIZATION == 1) {
+        if (IS_NUMBER_COMPUTATION == 1) {
+            sum.SetValue(sum.GetValue() / KpNodesCombination.size());
+        } else {
+            for (int i = 0; i < sum.GetC().size(); i++) {
+                auto sumVector = sum.GetC();
+                sumVector[i] = sumVector[i] / KpNodesCombination.size();
                 sum.SetC(sumVector);
             }
         }
