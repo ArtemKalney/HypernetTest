@@ -257,8 +257,8 @@ void ComputeMENC(const H& initialHypernet,  int &size) {
     }
 }
 
-// вычисление AverageMENC
-void ComputeAverageMENC(const H& initialHypernet,  int &size) {
+// вычисление ComputeMENCKP
+void ComputeMENCKP(const H &initialHypernet, int &size) {
     std::vector<H> hypernetList;
     for(auto &item : KpNodesCombination) {
         auto H = initialHypernet;
@@ -331,7 +331,7 @@ void ComputeHypernet(H &initialHypernet, int &size, int &option) {
     if (option == 1) {
         ComputeAPC(initialHypernet, size);
     } else if (option == 2 && IS_OPTIMIZATION == 1) {
-        ComputeAverageMENC(initialHypernet, size);
+        ComputeMENCKP(initialHypernet, size);
     } else if (option == 2) {
         ComputeMENC(initialHypernet, size);
     }
@@ -459,16 +459,6 @@ Branch GetSolution(int &size, int &option, std::vector<Branch> branches, std::ve
             for (int i = 0; i < sum.GetC().size(); i++) {
                 auto sumVector = sum.GetC();
                 sumVector[i] = sumVector[i] / Bin[n].GetC()[2];
-                sum.SetC(sumVector);
-            }
-        }
-    } else if (option == 2 && IS_OPTIMIZATION == 1) {
-        if (IS_NUMBER_COMPUTATION == 1) {
-            sum.SetValue(sum.GetValue() / KpNodesCombination.size());
-        } else {
-            for (int i = 0; i < sum.GetC().size(); i++) {
-                auto sumVector = sum.GetC();
-                sumVector[i] = sumVector[i] / KpNodesCombination.size();
                 sum.SetC(sumVector);
             }
         }
