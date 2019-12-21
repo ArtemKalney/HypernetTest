@@ -42,7 +42,7 @@ void Mapping(const std::vector<Branch> &primaryNetwork, std::vector<std::vector<
         if (searchTime >= OPTIMIZATION_MAPPING_TIME) {
             throw "Timeout";
         }
-        if (IS_TEST_HYPERNET_SIMPLE_MAPPING == 1 && !nodeRotes.empty() && !branchRoutes.empty()) {
+        if (IS_RANDOM_HYPERNET_SIMPLE_MAPPING == 1 && !nodeRotes.empty() && !branchRoutes.empty()) {
             return;
         }
         if (H::IsIncident(node, branch)) {

@@ -9,12 +9,22 @@
 ..//Globals.h
 HypernetBase/Branch.h
 ../HypernetBase/Branch.h
+ApplicationSettings.h
+../ApplicationSettings.h
+
+../ApplicationSettings.h
 
 ../HypernetBase/Branch.h
 Stdafx.h
 ../HypernetBase/Stdafx.h
 Route.h
 ../HypernetBase/Route.h
+
+../HypernetBase/IIdentity.h
+
+../HypernetBase/Route.h
+Stdafx.h
+../HypernetBase/Stdafx.h
 IIdentity.h
 ../HypernetBase/IIdentity.h
 
@@ -308,6 +318,20 @@ cxxabi.h
 acxx_demangle.h
 -
 
+E:/Projects/Git repositories/HypernetTest/HypernetTest/ApplicationSettings.h
+
+E:/Projects/Git repositories/HypernetTest/HypernetTest/ComputeAPC.h
+Globals.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Globals.h
+Funcs.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Funcs.h
+
+E:/Projects/Git repositories/HypernetTest/HypernetTest/ComputeMENC.h
+Globals.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Globals.h
+Funcs.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/Funcs.h
+
 E:/Projects/Git repositories/HypernetTest/HypernetTest/FullEnumeration.cpp
 Funcs.h
 E:/Projects/Git repositories/HypernetTest/HypernetTest/Funcs.h
@@ -321,6 +345,8 @@ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Hypernet.h
 E:/Projects/Git repositories/HypernetTest/HypernetTest/Globals.h
 HypernetBase/Branch.h
 E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Branch.h
+ApplicationSettings.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/ApplicationSettings.h
 
 E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Branch.cpp
 Branch.h
@@ -333,8 +359,12 @@ Stdafx.h
 E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
 Route.h
 E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.h
-IIdentity.h
-E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h
+
+E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/FactorizationHelpers.cpp
+Hypernet.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Hypernet.h
+Globals.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Globals.h
 
 E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Hypernet.cpp
 Hypernet.h
@@ -350,7 +380,15 @@ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.h
 
 E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h
 
+E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.cpp
+Node.h
 E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.h
+Globals.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Globals.h
+
+E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.h
+Stdafx.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
 
 E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Reductions.cpp
 Hypernet.h
@@ -395,6 +433,10 @@ Funcs.h
 E:/Projects/Git repositories/HypernetTest/HypernetTest/Funcs.h
 gtest/gtest.h
 -
+ComputeMENC.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/ComputeMENC.h
+ComputeAPC.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/ComputeAPC.h
 
 E:/Projects/Git repositories/HypernetTest/HypernetTest/PairConnectivity.cpp
 Globals.h
@@ -415,4 +457,8 @@ Funcs.h
 E:/Projects/Git repositories/HypernetTest/HypernetTest/Funcs.h
 gtest/gtest.h
 -
+ComputeMENC.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/ComputeMENC.h
+ComputeAPC.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/ComputeAPC.h
 

@@ -1,27 +1,27 @@
 #include "Funcs.h"
 #include "Globals.h"
 
-void FullEnumeration(const H &H, const std::vector<Branch> &branchList, Branch &sum, std::vector<bool> &branchMask,
-                     int &curPos){
-    if (curPos == branchList.size()) {
+template <class T>
+void RecursiveFullEnumeration(const H &H, T &sum, const std::vector<T> &elements, std::vector<bool> &mask, int &curPos) {
+    if (curPos == elements.size()) {
         auto hypernet = H;
-        for (int i = 0; i < branchMask.size(); i++) {
-            Branch branch = branchList[i];
-            if (!branchMask[i]) {
-                hypernet.RemoveBranch(branch);
+        for (int i = 0; i < mask.size(); i++) {
+            T element = elements[i];
+            if (!mask[i]) {
+                hypernet.RemoveElement(element);
             } else {
-                hypernet.MakeReliableBranch(branch);
+                hypernet.MakeReliableElement(element);
             }
         }
 
         if (hypernet.IsSNconnected()) {
             ReliableHypernets++;
-            Branch result = Branch::GetBranch(0);
-            for (bool item : branchMask) {
+            T result = T::GetBranch(0);
+            for (bool item : mask) {
                 if (item) {
-                    result = result * Branch::GetSimpleBranch();
+                    result = result * T::GetSimpleBranch();
                 } else {
-                    result = result * ~Branch::GetSimpleBranch();
+                    result = result * ~T::GetSimpleBranch();
                 }
             }
 
@@ -29,12 +29,31 @@ void FullEnumeration(const H &H, const std::vector<Branch> &branchList, Branch &
         } else {
             UnconnectedHypernets++;
         }
-    }
-    else{
-        branchMask[curPos] = false;
+    } else {
+        mask[curPos] = false;
         int increasedPos = curPos + 1;
-        FullEnumeration(H, branchList, sum, branchMask, increasedPos);
-        branchMask[curPos] = true;
-        FullEnumeration(H, branchList, sum, branchMask, increasedPos);
+        RecursiveFullEnumeration(H, sum, elements, mask, increasedPos);
+        mask[curPos] = true;
+        RecursiveFullEnumeration(H, sum, elements, mask, increasedPos);
     }
+}
+
+template <>
+Branch FullEnumeration<Branch>(H &H) {
+    int startPos = 0;
+    auto FN = H.GetFN();
+    Branch sum = Branch::GetZero();
+    std::vector<bool> branchMask(FN.size(), false);
+    RecursiveFullEnumeration(H, sum, FN, branchMask, startPos);
+    return sum;
+}
+
+template <>
+Node FullEnumeration<Node>(H &H) {
+    int startPos = 0;
+    auto nodes = H.GetNodes();
+    std::vector<bool> nodeMask(nodes.size(), false);
+    Node sum = Node::GetZero();
+    RecursiveFullEnumeration(H, sum, nodes, nodeMask, startPos);
+    return sum;
 }

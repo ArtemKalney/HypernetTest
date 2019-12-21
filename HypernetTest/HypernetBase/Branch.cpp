@@ -6,14 +6,14 @@ Branch Branch::GetBranch(const int& power) {
     std::vector<double> C(m);
     C.front() = 1;
     std::vector<Route> routes;
-    return Branch(-1, pow(p, power), C, routes, power, 0, 0, false);
+    return Branch(-1, std::pow(p, power), C, routes, power, 0, 0, false);
 }
 
 Branch Branch::GetBranch(const int& vectorSize, const int& power) {
     std::vector<double> C(vectorSize);
     C.front() = 1;
     std::vector<Route> routes;
-    return Branch(-1, pow(p, power), C, routes, power, 0, 0, false);
+    return Branch(-1, std::pow(p, power), C, routes, power, 0, 0, false);
 }
 
 Branch Branch::GetSimpleBranch() {
@@ -48,7 +48,7 @@ bool Branch::EqualNodes(const Branch& firstBranch, const Branch& secondBranch) {
     return sameNodes || reversedNodes;
 }
 
-bool Branch::IsUnacceptableBranch() {
+bool Branch::IsUnacceptableElement() {
     bool isFirstNodeUnacceptable = _firstNode < 0 || _secondNode > n,
             isSecondNodeUnacceptable = _secondNode < 0 || _firstNode > n,
             isPowerUnacceptable = _power < 0 || _power > m;

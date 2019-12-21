@@ -2,10 +2,12 @@ cmake_minimum_required(VERSION 3.9)
 project(HypernetTest)
 set(CMAKE_CXX_STANDARD 11)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-set(SOURCE_FILES Main.cpp Funcs.h Globals.h FullEnumeration.cpp HypernetBase/Stdafx.h
+set(SOURCE_FILES Main.cpp Funcs.h Globals.h HypernetBase/Stdafx.h
         HypernetBase/Branch.h PairConnectivity.cpp HypernetBase/Branch.cpp HypernetBase/Hypernet.h
-        HypernetBase/Hypernet.cpp HypernetBase/Route.h HypernetBase/IIdentity.h
-        HypernetBase/Reductions.cpp Tests.cpp HypernetBase/Node.h RandomHypernet.cpp)
+        HypernetBase/Hypernet.cpp HypernetBase/Route.h
+        HypernetBase/Reductions.cpp Tests.cpp HypernetBase/Node.h RandomHypernet.cpp
+        HypernetBase/Node.cpp
+        ComputeMENC.h ComputeAPC.h HypernetBase/FactorizationHelpers.cpp FullEnumeration.cpp HypernetBase/IIdentity.h ApplicationSettings.h)
 add_executable(HypernetTest ${SOURCE_FILES})
 #standard libraries
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")

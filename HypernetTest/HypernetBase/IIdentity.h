@@ -1,5 +1,6 @@
 #pragma once
 
+//todo разобраться почему тесты ломаются если убрать
 class IIdentity
 {
 public:

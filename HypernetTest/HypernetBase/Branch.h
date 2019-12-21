@@ -2,7 +2,6 @@
 
 #include "Stdafx.h"
 #include "Route.h"
-#include "IIdentity.h"
 
 class Branch : public IIdentity
 {
@@ -125,7 +124,7 @@ public:
     static Branch GetUnity();
     static bool EqualNodes(const Branch& firstBranch, const Branch& secondBranch);
     static Branch ParallelReduction(std::vector<Branch> &branches);
-    bool IsUnacceptableBranch();
+    bool IsUnacceptableElement();
     bool IsZero() const;
     bool IsUnity();
     bool IsSimpleBranch();

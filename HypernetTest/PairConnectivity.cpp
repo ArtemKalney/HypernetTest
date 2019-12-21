@@ -1,36 +1,6 @@
 #include "Globals.h"
 #include "Funcs.h"
 
-// Obtain a allowing Branch of max saturation
-Branch GetAllowingBranch(H& H) {
-    auto FN = H.GetFN();
-//    std::sort(FN.begin(), FN.end());
-    Branch allowingBranch;
-    int maxSaturation = 0;
-    for(auto &branch : FN) {
-        if (!branch.GetIsReliable()) {
-            int saturation = branch.GetBranchSaturation();
-            if (maxSaturation < saturation) {
-                allowingBranch = branch;
-                maxSaturation = saturation;
-            }
-        }
-    }
-
-    return allowingBranch;
-}
-
-Branch SimpleCase(std::vector<Branch>& FN, const Branch& pseudoBranch) {
-    TwoNodesHypernets++;
-    if (FN.size() == 1) {
-        return FN.front().GetIsReliable() ? pseudoBranch : pseudoBranch*FN.front();
-    } else {
-        FN.erase(std::remove_if(FN.begin(), FN.end(), [](Branch &item) ->
-                bool { return item.GetIsReliable(); }), FN.end());
-        return pseudoBranch*Branch::ParallelReduction(FN);
-    }
-}
-
 void LogData() {
     time_t rawTime;
     time(&rawTime);
@@ -45,67 +15,74 @@ void LogData() {
     output << TwoNodesHypernets << std::endl;
 }
 
-Branch PairConnectivity(H &H, Branch &pseudoBranch) {
+template <class T>
+T RecursivePairConnectivity(H &H, T &pseudoElement) {
     PairConnectivityCalls++;
     if (IS_DEBUG == 1) {
         LogData();
     }
-
-    if(ENABLE_BRIDGE_REDUCTION == 1 && H.BridgeReduction()) {
-        return Branch::GetZero();
-    }
-    if(ENABLE_SIMPLE_CASE == 1 && H.GetNodes().size() < MAX_DIMENSIONAL) {
-        return SimpleCase(H.GetFN(), pseudoBranch);
+    T returnValue;
+    bool hasReturnValue = H.Reductions<T>(pseudoElement, returnValue);
+    if (hasReturnValue) {
+        return returnValue;
     }
 
-    if(ENABLE_EDGE_REDUCTION == 1) {
-        H.EdgeReduction();
-        if (ENABLE_BRIDGE_REDUCTION == 1 && H.BridgeReduction()) {
-            return Branch::GetZero();
-        }
-        if (ENABLE_SIMPLE_CASE == 1 && H.GetNodes().size() < MAX_DIMENSIONAL) {
-            return SimpleCase(H.GetFN(), pseudoBranch);
-        }
+    T allowingElement = H.GetAllowingElement<T>();
+    if (allowingElement.IsUnacceptableElement()) {
+        throw "PairConnectivity: unacceptable allowingElement";
     }
-
-    if(ENABLE_CHAIN_REDUCTION == 1) {
-        H.ChainReduction();
-        if (ENABLE_BRIDGE_REDUCTION == 1 && H.BridgeReduction()) {
-            return Branch::GetZero();
-        }
-        if (ENABLE_SIMPLE_CASE == 1 && H.GetNodes().size() < MAX_DIMENSIONAL) {
-            return SimpleCase(H.GetFN(), pseudoBranch);
-        }
-    }
-
-    Branch allowingBranch = GetAllowingBranch(H);
-    if (allowingBranch.IsUnacceptableBranch()) {
-        throw "PairConnectivity: unacceptable allowingBranch";
-    }
-
-    Branch pseudoBranch1, pseudoBranch2;
-    pseudoBranch1 = pseudoBranch * allowingBranch;
-    pseudoBranch2 = pseudoBranch * ~allowingBranch;
-
-    auto HwithReliableBranch = H, HwithRemovedBranch = H;
-    HwithReliableBranch.MakeReliableBranch(allowingBranch);
-    HwithRemovedBranch.RemoveBranch(allowingBranch);
-
-    if (!HwithRemovedBranch.IsSNconnected()) {
+    T pseudoElement1, pseudoElement2;
+    pseudoElement1 = pseudoElement * allowingElement;
+    pseudoElement2 = pseudoElement * ~allowingElement;
+    auto HwithReliableElement = H, HwithRemovedElement = H;
+    HwithReliableElement.MakeReliableElement(allowingElement);
+    HwithRemovedElement.RemoveElement(allowingElement);
+    if (!HwithRemovedElement.IsSNconnected()) {
         UnconnectedHypernets++;
-        if (HwithReliableBranch.HasReliablePath()) {
+        if (HwithReliableElement.HasReliablePath<T>()) {
             ReliableHypernets++;
-            return pseudoBranch1 * Branch::GetUnity();
+            return pseudoElement1 * T::GetUnity();
         } else {
-            return PairConnectivity(HwithReliableBranch, pseudoBranch1);
+            return RecursivePairConnectivity(HwithReliableElement, pseudoElement1);
         }
     } else {
-        if (HwithReliableBranch.HasReliablePath()) {
+        if (HwithReliableElement.HasReliablePath<T>()) {
             ReliableHypernets++;
-            return pseudoBranch1 * Branch::GetUnity() + PairConnectivity(HwithRemovedBranch, pseudoBranch2);
+            return pseudoElement1 * T::GetUnity() + RecursivePairConnectivity(HwithRemovedElement, pseudoElement2);
         } else {
-            return PairConnectivity(HwithReliableBranch, pseudoBranch1) +
-                   PairConnectivity(HwithRemovedBranch, pseudoBranch2);
+            return RecursivePairConnectivity(HwithReliableElement, pseudoElement1) +
+                    RecursivePairConnectivity(HwithRemovedElement, pseudoElement2);
         }
     }
+}
+
+template <>
+Branch PairConnectivity(H &H) {
+    Branch pseudoBranch = Branch::GetBranch(0);
+    if (!H.IsSNconnected()) {
+        Branch::GetZero();
+    }
+
+    return RecursivePairConnectivity(H, pseudoBranch);
+}
+
+template <>
+Node PairConnectivity(H &H) {
+    //препологаем что уже проверли редукцию по выделенным вершинам
+    Node pseudoNode = Node::GetSimpleBranch() * Node::GetSimpleBranch();
+    auto it = std::find_if(H.GetNodes().begin(), H.GetNodes().end(),
+                           [](Node &item) -> bool { return item.NodeNumber == 0; });
+    it->IsReliable = true;
+    it = std::find_if(H.GetNodes().begin(), H.GetNodes().end(),
+                      [](Node &item) -> bool { return item.NodeNumber == 1; });
+    it->IsReliable = true;
+    if (!H.IsSNconnected()) {
+        return Node::GetZero();
+    }
+
+    if (H.HasReliablePath<Node>()) {
+        return pseudoNode;
+    }
+
+    return RecursivePairConnectivity(H, pseudoNode);
 }
