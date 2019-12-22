@@ -5,7 +5,7 @@
 
 //todo пернести C и методы
 class Element {
-private:
+protected:
     double _value;
     int _power;
     bool _isReliable;

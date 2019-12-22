@@ -182,13 +182,13 @@ void ErrorHandler(const char *str) {
 }
 
 template <class T>
-void PrintSolution(T& branchSum) {
-    if (!branchSum.IsZero()) {
+void PrintSolution(T& sum) {
+    if (!sum.IsZero()) {
         if (IS_NUMBER_COMPUTATION == 0) {
-            NormalizeSolution(branchSum);
+            NormalizeSolution(sum);
         }
-        std::cout << "Value at point " << p << ": " << std::setprecision(14) << branchSum.GetPolynomialValue(p) << std::endl;
-        for (auto &item : branchSum.GetC()) {
+        std::cout << "Value at point " << p << ": " << std::setprecision(14) << sum.GetPolynomialValue(p) << std::endl;
+        for (auto &item : sum.GetC()) {
             output << std::setprecision(14) << item << " ";
         }
         output << std::endl;
