@@ -122,6 +122,8 @@ public:
     template<class T>
     bool Reductions(T &pseudoElement, T &returnValue);
 
+    Branch ParallelReduction();
+
     //print
     void PrintHypernet();
 

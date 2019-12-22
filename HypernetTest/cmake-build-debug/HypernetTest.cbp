@@ -206,6 +206,9 @@
 		<Unit filename="E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Branch.h">
 			<Option target="HypernetTest"/>
 		</Unit>
+		<Unit filename="E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Element.h">
+			<Option target="HypernetTest"/>
+		</Unit>
 		<Unit filename="E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/FactorizationHelpers.cpp">
 			<Option target="HypernetTest"/>
 		</Unit>
@@ -222,6 +225,9 @@
 			<Option target="HypernetTest"/>
 		</Unit>
 		<Unit filename="E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.h">
+			<Option target="HypernetTest"/>
+		</Unit>
+		<Unit filename="E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Operators.h">
 			<Option target="HypernetTest"/>
 		</Unit>
 		<Unit filename="E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Reductions.cpp">

@@ -4,9 +4,9 @@
 #include "ComputeMENC.h"
 #include "ComputeAPC.h"
 
-// 14-й знак может отличаться на 1-9, но на деле только 1 (из-за округления)
-// Вычисленная точность для совместимости со значениями полинома
-const double Eps = IS_NUMBER_COMPUTATION == 1 && IS_NODES_RELIABLE == 1 ? 0.00001 : 0.0000000000001;
+//todo разобраться почему точность для ветвей низкая
+const double Eps = 0.00001;
+const double NodeEps = 0.0000000000001;
 const std::string TestFolderPath = "inputs/tests/";
 
 class TestCriteria : public ::testing::Test {
@@ -88,7 +88,7 @@ double GetMENCValueForTest (bool isNodeReliable) {
 }
 
 // todo исправить проблему с выделением памяти для _FN
-// Большие тесты
+// --------------------------------------------------->Branch tests
 TEST_F(TestCriteria, APCTreeInGrid5x5) {
     input.open(TestFolderPath + "TreeInGrid(25, 40, 24).txt");
     double expectedValue = 0.40053398051415;
@@ -125,39 +125,6 @@ TEST_F(TestCriteria, MENCTreeInGrid5x5) {
     input.close();
 }
 
-TEST_F(TestCriteria, APCTreeInGrid5x5Node) {
-    input.open(TestFolderPath + "TreeInGrid(25, 40, 24).txt");
-    double expectedValue = 0.603046944;
-    double value = GetAPCValueForTest(false);
-    ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
-    if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
-        ASSERT_EQ(PairConnectivityCalls, 876);
-        ASSERT_EQ(UnconnectedNodesReduced, 3903);
-        ASSERT_EQ(EdgesReduced, 5472);
-        ASSERT_EQ(ReliableHypernets, 276);
-        ASSERT_EQ(UnconnectedHypernets, 876);
-        ASSERT_EQ(TwoNodesHypernets, 0);
-    }
-    input.close();
-}
-
-TEST_F(TestCriteria, MENCTreeInGrid5x5Node) {
-    input.open(TestFolderPath + "TreeInGrid(25, 40, 24).txt");
-    double expectedValue = 17.9452;
-    double value = GetMENCValueForTest(false);
-    ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
-    if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
-        ASSERT_EQ(PairConnectivityCalls, 32);
-        ASSERT_EQ(UnconnectedNodesReduced, 336);
-        ASSERT_EQ(EdgesReduced, 428);
-        ASSERT_EQ(ReliableHypernets, 20);
-        ASSERT_EQ(UnconnectedHypernets, 32);
-        ASSERT_EQ(TwoNodesHypernets, 0);
-    }
-    input.close();
-}
-// Маленькие тесты
-// --------------------------------------------------->Branch tests
 TEST_F(TestCriteria, APCTreeInGrid4x4) {
     input.open(TestFolderPath + "TreeInGrid(16, 24, 15).txt");
     double expectedValue = 0.54275080059203;
@@ -410,11 +377,43 @@ TEST_F(TestCriteria, MENCRandomHypernet3) {
     input.close();
 }
 // --------------------------------------------------------------------->Node tests
+TEST_F(TestCriteria, APCTreeInGrid5x5Node) {
+    input.open(TestFolderPath + "TreeInGrid(25, 40, 24).txt");
+    double expectedValue = 0.603046944;
+    double value = GetAPCValueForTest(false);
+    ASSERT_TRUE(std::abs(value - expectedValue) < NodeEps);
+    if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
+        ASSERT_EQ(PairConnectivityCalls, 876);
+        ASSERT_EQ(UnconnectedNodesReduced, 3903);
+        ASSERT_EQ(EdgesReduced, 5472);
+        ASSERT_EQ(ReliableHypernets, 276);
+        ASSERT_EQ(UnconnectedHypernets, 876);
+        ASSERT_EQ(TwoNodesHypernets, 0);
+    }
+    input.close();
+}
+
+TEST_F(TestCriteria, MENCTreeInGrid5x5Node) {
+    input.open(TestFolderPath + "TreeInGrid(25, 40, 24).txt");
+    double expectedValue = 17.9452;
+    double value = GetMENCValueForTest(false);
+    ASSERT_TRUE(std::abs(value - expectedValue) < NodeEps);
+    if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
+        ASSERT_EQ(PairConnectivityCalls, 32);
+        ASSERT_EQ(UnconnectedNodesReduced, 336);
+        ASSERT_EQ(EdgesReduced, 428);
+        ASSERT_EQ(ReliableHypernets, 20);
+        ASSERT_EQ(UnconnectedHypernets, 32);
+        ASSERT_EQ(TwoNodesHypernets, 0);
+    }
+    input.close();
+}
+
 TEST_F(TestCriteria, APCTreeInGrid4x4Node) {
     input.open(TestFolderPath + "TreeInGrid(16, 24, 15).txt");
     double expectedValue = 0.63600066;
     double value = GetAPCValueForTest(false);
-    ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    ASSERT_TRUE(std::abs(value - expectedValue) < NodeEps);
     if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
         ASSERT_EQ(PairConnectivityCalls, 289);
         ASSERT_EQ(UnconnectedNodesReduced, 886);
@@ -430,7 +429,7 @@ TEST_F(TestCriteria, MENCTreeInGrid4x4Node) {
     input.open(TestFolderPath + "TreeInGrid(16, 24, 15).txt");
     double expectedValue = 11.7406;
     double value = GetMENCValueForTest(false);
-    ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    ASSERT_TRUE(std::abs(value - expectedValue) < NodeEps);
     if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
         ASSERT_EQ(PairConnectivityCalls, 18);
         ASSERT_EQ(UnconnectedNodesReduced, 120);
@@ -446,7 +445,7 @@ TEST_F(TestCriteria, APCTreeInGrid3x3Node) {
     input.open(TestFolderPath + "TreeInGrid(9, 12, 8).txt");
     double expectedValue = 0.6819165;
     double value = GetAPCValueForTest(false);
-    ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    ASSERT_TRUE(std::abs(value - expectedValue) < NodeEps);
     if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
         ASSERT_EQ(PairConnectivityCalls, 62);
         ASSERT_EQ(UnconnectedNodesReduced, 94);
@@ -462,7 +461,7 @@ TEST_F(TestCriteria, MENCTreeInGrid3x3Node) {
     input.open(TestFolderPath + "TreeInGrid(9, 12, 8).txt");
     double expectedValue = 6.8482;
     double value = GetMENCValueForTest(false);
-    ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    ASSERT_TRUE(std::abs(value - expectedValue) < NodeEps);
     if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
         ASSERT_EQ(PairConnectivityCalls, 8);
         ASSERT_EQ(UnconnectedNodesReduced, 25);
@@ -478,7 +477,7 @@ TEST_F(TestCriteria, APCCycleInGrid1Node) {
     input.open(TestFolderPath + "CycleInGrid1(9, 12, 9).txt");
     double expectedValue = 0.76588341075;
     double value = GetAPCValueForTest(false);
-    ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    ASSERT_TRUE(std::abs(value - expectedValue) < NodeEps);
     if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
         ASSERT_EQ(PairConnectivityCalls, 364);
         ASSERT_EQ(UnconnectedNodesReduced, 116);
@@ -494,7 +493,7 @@ TEST_F(TestCriteria, MENCCycleInGrid1Node) {
     input.open(TestFolderPath + "CycleInGrid1(9, 12, 9).txt");
     double expectedValue = 7.127067286;
     double value = GetMENCValueForTest(false);
-    ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    ASSERT_TRUE(std::abs(value - expectedValue) < NodeEps);
     if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
         ASSERT_EQ(PairConnectivityCalls, 77);
         ASSERT_EQ(UnconnectedNodesReduced, 15);
@@ -510,7 +509,7 @@ TEST_F(TestCriteria, APCWheelInGridNode) {
     input.open(TestFolderPath + "WheelInGrid(9, 12, 16).txt");
     double expectedValue = 0.807425775;
     double value = GetAPCValueForTest(false);
-    ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    ASSERT_TRUE(std::abs(value - expectedValue) < NodeEps);
     if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
         ASSERT_EQ(PairConnectivityCalls, 230);
         ASSERT_EQ(UnconnectedNodesReduced, 0);
@@ -526,7 +525,7 @@ TEST_F(TestCriteria, MENCWheelInGridNode) {
     input.open(TestFolderPath + "WheelInGrid(9, 12, 16).txt");
     double expectedValue = 7.456831975;
     double value = GetMENCValueForTest(false);
-    ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    ASSERT_TRUE(std::abs(value - expectedValue) < NodeEps);
     if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
         ASSERT_EQ(PairConnectivityCalls, 55);
         ASSERT_EQ(UnconnectedNodesReduced, 0);
@@ -542,7 +541,7 @@ TEST_F(TestCriteria, APCRandomHypernet3Node) {
     input.open(TestFolderPath + "RandomHypernet(6, 7, 8).txt");
     double expectedValue = 0.770148;
     double value = GetAPCValueForTest(false);
-    ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    ASSERT_TRUE(std::abs(value - expectedValue) < NodeEps);
     if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
         ASSERT_EQ(PairConnectivityCalls, 21);
         ASSERT_EQ(UnconnectedNodesReduced, 0);
@@ -558,7 +557,7 @@ TEST_F(TestCriteria, MENCRandomHypernet3Node) {
     input.open(TestFolderPath + "RandomHypernet(6, 7, 8).txt");
     double expectedValue = 4.71871;
     double value = GetMENCValueForTest(false);
-    ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    ASSERT_TRUE(std::abs(value - expectedValue) < NodeEps);
     if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
         ASSERT_EQ(PairConnectivityCalls, 6);
         ASSERT_EQ(UnconnectedNodesReduced, 0);
@@ -574,7 +573,7 @@ TEST_F(TestCriteria, APCRandomHypernet2Node) {
     input.open(TestFolderPath + "RandomHypernet(9, 12, 12).txt");
     double expectedValue = 0.72693495;
     double value = GetAPCValueForTest(false);
-    ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    ASSERT_TRUE(std::abs(value - expectedValue) < NodeEps);
     if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
         ASSERT_EQ(PairConnectivityCalls, 264);
         ASSERT_EQ(UnconnectedNodesReduced, 11);
@@ -590,7 +589,7 @@ TEST_F(TestCriteria, MENCRandomHypernet2Node) {
     input.open(TestFolderPath + "RandomHypernet(9, 12, 12).txt");
     double expectedValue = 6.9013441;
     double value = GetMENCValueForTest(false);
-    ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    ASSERT_TRUE(std::abs(value - expectedValue) < NodeEps);
     if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
         ASSERT_EQ(PairConnectivityCalls, 50);
         ASSERT_EQ(UnconnectedNodesReduced, 3);
@@ -606,7 +605,7 @@ TEST_F(TestCriteria, APCRandomHypernet1Node) {
     input.open(TestFolderPath + "RandomHypernet(9, 12, 16).txt");
     double expectedValue = 0.79028205525;
     double value = GetAPCValueForTest(false);
-    ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    ASSERT_TRUE(std::abs(value - expectedValue) < NodeEps);
     if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
         ASSERT_EQ(PairConnectivityCalls, 270);
         ASSERT_EQ(UnconnectedNodesReduced, 0);
@@ -622,7 +621,7 @@ TEST_F(TestCriteria, MENCRandomHypernet1Node) {
     input.open(TestFolderPath + "RandomHypernet(9, 12, 16).txt");
     double expectedValue = 7.33200814;
     double value = GetMENCValueForTest(false);
-    ASSERT_TRUE(std::abs(value - expectedValue) < Eps);
+    ASSERT_TRUE(std::abs(value - expectedValue) < NodeEps);
     if (IS_TEST_CHECK_SPECIFICATIONS == 1) {
         ASSERT_EQ(PairConnectivityCalls, 87);
         ASSERT_EQ(UnconnectedNodesReduced, 0);

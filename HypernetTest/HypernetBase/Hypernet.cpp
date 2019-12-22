@@ -3,17 +3,17 @@
 
 //потребовалось для вершин не иметь привязку к индксу массива вершин
 bool H::IsSNconnected() {
-    auto it = std::find_if(_nodes.begin(), _nodes.end(), [](Node &item) -> bool { return item.NodeNumber == 1; });
+    auto it = std::find_if(_nodes.begin(), _nodes.end(), [](Node &item) -> bool { return item == 1; });
     if (it == _nodes.end()) {
         return false;
     }
 
     for(auto &item : _nodes) {
-        item.IsVisited = false;
+        item.SetIsVisited(false);
     }
     H::DFS(0, _nodes, GetSN());
 
-    return it->IsVisited;
+    return it->GetIsVisited();
 }
 
 void H::RemoveElement(const Branch &branch) {
@@ -37,13 +37,10 @@ void H::RemoveElement(const Branch &branch) {
 }
 // второй способ разрушения вершины
 void H::RemoveElement(const Node &node) {
-    int nodeNumber = node.NodeNumber;
-    // удаление вершины
-//    _nodes.erase(std::remove_if(_nodes.begin(), _nodes.end(), [nodeNumber](Node &item) ->
-//            bool { return item.NodeNumber == nodeNumber; }), _nodes.end());
+    int id = node.GetId();
     //удаление инцедентных рёбер
-    _F.erase(std::remove_if(_F.begin(), _F.end(), [nodeNumber](Route &item) ->
-            bool { return IsIncident(nodeNumber, item); }), _F.end());
+    _F.erase(std::remove_if(_F.begin(), _F.end(), [id](Route &item) ->
+            bool { return IsIncident(id, item); }), _F.end());
     RemoveEmptyBranches();
 }
 // перый способ разрушения вершины
@@ -63,7 +60,7 @@ void H::MakeReliableElement(const Branch &branch) {
 void H::MakeReliableElement(const Node &node) {
     auto it = std::find_if(_nodes.begin(), _nodes.end(), [node](Node &item) ->
             bool { return node == item; });
-    _nodes[it - _nodes.begin()].IsReliable = true;
+    _nodes[it - _nodes.begin()].SetIsReliable(true);
 }
 //todo переделать через IsSNconnected
 template <>
@@ -75,11 +72,11 @@ bool H::HasReliablePath<Branch>() {
         }
     }
     for (auto &item : _nodes) {
-        item.IsVisited = false;
+        item.SetIsVisited(false);
     }
     H::DFS(0, _nodes, HwithRemovedElements.GetSN());
 
-    return _nodes[1].IsVisited;
+    return _nodes[1].GetIsVisited();
 }
 //todo убрать лишнее удаляение вершин которые уже удалили
 template <>
@@ -103,7 +100,7 @@ std::vector<bool> H::GetCanDeleteMask(const std::vector<Branch> &SN) {
         Branch edge = SN[i];
         int firstNode = edge.GetFirstNode(), secondNode = edge.GetSecondNode();
         int penduntNode = nodePowers[firstNode] == 1 ? firstNode : (nodePowers[secondNode] == 1 ? secondNode : -1);
-        if (!IsPivotNode(penduntNode) && (!_nodes[firstNode].IsVisited || penduntNode != -1)) {
+        if (!IsPivotNode(penduntNode) && (!_nodes[firstNode].GetIsVisited() || penduntNode != -1)) {
             edgeMask[i] = true;
         }
     }
@@ -115,7 +112,7 @@ std::vector<bool> H::GetCanDeleteMask(const std::vector<Branch> &SN) {
             Branch edge = SN[i];
             int firstNode = edge.GetFirstNode(), secondNode = edge.GetSecondNode();
             // расматриваем толко не выбранные ещё рёбра и в компоненте связности содержащей выделенные вершины
-            if (!edgeMask[i] && _nodes[firstNode].IsVisited) {
+            if (!edgeMask[i] && _nodes[firstNode].GetIsVisited()) {
                 int unMaskedEdgesCount = 0, unMaskedEdgeInd = -1;
                 if (!IsPivotNode(firstNode)) {
                     for (int j = 0; j < edgeMask.size(); j++) {
@@ -355,8 +352,8 @@ std::vector<Branch> H::GetSN() {
 
 template <class T>
 void H::DFS(const int& node, std::vector<Node>& nodes, const std::vector<T>& graph) {
-    auto it = std::find_if(nodes.begin(), nodes.end(), [node](Node &item) -> bool { return item.NodeNumber == node; });
-    nodes[it - nodes.begin()].IsVisited = true;
+    auto it = std::find_if(nodes.begin(), nodes.end(), [node](Node &item) -> bool { return item == node; });
+    nodes[it - nodes.begin()].SetIsVisited(true);
     for(auto &item : graph) {
         if (item.GetFirstNode() == node || item.GetSecondNode() == node) {
             int incidentNode = item.GetFirstNode();
@@ -365,8 +362,8 @@ void H::DFS(const int& node, std::vector<Node>& nodes, const std::vector<T>& gra
             }
 
             it = std::find_if(nodes.begin(), nodes.end(), [incidentNode](Node &node) ->
-                    bool { return incidentNode == node.NodeNumber; });
-            bool visitedNode = nodes[it - nodes.begin()].IsVisited;
+                    bool { return node == incidentNode; });
+            bool visitedNode = nodes[it - nodes.begin()].GetIsVisited();
             if (!visitedNode) {
                 DFS(incidentNode, nodes, graph);
             }
@@ -437,10 +434,10 @@ void H::RemoveNodeFN(const int& node) {
     }
     // пробразования nodes
     _nodes.erase(std::remove_if(_nodes.begin(), _nodes.end(), [node](Node &item) ->
-            bool { return item.NodeNumber == node; }), _nodes.end());
+            bool { return item == node; }), _nodes.end());
     for (auto &item : _nodes) {
-        if (item.NodeNumber > node) {
-            item.NodeNumber--;
+        if (item > node) {
+            item.SetId(item.GetId() - 1);
         }
     }
 }

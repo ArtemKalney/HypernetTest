@@ -113,12 +113,12 @@ void H::ChainReduction() {
 //if return true we return 0 in pairconnectivity
 bool H::BridgeReduction() {
     for(auto &item : _nodes) {
-        item.IsVisited = false;
+        item.SetIsVisited(false);
     }
     DFS(0, _nodes, _FN);
     int visitedNodesCount = 0;
     for(auto &item : _nodes) {
-        if (item.IsVisited) {
+        if (item.GetIsVisited()) {
             visitedNodesCount++;
         }
     }
@@ -126,7 +126,7 @@ bool H::BridgeReduction() {
     if (visitedNodesCount != _nodes.size()) {
         for (int i = 0; i < _nodes.size(); i++) {
             Node node = _nodes[i];
-            if (!node.IsVisited) {
+            if (!node.GetIsVisited()) {
                 if (node.IsPivotNode()) {
                     throw "BridgeReduction: delete pivot node";
                 }
@@ -135,7 +135,7 @@ bool H::BridgeReduction() {
             }
         }
 
-        return !_nodes[1].IsVisited;
+        return !_nodes[1].GetIsVisited();
     } else {
         return false;
     }
@@ -144,7 +144,7 @@ bool H::BridgeReduction() {
 void H::EdgeReduction() {
     auto SN = GetSN();
     for (auto &item : _nodes) {
-        item.IsVisited = false;
+        item.SetIsVisited(false);
     }
     DFS(0, _nodes, SN);
     auto canDeleteMask = GetCanDeleteMask(SN);
@@ -163,6 +163,20 @@ void H::EdgeReduction() {
     }
 
     RemoveEmptyBranches();
+}
+
+Branch H::ParallelReduction() {
+    int size = _FN.size();
+    _FN.erase(std::remove_if(_FN.begin(), _FN.end(), [](Branch &item) ->
+            bool { return item.IsSimpleBranch(); }), _FN.end());
+    int simpleBranchesCount = size - _FN.size();
+    Branch parallelBranch = Branch::GetElement(Bin[simpleBranchesCount], simpleBranchesCount);
+    parallelBranch.GetC()[simpleBranchesCount] = 0;
+    Branch result = parallelBranch;
+    for (auto &item : _FN) {
+        result = item + result - item *result;
+    }
+    return result;
 }
 
 template<>

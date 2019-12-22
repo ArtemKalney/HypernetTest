@@ -16,12 +16,12 @@ void RecursiveFullEnumeration(const H &H, T &sum, const std::vector<T> &elements
 
         if (hypernet.IsSNconnected()) {
             ReliableHypernets++;
-            T result = T::GetBranch(0);
+            T result = T::GetElement(0);
             for (bool item : mask) {
                 if (item) {
-                    result = result * T::GetSimpleBranch();
+                    result = result * T::GetSimpleElement();
                 } else {
-                    result = result * ~T::GetSimpleBranch();
+                    result = result * ~T::GetSimpleElement();
                 }
             }
 

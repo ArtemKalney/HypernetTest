@@ -1,76 +1,75 @@
 #pragma once
 
-#include "Stdafx.h"
-//todo сделать классом
-//todo убрать IsVisited
-struct Node {
-    int NodeNumber;
-    bool IsVisited;
-    double Value;
-    std::vector<double> C;
-    int Power;
-    bool IsReliable;
+#include "Element.h"
+#include "IIdentity.h"
 
+//todo убрать IsVisited
+class Node : public Element, public IIdentity
+{
+private:
+    int _id;
+    bool _isVisited;
+    std::vector<double> _C;
+public:
     Node() = default;
 
-    Node(const int& nodeNumber, double value, std::vector<double> C, const int &power, bool isVisited, bool isReliable) :
-            NodeNumber(nodeNumber),
-            IsVisited(isVisited),
-            Value(value),
-            C(std::move(C)),
-            Power(power),
-            IsReliable(isReliable) {}
+    Node(const int &id, double& value, std::vector<double> C, const int &power, bool isVisited, bool isReliable) :
+            Element(value, power, isReliable),
+            _id(id),
+            _isVisited(isVisited),
+            _C(std::move(C)) {}
 
-    Node(const Node& node) :
-            NodeNumber(node.NodeNumber),
-            IsVisited(node.IsVisited),
-            Value(node.Value),
-            C(node.C),
-            Power(node.Power),
-            IsReliable(node.IsReliable) {}
+    Node(const Node &node) :
+            Element(node.GetValue(), node.GetPower(), node.GetIsReliable()),
+            _id(node._id),
+            _isVisited(node._isVisited),
+            _C(node._C) {}
 
-    void SetValue(const double& value)
+    std::vector<double> &GetC() {
+        return _C;
+    }
+
+    void SetC(std::vector<double> &C) {
+        _C = C;
+    }
+
+    int GetId() const override {
+        return _id;
+    }
+
+    void SetId(const int &id) {
+        _id = id;
+    }
+
+    void SetIsVisited(bool isReliable)
     {
-        Value = value;
+        _isVisited = isReliable;
     }
 
-    double GetValue() const {
-        return Value;
-    }
-
-    std::vector<double>& GetC()
+    bool GetIsVisited() const
     {
-        return C;
+        return _isVisited;
     }
 
-    void SetC(std::vector<double>& C)
-    {
-        C = C;
-    }
+    static Node GetElement(const std::vector<double> &C, const int &power);
 
-    int GetId() const {
-        return NodeNumber;
-    }
+    static Node GetSimpleElement(const int &id, double value, bool isVisited);
 
-    bool GetIsReliable() const
-    {
-        return IsReliable;
-    }
+    static Node GetSimpleElement();
 
-    static Node GetSimpleBranch(const int &nodeNumber, double value, bool isVisited);
-    static Node GetSimpleBranch();
     static Node GetZero();
+
     static Node GetUnity();
-    static Node GetBranch(const int &power);
+
+    static Node GetElement(const int &power);
+
     bool IsUnacceptableElement();
+
     bool IsZero() const;
+
+    bool IsUnity();
+
     bool IsPivotNode();
+
     double GetPolynomialValue(double point);
 };
-
-Node operator *(Node firstNode, Node secondNode);
-Node operator +(Node firstNode, Node secondNode);
-Node operator -(Node firstNode, Node secondNode);
-Node operator ~(Node node);
-bool operator ==(Node firstBranch, Node secondBranch);
-bool operator !=(Node firstBranch, Node secondBranch);

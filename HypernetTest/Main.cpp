@@ -10,7 +10,7 @@ int n = 0, m = 0, k = 0;
 int ReliableHypernets = 0, UnconnectedHypernets = 0, TwoNodesHypernets = 0, ChainsReduced = 0,
         UnconnectedNodesReduced = 0, PairConnectivityCalls = 0, EdgesReduced = 0, ComplexChains = 0,
         TreeNodeIntersections = 0, UnconnectedTreeNodes = 0;
-std::vector<Branch> Bin;
+std::vector<std::vector<double>> Bin;
 std::vector<int> KpNodesCombination{0, 6, 12, 18, 24};
 const double p = 0.9;
 
@@ -43,7 +43,7 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
         input >> buf; int nodeNumber = buf - 1;
         double doubleBuf;
         input >> doubleBuf; double value = doubleBuf;
-        Node node = Node::GetSimpleBranch(nodeNumber, value, false);
+        Node node = Node::GetSimpleElement(nodeNumber, value, false);
         nodes.push_back(node);
         if (!IsUniqueId(nodes, nodeNumber)) {
             throw "GetData: not unique branch id";
@@ -63,7 +63,7 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
             input >> buf;
         }
         branchRouteIds.push_back(vector);
-        branches.push_back(Branch::GetSimpleBranch(id, firstNode, secondNode));
+        branches.push_back(Branch::GetSimpleElement(id, firstNode, secondNode));
         if (!IsUniqueId(branches, id)) {
             throw "GetData: not unique branch id";
         }
@@ -104,24 +104,27 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
 }
 
 void ComputeBinomialCoefficients() {
-    Bin.resize(m + 1, Branch::GetBranch(m + 1, 0));
+    Bin.resize(m + 1);
+    for(auto &item : Bin) {
+        item.resize(m + 1);
+        item.front() = 1;
+    }
     for (int i = 0; i < Bin.size(); i++) {
-        Bin[i].SetPower(i);
         if (i != 0) {
             for (int j = 1; j < m + 1; j++) {
-                Bin[i].GetC()[j] = Bin[i - 1].GetC()[j - 1] + Bin[i - 1].GetC()[j];
+                Bin[i][j] = Bin[i - 1][j - 1] + Bin[i - 1][j];
             }
         }
     }
 }
-//todo not implemented
-void NormalizeSolution(Node &node){
-}
 
-void NormalizeSolution(Branch &branch){
-    branch.GetC().resize(m + 1);
-    if (branch.GetPower() < m) {
-        branch = branch * Bin[m - branch.GetPower()];
+template <class T>
+void NormalizeSolution(T &element){
+    element.GetC().resize(m + 1);
+    if (element.GetPower() < m) {
+        int power = m - element.GetPower();
+        T unity = T::GetElement(Bin[power], power);
+        element = element * unity;
     }
 }
 
@@ -181,7 +184,9 @@ void ErrorHandler(const char *str) {
 template <class T>
 void PrintSolution(T& branchSum) {
     if (!branchSum.IsZero()) {
-        NormalizeSolution(branchSum);
+        if (IS_NUMBER_COMPUTATION == 0) {
+            NormalizeSolution(branchSum);
+        }
         std::cout << "Value at point " << p << ": " << std::setprecision(14) << branchSum.GetPolynomialValue(p) << std::endl;
         for (auto &item : branchSum.GetC()) {
             output << std::setprecision(14) << item << " ";
@@ -243,10 +248,9 @@ int main(int argc, char** argv) {
         initialHypernet = H(std::move(branches), std::move(nodes), std::move(routes));
     }
     initialHypernet.RemoveEmptyBranches();
-
     ComputeBinomialCoefficients();
-    Branch branchSum;
-    Node nodeSum;
+    Branch branchSum = Branch::GetZero();
+    Node nodeSum = Node::GetZero();
     int startTime = clock();
     try {
         if (option == 1) {

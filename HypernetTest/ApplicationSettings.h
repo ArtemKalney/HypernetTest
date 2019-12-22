@@ -5,10 +5,10 @@
 #define IS_TEST_CHECK_SPECIFICATIONS 1
 // Определяет какие элементы надёжны в сети (ветви или вершины)
 #define IS_NODES_RELIABLE 1
-// Режим полного перебора
-#define IS_FULL_ENUMERATION 0
 // Определяет что считается (полином или число)
 #define IS_NUMBER_COMPUTATION 1
+// Режим полного перебора
+#define IS_FULL_ENUMERATION 0
 // Каждая редукция требует чтобы были включены предыдущие
 #define ENABLE_SIMPLE_CASE 1
 #define ENABLE_BRIDGE_REDUCTION 1

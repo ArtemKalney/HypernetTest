@@ -7,26 +7,36 @@
 #IncludeRegexTransform: 
 
 ..//Globals.h
-HypernetBase/Branch.h
-../HypernetBase/Branch.h
+HypernetBase/Stdafx.h
+../HypernetBase/Stdafx.h
 ApplicationSettings.h
 ../ApplicationSettings.h
 
 ../ApplicationSettings.h
 
-../HypernetBase/Branch.h
-Stdafx.h
 ../HypernetBase/Stdafx.h
-Route.h
-../HypernetBase/Route.h
-
-../HypernetBase/IIdentity.h
-
-../HypernetBase/Route.h
-Stdafx.h
-../HypernetBase/Stdafx.h
-IIdentity.h
-../HypernetBase/IIdentity.h
+cstdio
+-
+tchar.h
+-
+fstream
+-
+iomanip
+-
+cmath
+-
+iostream
+-
+vector
+-
+algorithm
+-
+iterator
+-
+ctime
+-
+memory
+-
 
 ../libs/googletest/include/gtest/gtest-death-test.h
 gtest/internal/gtest-death-test-internal.h
@@ -343,8 +353,8 @@ HypernetBase/Hypernet.h
 E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Hypernet.h
 
 E:/Projects/Git repositories/HypernetTest/HypernetTest/Globals.h
-HypernetBase/Branch.h
-E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Branch.h
+HypernetBase/Stdafx.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
 ApplicationSettings.h
 E:/Projects/Git repositories/HypernetTest/HypernetTest/ApplicationSettings.h
 
@@ -359,6 +369,16 @@ Stdafx.h
 E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
 Route.h
 E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.h
+Element.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Element.h
+Operators.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Operators.h
+
+E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Element.h
+Stdafx.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
+IIdentity.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h
 
 E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/FactorizationHelpers.cpp
 Hypernet.h
@@ -387,8 +407,14 @@ Globals.h
 E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Globals.h
 
 E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.h
-Stdafx.h
-E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
+Element.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Element.h
+IIdentity.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h
+
+E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Operators.h
+Globals.h
+E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Globals.h
 
 E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Reductions.cpp
 Hypernet.h

@@ -7,59 +7,69 @@ CMakeFiles/HypernetTest.dir/FullEnumeration.cpp.obj
  E:/Projects/Git repositories/HypernetTest/HypernetTest/Funcs.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/Globals.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Branch.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Element.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Hypernet.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Operators.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
 CMakeFiles/HypernetTest.dir/HypernetBase/Branch.cpp.obj
  ..//Globals.h
  ../ApplicationSettings.h
- ../HypernetBase/Branch.h
+ ../HypernetBase/Stdafx.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Branch.cpp
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Branch.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Element.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Operators.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
 CMakeFiles/HypernetTest.dir/HypernetBase/FactorizationHelpers.cpp.obj
  ..//Globals.h
  ../ApplicationSettings.h
- ../HypernetBase/Branch.h
+ ../HypernetBase/Stdafx.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Branch.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Element.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/FactorizationHelpers.cpp
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Hypernet.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Operators.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
 CMakeFiles/HypernetTest.dir/HypernetBase/Hypernet.cpp.obj
  ..//Globals.h
  ../ApplicationSettings.h
- ../HypernetBase/Branch.h
+ ../HypernetBase/Stdafx.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Branch.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Element.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Hypernet.cpp
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Hypernet.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Operators.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
 CMakeFiles/HypernetTest.dir/HypernetBase/Node.cpp.obj
  ..//Globals.h
  ../ApplicationSettings.h
- ../HypernetBase/Branch.h
- ../HypernetBase/IIdentity.h
- ../HypernetBase/Route.h
+ ../HypernetBase/Stdafx.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Element.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.cpp
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
 CMakeFiles/HypernetTest.dir/HypernetBase/Reductions.cpp.obj
  ..//Globals.h
  ../ApplicationSettings.h
- ../HypernetBase/Branch.h
+ ../HypernetBase/Stdafx.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Branch.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Element.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Hypernet.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Operators.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Reductions.cpp
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
@@ -90,9 +100,11 @@ CMakeFiles/HypernetTest.dir/Main.cpp.obj
  E:/Projects/Git repositories/HypernetTest/HypernetTest/Funcs.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/Globals.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Branch.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Element.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Hypernet.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Operators.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/Main.cpp
@@ -101,9 +113,11 @@ CMakeFiles/HypernetTest.dir/PairConnectivity.cpp.obj
  E:/Projects/Git repositories/HypernetTest/HypernetTest/Funcs.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/Globals.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Branch.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Element.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Hypernet.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Operators.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/PairConnectivity.cpp
@@ -112,9 +126,11 @@ CMakeFiles/HypernetTest.dir/RandomHypernet.cpp.obj
  E:/Projects/Git repositories/HypernetTest/HypernetTest/Funcs.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/Globals.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Branch.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Element.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Hypernet.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Operators.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/RandomHypernet.cpp
@@ -145,9 +161,11 @@ CMakeFiles/HypernetTest.dir/Tests.cpp.obj
  E:/Projects/Git repositories/HypernetTest/HypernetTest/Funcs.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/Globals.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Branch.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Element.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Hypernet.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/IIdentity.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Node.h
+ E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Operators.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Route.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/Tests.cpp

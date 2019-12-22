@@ -23,7 +23,7 @@ std::vector<Branch> GetRandomTree(const int &nodesCount, std::vector<int> &nodes
         int firstPosition = firstSetNodes.size() > 1 ? rand() % (firstSetNodes.size() - 1) : 0;
         int secondPosition = secondSetNodes.size() > 1 ? rand() % (secondSetNodes.size() - 1) : 0;
         j = firstPosition;
-        tree.push_back(Branch::GetSimpleBranch(-1, firstSetNodes[firstPosition], secondSetNodes[secondPosition]));
+        tree.push_back(Branch::GetSimpleElement(-1, firstSetNodes[firstPosition], secondSetNodes[secondPosition]));
     }
 
     return tree;

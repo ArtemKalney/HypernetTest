@@ -58,7 +58,7 @@ T RecursivePairConnectivity(H &H, T &pseudoElement) {
 
 template <>
 Branch PairConnectivity(H &H) {
-    Branch pseudoBranch = Branch::GetBranch(0);
+    Branch pseudoBranch = Branch::GetElement(0);
     if (!H.IsSNconnected()) {
         Branch::GetZero();
     }
@@ -69,13 +69,13 @@ Branch PairConnectivity(H &H) {
 template <>
 Node PairConnectivity(H &H) {
     //препологаем что уже проверли редукцию по выделенным вершинам
-    Node pseudoNode = Node::GetSimpleBranch() * Node::GetSimpleBranch();
+    Node pseudoNode = Node::GetSimpleElement() * Node::GetSimpleElement();
     auto it = std::find_if(H.GetNodes().begin(), H.GetNodes().end(),
-                           [](Node &item) -> bool { return item.NodeNumber == 0; });
-    it->IsReliable = true;
+                           [](Node &item) -> bool { return item == 0; });
+    it->SetIsReliable(true);
     it = std::find_if(H.GetNodes().begin(), H.GetNodes().end(),
-                      [](Node &item) -> bool { return item.NodeNumber == 1; });
-    it->IsReliable = true;
+                      [](Node &item) -> bool { return item == 1; });
+    it->SetIsReliable(true);
     if (!H.IsSNconnected()) {
         return Node::GetZero();
     }

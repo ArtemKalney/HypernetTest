@@ -24,13 +24,13 @@ Node H::GetAllowingElement<Node>() {
     Node allowingNode;
     int maxIncidentEdgesCount = 0;
     for (auto &node : _nodes) {
-        if (node.IsReliable) {
+        if (node.GetIsReliable()) {
             continue;
         }
 
         int incidentEdgesCount = 0;
         for (auto &item : _F) {
-            if (IsIncident(node.NodeNumber, item)) {
+            if (IsIncident(node.GetId(), item)) {
                 incidentEdgesCount++;
             }
         }
@@ -50,7 +50,7 @@ Branch H::SimpleCase(const Branch& pseudoBranch) {
     } else {
         _FN.erase(std::remove_if(_FN.begin(), _FN.end(), [](Branch &item) ->
                 bool { return item.GetIsReliable(); }), _FN.end());
-        return pseudoBranch*Branch::ParallelReduction(_FN);
+        return pseudoBranch*ParallelReduction();
     }
 }
 
