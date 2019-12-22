@@ -11,5 +11,3 @@
 #include <iterator>
 #include <ctime>
 #include <memory>
-
-#include "../Stdafx.h"

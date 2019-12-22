@@ -2,19 +2,16 @@
 
 #include "Stdafx.h"
 #include "Route.h"
-#include "IIdentity.h"
+#include "Element.h"
+#include "Operators.h"
 
-class Branch : public IIdentity
-{
+class Branch : public Element, public IIdentity {
 private:
     int _id;
-    double _value;
-    std::vector<double> _C;
-    std::vector<Route>  _routes;
-    int _power;
+    std::vector<Route> _routes;
     int _firstNode;
     int _secondNode;
-    bool _isReliable;
+    std::vector<double> _C;
 
     friend class boost::serialization::access;
     template<typename Archive>
@@ -31,29 +28,25 @@ private:
 public:
     Branch() = default;
 
-    Branch(const int& id, double value, std::vector<double> C, std::vector<Route>& routes, const int& power, const int& firstNode,
-           const int& secondNode, bool isReliable) :
+    Branch(const int &id, double& value, std::vector<double> C, std::vector<Route> &routes, const int &power,
+           const int &firstNode,
+           const int &secondNode, bool isReliable) :
+            Element(value, power, isReliable),
             _id(id),
-            _value(value),
-            _C(std::move(C)),
             _routes(std::move(routes)),
-            _power(power),
             _firstNode(firstNode),
             _secondNode(secondNode),
-            _isReliable(isReliable) {}
+            _C(std::move(C)) {}
 
-    Branch(const Branch& branch) :
+    Branch(const Branch &branch) :
+            Element(branch.GetValue(), branch.GetPower(), branch.GetIsReliable()),
             _id(branch._id),
-            _value(branch._value),
-            _C(branch._C),
             _routes(branch._routes),
-            _power(branch._power),
             _firstNode(branch._firstNode),
             _secondNode(branch._secondNode),
-            _isReliable(branch._isReliable) {}
+            _C(branch._C) {}
 
-    void SetId(const int& id)
-    {
+    void SetId(const int &id) {
         _id = id;
     }
 
@@ -61,96 +54,66 @@ public:
         return _id;
     }
 
-    double GetValue() const {
-        return _value;
-    }
-
-    void SetValue(const double& value)
-    {
-        _value = value;
-    }
-
-    void SetC(const std::vector<double>& C)
-    {
-        _C = C;
-    }
-
-    std::vector<double>& GetC()
-    {
-        return _C;
-    }
-
-    void SetRoutes(const std::vector<Route> &routes)
-    {
+    void SetRoutes(const std::vector<Route> &routes) {
         _routes = routes;
     }
 
-    std::vector<Route>& GetRoutes()
-    {
+    std::vector<Route> &GetRoutes() {
         return _routes;
     }
 
-    void SetPower(const int& power)
-    {
-        _power = power;
-    }
-
-    int GetPower() const
-    {
-        return _power;
-    }
-
-    void SetFirstNode(const int& firstNode)
-    {
+    void SetFirstNode(const int &firstNode) {
         _firstNode = firstNode;
     }
 
-    int GetFirstNode() const
-    {
+    int GetFirstNode() const {
         return _firstNode;
     }
 
-    void SetSecondNode(const int& secondNode)
-    {
+    void SetSecondNode(const int &secondNode) {
         _secondNode = secondNode;
     }
 
-    int GetSecondNode() const
-    {
+    int GetSecondNode() const {
         return _secondNode;
     }
 
-    void SetIsReliable(bool isReliable)
-    {
-        _isReliable = isReliable;
+    void SetC(const std::vector<double> &C) {
+        _C = C;
     }
 
-    bool GetIsReliable() const
-    {
-        return _isReliable;
+    std::vector<double> &GetC() {
+        return _C;
     }
+
     //todo уменьшить static функкций
-    static Branch GetBranch(const int& vectorSize, const int& power);
-    static Branch GetBranch(const int& power);
-    static Branch GetSimpleBranch();
-    static Branch GetSimpleBranch(const int& id, const int& firstNode, const int& secondNode);
+    static Branch GetElement(const std::vector<double> &C, const int &power);
+
+    static Branch GetElement(const int &power);
+
+    static Branch GetSimpleElement();
+
+    static Branch GetSimpleElement(const int &id, const int &firstNode, const int &secondNode);
+
     static Branch GetZero();
+
     static Branch GetUnity();
-    static bool EqualNodes(const Branch& firstBranch, const Branch& secondBranch);
-    static Branch ParallelReduction(std::vector<Branch> &branches);
-    bool IsUnacceptableBranch();
-    bool IsZero() const;
+
+    static bool EqualNodes(const Branch &firstBranch, const Branch &secondBranch);
+
+    bool IsUnacceptableElement();
+
+    bool IsZero();
+
     bool IsUnity();
+
     bool IsSimpleBranch();
+
     void PrintBranch();
-    bool operator <(const Branch& branch) const;
+
     double GetPolynomialValue(double point);
+
     int GetBranchSaturation();
 };
 
-Branch operator *(Branch firstBranch, Branch secondBranch);
-Branch operator +(Branch firstBranch, Branch secondBranch);
-Branch operator -(Branch firstBranch, Branch secondBranch);
-Branch operator ~(Branch branch);
-bool operator ==(Branch firstBranch, Branch secondBranch);
 bool operator !=(Branch firstBranch, Branch secondBranch);

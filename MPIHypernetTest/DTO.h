@@ -1,14 +1,16 @@
 #pragma once
 
 #include "HypernetBase/Hypernet.h"
+
 // структура для коммуникациями между процессами
+template<class T>
 struct DTO {
-    DTO(const H &H, const Branch &branch) :
+    DTO(H &H, const T &branch) :
             H(H),
-            Branch(branch) {}
+            Element(branch) {}
 
     H H;
-    Branch Branch;
+    T Element;
 
     DTO() = default;
 
@@ -16,6 +18,6 @@ struct DTO {
     template<typename Archive>
     void serialize(Archive &ar, const unsigned version) {
         ar & H;
-        ar & Branch;
+        ar & Element;
     }
 };

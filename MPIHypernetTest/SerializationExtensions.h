@@ -1,7 +1,5 @@
 #pragma once
 
-//todo make extensions of HypernetBase classes
-
 //friend class boost::serialization::access;
 //template<typename Archive>
 //void serialize(Archive &ar, const unsigned version) {
@@ -14,12 +12,15 @@
 //    ar & _secondNode;
 //    ar & _isReliable;
 //}
-//
+
 //friend class boost::serialization::access;
 //template<typename Archive>
 //void serialize(Archive &ar, const unsigned version) {
-//    ar & NodeNumber;
-//    ar & IsVisited;
+//    ar & _id;
+//    ar & _value;
+//    ar & _C;
+//    ar & _power;
+//    ar & _isReliable;
 //}
 //
 //friend class boost::serialization::access;
@@ -36,6 +37,8 @@
 //    ar & Id;
 //    ar & Ptr;
 //}
+
+//todo make extensions of HypernetBase classes
 
 //class ISerialize
 //{

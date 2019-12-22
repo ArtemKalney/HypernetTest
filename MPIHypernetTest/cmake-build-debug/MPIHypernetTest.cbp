@@ -86,6 +86,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/ApplicationSettings.h">
+			<Option target="MPIHypernetTest"/>
+		</Unit>
 		<Unit filename="E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/DTO.h">
 			<Option target="MPIHypernetTest"/>
 		</Unit>
@@ -101,6 +104,12 @@
 		<Unit filename="E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Branch.h">
 			<Option target="MPIHypernetTest"/>
 		</Unit>
+		<Unit filename="E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Element.h">
+			<Option target="MPIHypernetTest"/>
+		</Unit>
+		<Unit filename="E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/FactorizationHelpers.cpp">
+			<Option target="MPIHypernetTest"/>
+		</Unit>
 		<Unit filename="E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Hypernet.cpp">
 			<Option target="MPIHypernetTest"/>
 		</Unit>
@@ -110,7 +119,13 @@
 		<Unit filename="E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/IIdentity.h">
 			<Option target="MPIHypernetTest"/>
 		</Unit>
+		<Unit filename="E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Node.cpp">
+			<Option target="MPIHypernetTest"/>
+		</Unit>
 		<Unit filename="E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Node.h">
+			<Option target="MPIHypernetTest"/>
+		</Unit>
+		<Unit filename="E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Operators.h">
 			<Option target="MPIHypernetTest"/>
 		</Unit>
 		<Unit filename="E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/HypernetBase/Reductions.cpp">
@@ -125,7 +140,7 @@
 		<Unit filename="E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/Main.cpp">
 			<Option target="MPIHypernetTest"/>
 		</Unit>
-		<Unit filename="E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/PairConnectivity.cpp">
+		<Unit filename="E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/PairConnectivity.h">
 			<Option target="MPIHypernetTest"/>
 		</Unit>
 		<Unit filename="E:/Projects/Git repositories/HypernetTest/MPIHypernetTest/RandomHypernet.cpp">

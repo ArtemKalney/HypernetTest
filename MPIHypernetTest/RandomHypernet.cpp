@@ -16,14 +16,14 @@ std::vector<Branch> GetRandomNetwork(int &nodesCount, int &edgeCount) {
         int firstPosition = nodes1.size() > 1 ? rand() % (nodes1.size() - 1) : 0;
         int secondPosition = nodes2.size() > 1 ? rand() % (nodes2.size() - 1) : 0;
         j = firstPosition;
-        network.push_back(Branch::GetSimpleBranch(network.size(), nodes1[firstPosition], nodes2[secondPosition]));
+        network.push_back(Branch::GetSimpleElement(network.size(), nodes1[firstPosition], nodes2[secondPosition]));
     }
     // расстановка оставшихся рёбер
     for (int i = 0; i < edgeCount - nodesCount + 1; i++) {
         int firstNode = rand() % nodesCount, secondNode = rand() % nodesCount;
         while (firstNode == secondNode)
             secondNode = rand() % nodesCount;
-        network.push_back(Branch::GetSimpleBranch(network.size(), firstNode, secondNode));
+        network.push_back(Branch::GetSimpleElement(network.size(), firstNode, secondNode));
     }
 
     return network;
@@ -51,7 +51,7 @@ std::vector<Branch> GetRandomTree(const int &nodesCount, std::vector<int> &nodes
         int firstPosition = firstSetNodes.size() > 1 ? rand() % (firstSetNodes.size() - 1) : 0;
         int secondPosition = secondSetNodes.size() > 1 ? rand() % (secondSetNodes.size() - 1) : 0;
         j = firstPosition;
-        tree.push_back(Branch::GetSimpleBranch(-1, firstSetNodes[firstPosition], secondSetNodes[secondPosition]));
+        tree.push_back(Branch::GetSimpleElement(-1, firstSetNodes[firstPosition], secondSetNodes[secondPosition]));
     }
 
     return tree;
@@ -70,7 +70,7 @@ void Mapping(const std::vector<Branch> &primaryNetwork, std::vector<std::vector<
         if (searchTime >= OPTIMIZATION_MAPPING_TIME) {
             throw "Timeout";
         }
-        if (IS_TEST_HYPERNET_SIMPLE_MAPPING == 1 && !nodeRotes.empty() && !branchRoutes.empty()) {
+        if (IS_RANDOM_HYPERNET_SIMPLE_MAPPING == 1 && !nodeRotes.empty() && !branchRoutes.empty()) {
             return;
         }
         if (H::IsIncident(node, branch)) {
@@ -165,7 +165,7 @@ H GetRandomHypernet() {
     SetMapping(primaryNetwork, secondaryNetwork, routes);
     std::vector<Node> nodes;
     for (int i = 0; i < n; i++) {
-        Node node = Node(i, false);
+        Node node = Node::GetSimpleElement(i, p, false);
         nodes.push_back(node);
     }
 

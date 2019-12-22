@@ -110,14 +110,15 @@ void H::ChainReduction() {
 }
 // Removes the connectivity component, where both pivot nodes do not lie and returns true,
 //if the pivot nodes in different components, then returns false
+//if return true we return 0 in pairconnectivity
 bool H::BridgeReduction() {
     for(auto &item : _nodes) {
-        item.IsVisited = false;
+        item.SetIsVisited(false);
     }
     DFS(0, _nodes, _FN);
     int visitedNodesCount = 0;
     for(auto &item : _nodes) {
-        if (item.IsVisited) {
+        if (item.GetIsVisited()) {
             visitedNodesCount++;
         }
     }
@@ -125,13 +126,16 @@ bool H::BridgeReduction() {
     if (visitedNodesCount != _nodes.size()) {
         for (int i = 0; i < _nodes.size(); i++) {
             Node node = _nodes[i];
-            if (!node.IsVisited) {
+            if (!node.GetIsVisited()) {
+                if (node.IsPivotNode()) {
+                    throw "BridgeReduction: delete pivot node";
+                }
                 UnconnectedNodesReduced++;
                 RemoveNode(i--);
             }
         }
 
-        return !_nodes[1].IsVisited;
+        return !_nodes[1].GetIsVisited();
     } else {
         return false;
     }
@@ -140,7 +144,7 @@ bool H::BridgeReduction() {
 void H::EdgeReduction() {
     auto SN = GetSN();
     for (auto &item : _nodes) {
-        item.IsVisited = false;
+        item.SetIsVisited(false);
     }
     DFS(0, _nodes, SN);
     auto canDeleteMask = GetCanDeleteMask(SN);
@@ -159,4 +163,84 @@ void H::EdgeReduction() {
     }
 
     RemoveEmptyBranches();
+}
+
+Branch H::ParallelReduction() {
+    int size = _FN.size();
+    _FN.erase(std::remove_if(_FN.begin(), _FN.end(), [](Branch &item) ->
+            bool { return item.IsSimpleBranch(); }), _FN.end());
+    int simpleBranchesCount = size - _FN.size();
+    Branch parallelBranch = Branch::GetElement(Bin[simpleBranchesCount], simpleBranchesCount);
+    parallelBranch.GetC()[simpleBranchesCount] = 0;
+    Branch result = parallelBranch;
+    for (auto &item : _FN) {
+        result = item + result - item *result;
+    }
+    return result;
+}
+
+template<>
+bool H::Reductions<Branch>(Branch &pseudoElement, Branch &returnValue) {
+    if (ENABLE_BRIDGE_REDUCTION == 1 && BridgeReduction()) {
+        returnValue = Branch::GetZero();
+        return true;
+    }
+    if (ENABLE_SIMPLE_CASE == 1 && _nodes.size() < MAX_DIMENSIONAL) {
+        returnValue = SimpleCase(pseudoElement);
+        return true;
+    }
+
+    if (ENABLE_EDGE_REDUCTION == 1) {
+        EdgeReduction();
+        if (ENABLE_BRIDGE_REDUCTION == 1 && BridgeReduction()) {
+            returnValue = Branch::GetZero();
+            return true;
+        }
+        if (ENABLE_SIMPLE_CASE == 1 && _nodes.size() < MAX_DIMENSIONAL) {
+            returnValue = SimpleCase(pseudoElement);
+            return true;
+        }
+    }
+    if (ENABLE_CHAIN_REDUCTION == 1) {
+        ChainReduction();
+        if (ENABLE_BRIDGE_REDUCTION == 1 && BridgeReduction()) {
+            returnValue = Branch::GetZero();
+            return true;
+        }
+        if (ENABLE_SIMPLE_CASE == 1 && _nodes.size() < MAX_DIMENSIONAL) {
+            returnValue = SimpleCase(pseudoElement);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+template<>
+bool H::Reductions<Node>(Node &pseudoElement, Node &returnValue) {
+    if (ENABLE_BRIDGE_REDUCTION == 1 && BridgeReduction()) {
+        returnValue = Node::GetZero();
+        return true;
+    }
+    if (ENABLE_SIMPLE_CASE == 1 && _nodes.size() < MAX_DIMENSIONAL) {
+        returnValue = SimpleCase(pseudoElement);
+        return true;
+    }
+
+    if (ENABLE_EDGE_REDUCTION == 1) {
+        EdgeReduction();
+
+        auto routesFn = GetRoutesFN();
+        auto routesF = GetRoutesF();
+
+        if (ENABLE_BRIDGE_REDUCTION == 1 && BridgeReduction()) {
+            returnValue = Node::GetZero();
+            return true;
+        }
+        if (ENABLE_SIMPLE_CASE == 1 && _nodes.size() < MAX_DIMENSIONAL) {
+            returnValue = SimpleCase(pseudoElement);
+            return true;
+        }
+    }
+    return false;
 }

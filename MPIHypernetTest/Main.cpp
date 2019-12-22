@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Funcs.h"
 #include "DTO.h"
+#include "PairConnectivity.h"
 
 // инициализация глобальных переменных
 std::ifstream input;
@@ -10,7 +11,7 @@ int ReliableHypernets = 0, UnconnectedHypernets = 0, TwoNodesHypernets = 0, Chai
         UnconnectedNodesReduced = 0, PairConnectivityCalls = 0, EdgesReduced = 0, ComplexChains = 0, HelpProcessors = 0,
         TreeNodeIntersections = 0, UnconnectedTreeNodes = 0;
 int FirstRoot, SecondRoot;
-std::vector<Branch> Bin;
+std::vector<std::vector<double>> Bin;
 std::vector<int> KpNodesCombination;
 const double p = 0.9;
 unsigned long long int TotalBytesTransfer = 0;
@@ -52,10 +53,16 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
     if (IS_OPTIMIZATION == 1) {
         input >> buf; l = buf;
     }
-    // Fill all nodes
+    // Read all nodes from input.txt
     for (int i = 0; i < n; i++) {
-        Node node = Node(i, false);
+        input >> buf; int nodeNumber = buf - 1;
+        double doubleBuf;
+        input >> doubleBuf; double value = doubleBuf;
+        Node node = Node::GetSimpleElement(nodeNumber, value, false);
         nodes.push_back(node);
+        if (!IsUniqueId(nodes, nodeNumber)) {
+            throw "GetData: not unique branch id";
+        }
     }
     std::vector<std::vector<int>> branchRouteIds;
     // Read all branches from input.txt
@@ -71,7 +78,7 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
             input >> buf;
         }
         branchRouteIds.push_back(vector);
-        branches.push_back(Branch::GetSimpleBranch(id, firstNode, secondNode));
+        branches.push_back(Branch::GetSimpleElement(id, firstNode, secondNode));
         if (!IsUniqueId(branches, id)) {
             throw "GetData: not unique branch id";
         }
@@ -93,10 +100,12 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
             throw "GetData: not unique route id";
         }
     }
-    // Read all test nodes from input.txt
-    for (int i = 0; i < l; i++) {
-        input >> buf;
-        testNodes.push_back(--buf);
+    if (IS_OPTIMIZATION == 1) {
+        // Read all test nodes from input.txt
+        for (int i = 0; i < l; i++) {
+            input >> buf;
+            testNodes.push_back(--buf);
+        }
     }
     // Fill branch Routes by ids
     for (int i = 0; i < branches.size(); i++) {
@@ -118,22 +127,28 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
 
 // вычисление биномиальных коэффицентов
 void ComputeBinomialCoefficients() {
-    Bin.resize(m + 1, Branch::GetBranch(m + 1, 0));
+    Bin.resize(m + 1);
+    for(auto &item : Bin) {
+        item.resize(m + 1);
+        item.front() = 1;
+    }
     for (int i = 0; i < Bin.size(); i++) {
-        Bin[i].SetPower(i);
         if (i != 0) {
             for (int j = 1; j < m + 1; j++) {
-                Bin[i].GetC()[j] = Bin[i - 1].GetC()[j - 1] + Bin[i - 1].GetC()[j];
+                Bin[i][j] = Bin[i - 1][j - 1] + Bin[i - 1][j];
             }
         }
     }
 }
 
 // метод необходимый для изменения размера ветви
-void NormalizeSolution(Branch &branch){
-    branch.GetC().resize(m + 1);
-    if (branch.GetPower() < m) {
-        branch = branch * Bin[m - branch.GetPower()];
+template <class T>
+void NormalizeSolution(T &element){
+    element.GetC().resize(m + 1);
+    if (element.GetPower() < m) {
+        int power = m - element.GetPower();
+        T unity = T::GetElement(Bin[power], power);
+        element = element * unity;
     }
 }
 
@@ -167,14 +182,15 @@ T Recv() {
 }
 
 // управление исполнением программы используя MPI (уровень 2)
-void SendControl(std::vector<H> &hypernetList, int &size) {
+template <class T>
+void SendControl(std::vector<H> &hypernetList, const T& pseudoElement, int &size) {
     std::stack<int> freeProcessors;
     for (int i = 1; i < size; ++i) {
         freeProcessors.push(i);
     }
 
     while (!freeProcessors.empty() && !hypernetList.empty()) {
-        DTO data = DTO(hypernetList.back(), Branch::GetBranch(0));
+        auto data = DTO<T>(hypernetList.back(), pseudoElement);
         hypernetList.pop_back();
         Send(data, freeProcessors.top());
         freeProcessors.pop();
@@ -187,7 +203,7 @@ void SendControl(std::vector<H> &hypernetList, int &size) {
         if (status.MPI_TAG == I_AM_FREE_TAG) {
             MPI_Recv(&value, 0, MPI_INT, status.MPI_SOURCE, I_AM_FREE_TAG, MPI_COMM_WORLD, &status);
             if (!hypernetList.empty()) {
-                DTO data = DTO(hypernetList.back(), Branch::GetBranch(0));
+                auto data = DTO<T>(hypernetList.back(), pseudoElement);
                 hypernetList.pop_back();
                 Send(data, status.MPI_SOURCE);
             } else {
@@ -206,13 +222,14 @@ void SendControl(std::vector<H> &hypernetList, int &size) {
 }
 
 // управление исполнением программы используя MPI (уровень 1)
-void SendControl(H &H, int &size) {
+template <class T>
+void SendControl(H &H, const T& pseudoElement, int &size) {
     std::stack<int> freeProcessors;
     for (int i = 1; i < size; ++i) {
         freeProcessors.push(i);
     }
 
-    DTO data = DTO(H, Branch::GetBranch(0));
+    auto data = DTO<T>(H, pseudoElement);
     Send(data, freeProcessors.top());
     freeProcessors.pop();
 
@@ -234,32 +251,59 @@ void SendControl(H &H, int &size) {
         }
     }
 }
+//todo разобраться с условием HasReliablePath
+template <class T>
+void PrepareSendHypernet(T &sum, std::vector<H> &hypernetList, H &H, T& pseudoElement, int &size) {
+    if (!H.IsSNconnected()) {
+        return;
+    }
+
+    if (IS_NODES_RELIABLE == 1) {
+        pseudoElement = T::GetElement(0);
+    } else {
+        pseudoElement = T::GetSimpleElement() * T::GetSimpleElement();
+        auto it = std::find_if(H.GetNodes().begin(), H.GetNodes().end(),
+                               [](Node &item) -> bool { return item == 0; });
+        it->SetIsReliable(true);
+        it = std::find_if(H.GetNodes().begin(), H.GetNodes().end(),
+                          [](Node &item) -> bool { return item == 1; });
+        it->SetIsReliable(true);
+
+        if (H.HasReliablePath<Node>()) {
+            sum = sum + pseudoElement;
+            return;
+        }
+    }
+    if (IS_TWO_LEVEL_PARALLELIZATION == 1) {
+        hypernetList.push_back(H);
+    } else {
+        SendControl<T>(H, pseudoElement, size);
+    }
+}
 
 // вычисление MENC
-void ComputeMENC(const H& initialHypernet,  int &size) {
+template <class T>
+void ComputeMENC(T &sum, const H& initialHypernet,  int &size) {
     std::vector<H> hypernetList;
+    T pseudoElement;
     for (int i = 1; i < n; i++) {
         auto H = initialHypernet;
         if (i != 1) {
             H.RenumerateNodes(i, 1);
         }
-        if (H.IsSNconnected()) {
-            if (IS_TWO_LEVEL_PARALLELIZATION == 1) {
-                hypernetList.push_back(H);
-            } else {
-                SendControl(H, size);
-            }
-        }
+        PrepareSendHypernet(sum, hypernetList, H, pseudoElement, size);
     }
 
     if (IS_TWO_LEVEL_PARALLELIZATION == 1) {
-        SendControl(hypernetList, size);
+        SendControl<T>(hypernetList, pseudoElement, size);
     }
 }
 
 // вычисление ComputeMENCKP
-void ComputeMENCKP(const H &initialHypernet, int &size) {
+template <class T>
+void ComputeMENCKP(T &sum, const H &initialHypernet, int &size) {
     std::vector<H> hypernetList;
+    T pseudoElement;
     for(auto &item : KpNodesCombination) {
         auto H = initialHypernet;
         if (item != 1) {
@@ -269,24 +313,20 @@ void ComputeMENCKP(const H &initialHypernet, int &size) {
             if (i != 1) {
                 H.RenumerateNodes(i, 1);
             }
-            if (H.IsSNconnected()) {
-                if (IS_TWO_LEVEL_PARALLELIZATION == 1) {
-                    hypernetList.push_back(H);
-                } else {
-                    SendControl(H, size);
-                }
-            }
+            PrepareSendHypernet(sum, hypernetList, H, pseudoElement, size);
         }
     }
 
     if (IS_TWO_LEVEL_PARALLELIZATION == 1) {
-        SendControl(hypernetList, size);
+        SendControl<T>(hypernetList, pseudoElement, size);
     }
 }
 
 // вычисление APC
-void ComputeAPC(const H& initialHypernet, int &size) {
+template <class T>
+void ComputeAPC(T &sum, const H& initialHypernet, int &size) {
     std::vector<H> hypernetList;
+    T pseudoElement;
     for (int i = 0; i < n; i++) {
         for (int j = i + 1; j < n; j++) {
             auto H = initialHypernet;
@@ -302,18 +342,12 @@ void ComputeAPC(const H& initialHypernet, int &size) {
                     H.RenumerateNodes(i, 0);
                 }
             }
-            if (H.IsSNconnected()) {
-                if (IS_TWO_LEVEL_PARALLELIZATION == 1) {
-                    hypernetList.push_back(H);
-                } else {
-                    SendControl(H, size);
-                }
-            }
+            PrepareSendHypernet(sum, hypernetList, H, pseudoElement, size);
         }
     }
 
     if (IS_TWO_LEVEL_PARALLELIZATION == 1) {
-        SendControl(hypernetList, size);
+        SendControl<T>(hypernetList, pseudoElement, size);
     }
 }
 
@@ -326,14 +360,15 @@ void ErrorHandler(const char *str) {
 }
 
 // вычисление гиперсети
-void ComputeHypernet(H &initialHypernet, int &size, int &option) {
+template <class T>
+void ComputeHypernet(T &sum, H &initialHypernet, int &size, int &option) {
     initialHypernet.RemoveEmptyBranches();
     if (option == 1) {
-        ComputeAPC(initialHypernet, size);
+        ComputeAPC<T>(sum, initialHypernet, size);
     } else if (option == 2 && IS_OPTIMIZATION == 1) {
-        ComputeMENCKP(initialHypernet, size);
+        ComputeMENCKP<T>(sum, initialHypernet, size);
     } else if (option == 2) {
-        ComputeMENC(initialHypernet, size);
+        ComputeMENC<T>(sum, initialHypernet, size);
     }
 }
 
@@ -351,15 +386,18 @@ void BcastDataByMaster() {
     MPI_Bcast(&k, 1, MPI_INT, HOST_PROCESSOR, MPI_COMM_WORLD);
 }
 // вывод расчётных данных
-void PrintSolution(Branch &solution, double &time) {
+template <class T>
+void PrintSolution(T &solution, double &time) {
     std::cout << "Time of programm " << time << " sec" << std::endl;
     std::cout << "PairConnectivityCalls " << PairConnectivityCalls << std::endl;
     std::cout << "Reductions : " << std::endl;
     std::cout << " UnconnectedNodesReduced " << UnconnectedNodesReduced << std::endl;
     std::cout << " EdgesReduced " << EdgesReduced << std::endl;
-    std::cout << " ChainsReduced " << ChainsReduced << std::endl;
-    if (IS_DEBUG == 1) {
-        std::cout << " ComplexChains " << ComplexChains << std::endl;
+    if (IS_NODES_RELIABLE == 1) {
+        std::cout << " ChainsReduced " << ChainsReduced << std::endl;
+        if (IS_DEBUG == 1) {
+            std::cout << " ComplexChains " << ComplexChains << std::endl;
+        }
     }
     std::cout << "Were ends of recursion : " << ReliableHypernets + UnconnectedHypernets +
                                                 TwoNodesHypernets << std::endl;
@@ -371,18 +409,41 @@ void PrintSolution(Branch &solution, double &time) {
         std::cout << "HelpProcessors : " << HelpProcessors << std::endl;
     }
     if (!solution.IsZero()) {
-        NormalizeSolution(solution);
-        std::cout << "Value at point " << p << ": " << std::setprecision(11) << solution.GetPolynomialValue(p)
+        if (IS_NUMBER_COMPUTATION == 0) {
+            NormalizeSolution(solution);
+        }
+        std::cout << "Value at point " << p << ": " << std::setprecision(14) << solution.GetPolynomialValue(p)
                   << std::endl;
     } else {
         std::cout << "unconnected hypernet" << std::endl;
     }
+    for (auto &item : solution.GetC()) {
+        output << std::setprecision(14) << item << " ";
+    }
+    output << std::endl;
+}
+
+template <class T>
+void PrintSolutionOptimization(T &solution, double &time) {
+    if (IS_DEBUG == 1) {
+        PrintSolution<T>(solution, time);
+    }
+    output << FirstRoot + 1 << " " << SecondRoot + 1 << " " << TreeNodeIntersections << " "
+           << UnconnectedTreeNodes << " ";
+    output << std::setprecision(14) << solution.GetPolynomialValue(p) << " ";
+    output << std::setprecision(14) << solution.GetPolynomialValue(0.99) << " ";
+    output << time << std::endl;
+    TreeNodeIntersections = 0;
+    UnconnectedTreeNodes = 0;
 }
 
 // получение решения
-Branch GetSolution(int &size, int &option, std::vector<Branch> branches, std::vector<Node> nodes,
-                   std::vector<Route> routes, double &time) {
-    double startTime, averageTime = 0; // переменные начала времени расчёта и среднего времени расчёта
+template <class T>
+void ComputeSolution(T &solution, int &size, int &option, std::vector<Branch> branches, std::vector<Node> nodes,
+                     std::vector<Route> routes, double &time) {
+    // переменные начала времени расчёта и среднего времени расчёта
+    double startTime, averageTime = 0;
+    T sum = T::GetZero();
     // выбор тестирования по конфигурации приложения (время, оптимизация, расчёт гиперсети)
     if (IS_TEST_TIME == 1) {
         for (int i = 0; i < TEST_HYPERNETS; i++) {
@@ -391,7 +452,7 @@ Branch GetSolution(int &size, int &option, std::vector<Branch> branches, std::ve
                 initialHypernet.LogHypernet();
             }
             startTime = MPI_Wtime();
-            ComputeHypernet(initialHypernet, size, option);
+            ComputeHypernet<T>(sum, initialHypernet, size, option);
             double endTime = MPI_Wtime();
             output << "Time = " << endTime - startTime << std::endl;
             averageTime += endTime - startTime;
@@ -409,24 +470,22 @@ Branch GetSolution(int &size, int &option, std::vector<Branch> branches, std::ve
         }
 
         startTime = MPI_Wtime();
-        ComputeHypernet(initialHypernet, size, option);
+        ComputeHypernet<T>(sum, initialHypernet, size, option);
     }
     // запрос значений от процессов испольнителей
     for (int i = 1; i < size; i++) {
         MPI_Send(&i, 0, MPI_INT, i, SEND_SOLUTION_TAG, MPI_COMM_WORLD);
     }
-
-    Branch sum;
     // сохранение среденего времени 
     if (IS_TEST_TIME == 1 && TEST_HYPERNETS > 1) {
         averageTime = averageTime / TEST_HYPERNETS;
-        output << "Average time = " << averageTime;
-        return sum;
+        std::cout << "Average time = " << averageTime;
+        return;
     }
 
     MPI_Status status;
     for (int i = 1; i < size; i++) {
-        Branch branch = Recv<Branch>(); // получение значения от процесса исполнителя
+        T branch = Recv<T>(); // получение значения от процесса исполнителя
         sum = sum + branch;
         int buff;
         MPI_Recv(&buff, 1, MPI_INT, MPI_ANY_SOURCE, RELIABLE_HYPERNETS_COUNT_TAG, MPI_COMM_WORLD, &status);
@@ -454,20 +513,20 @@ Branch GetSolution(int &size, int &option, std::vector<Branch> branches, std::ve
     // обработка полченного значения в завсимости от выбранного критериия 
     if (option == 1) {
         if (IS_NUMBER_COMPUTATION == 1) {
-            sum.SetValue(sum.GetValue() / Bin[n].GetC()[2]);
+            sum.SetValue(sum.GetValue() / Bin[n][2]);
         } else {
             for (int i = 0; i < sum.GetC().size(); i++) {
                 auto sumVector = sum.GetC();
-                sumVector[i] = sumVector[i] / Bin[n].GetC()[2];
+                sumVector[i] = sumVector[i] / Bin[n][2];
                 sum.SetC(sumVector);
             }
         }
     } else if (option == 2) {
-        sum = sum + Branch::GetUnity();
+        sum = sum + T::GetUnity();
     }
     time = MPI_Wtime() - startTime;
 
-    return sum;
+    solution = solution + sum;
 }
 
 void ComputeCombinations(const std::vector<int> &vector, std::vector<std::vector<int>> &combinations,
@@ -484,6 +543,7 @@ void ComputeCombinations(const std::vector<int> &vector, std::vector<std::vector
     }
 }
 // инициализация работы процесса мастера
+template <class T>
 void Master(int size) {
     input.open("input.txt");
     output.open("output.txt");
@@ -504,30 +564,20 @@ void Master(int size) {
     ComputeBinomialCoefficients();
     BcastDataByMaster();
     double time;
+    T solution = T::GetZero();
     if (IS_OPTIMIZATION != 1) {
-        Branch solution = GetSolution(size, option, branches, nodes, routes, time);
-        PrintSolution(solution, time);
-        for (auto &item : solution.GetC()) {
-            output << std::setprecision(14) << item << " ";
+        ComputeSolution<T>(solution, size, option, branches, nodes, routes, time);
+        if (IS_TEST_TIME == 1 && TEST_HYPERNETS == 1) {
+            PrintSolution(solution, time);
         }
-        output << std::endl;
     } else {
         if (IS_OPTIMIZATION_AOSH == 1) {
             for(int i=0; i<testNodes.size() - 1; i++) {
                 FirstRoot = testNodes[i];
                 for(int j=i+1; j<testNodes.size(); j++) {
                     SecondRoot = testNodes[j];
-                    Branch solution = GetSolution(size, option, branches, nodes, routes, time);
-                    if (IS_DEBUG == 1) {
-                        PrintSolution(solution, time);
-                    }
-                    output << FirstRoot + 1 << " " << SecondRoot + 1 << " " << TreeNodeIntersections << " "
-                           << UnconnectedTreeNodes << " ";
-                    output << std::setprecision(15) << solution.GetPolynomialValue(p) << " ";
-                    output << std::setprecision(15) << solution.GetPolynomialValue(0.99) << " ";
-                    output << time << std::endl;
-                    TreeNodeIntersections = 0;
-                    UnconnectedTreeNodes = 0;
+                    ComputeSolution<T>(solution, size, option, branches, nodes, routes, time);
+                    PrintSolutionOptimization(solution, time);
                 }
             }
         } else {
@@ -536,19 +586,8 @@ void Master(int size) {
             ComputeCombinations(testNodes, combinations, combination, 0, OPTIMIZATION_KP_COUNT);
             for(auto &item : combinations) {
                 KpNodesCombination = item;
-                Branch solution = GetSolution(size, option, branches, nodes, routes, time);
-                if (IS_DEBUG == 1) {
-                    PrintSolution(solution, time);
-                }
-                for(int i=0; i<KpNodesCombination.size()-1; i++) {
-                    output << KpNodesCombination[i] + 1 << ",";
-                }
-                output << KpNodesCombination.back() + 1 << " ";
-                output << std::setprecision(15) << solution.GetPolynomialValue(p) << " ";
-                output << std::setprecision(15) << solution.GetPolynomialValue(0.99) << " ";
-                output << time << std::endl;
-                TreeNodeIntersections = 0;
-                UnconnectedTreeNodes = 0;
+                ComputeSolution<T>(solution, size, option, branches, nodes, routes, time);
+                PrintSolutionOptimization(solution, time);
             }
         }
     }
@@ -574,16 +613,17 @@ void BcastDataBySlaves() {
 }
 
 // инициализация работы процессов исполнителей
-void Slaves(int rank) {
+template <class T>
+void Slaves() {
     BcastDataBySlaves();
     int value;
-    Branch sum;
+    T sum;
     MPI_Status status;
     do {
         MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
         if (status.MPI_TAG == SEND_RECV_TAG) {
-            DTO data = Recv<DTO>();
-            sum = sum + PairConnectivity(data.H, data.Branch);
+            auto data = Recv<DTO<T>>();
+            sum = sum + PairConnectivity(data.H, data.Element);
             MPI_Send(&value, 0, MPI_INT, HOST_PROCESSOR, I_AM_FREE_TAG, MPI_COMM_WORLD);
         }
         if (status.MPI_TAG == SEND_SOLUTION_TAG) {
@@ -600,7 +640,7 @@ void Slaves(int rank) {
             MPI_Send(&HelpProcessors, 1, MPI_INT, HOST_PROCESSOR, HELP_PROCESSORS_TAG, MPI_COMM_WORLD);
             MPI_Send(&TotalBytesTransfer, 1, MPI_UNSIGNED_LONG_LONG, HOST_PROCESSOR, TOTAL_BYTES_TRANSFER_TAG,
                      MPI_COMM_WORLD);
-            sum = Branch::GetZero();
+            sum = T::GetZero();
             ReliableHypernets = 0;
             UnconnectedHypernets = 0;
             TwoNodesHypernets = 0;
@@ -628,7 +668,19 @@ int main(int argc, char **argv) {
     }
     // обработчик ошибок
     try {
-        rank == 0 ? Master(size) : Slaves(rank);
+        if (rank == 0) {
+            if (IS_NODES_RELIABLE == 1) {
+                Master<Branch>(size);
+            } else {
+                Master<Node>(size);
+            }
+        } else {
+            if (IS_NODES_RELIABLE == 1) {
+                Slaves<Branch>();
+            } else {
+                Slaves<Node>();
+            }
+        }
     } catch (const std::overflow_error &e) {
         std::cout << "throw std::overflow_error (same type rule)" << std::endl << e.what();
     } catch (const std::runtime_error &e) {

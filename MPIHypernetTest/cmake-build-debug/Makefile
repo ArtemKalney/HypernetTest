@@ -149,6 +149,33 @@ HypernetBase/Branch.cpp.s:
 	$(MAKE) -f CMakeFiles\MPIHypernetTest.dir\build.make CMakeFiles/MPIHypernetTest.dir/HypernetBase/Branch.cpp.s
 .PHONY : HypernetBase/Branch.cpp.s
 
+HypernetBase/FactorizationHelpers.obj: HypernetBase/FactorizationHelpers.cpp.obj
+
+.PHONY : HypernetBase/FactorizationHelpers.obj
+
+# target to build an object file
+HypernetBase/FactorizationHelpers.cpp.obj:
+	$(MAKE) -f CMakeFiles\MPIHypernetTest.dir\build.make CMakeFiles/MPIHypernetTest.dir/HypernetBase/FactorizationHelpers.cpp.obj
+.PHONY : HypernetBase/FactorizationHelpers.cpp.obj
+
+HypernetBase/FactorizationHelpers.i: HypernetBase/FactorizationHelpers.cpp.i
+
+.PHONY : HypernetBase/FactorizationHelpers.i
+
+# target to preprocess a source file
+HypernetBase/FactorizationHelpers.cpp.i:
+	$(MAKE) -f CMakeFiles\MPIHypernetTest.dir\build.make CMakeFiles/MPIHypernetTest.dir/HypernetBase/FactorizationHelpers.cpp.i
+.PHONY : HypernetBase/FactorizationHelpers.cpp.i
+
+HypernetBase/FactorizationHelpers.s: HypernetBase/FactorizationHelpers.cpp.s
+
+.PHONY : HypernetBase/FactorizationHelpers.s
+
+# target to generate assembly for a file
+HypernetBase/FactorizationHelpers.cpp.s:
+	$(MAKE) -f CMakeFiles\MPIHypernetTest.dir\build.make CMakeFiles/MPIHypernetTest.dir/HypernetBase/FactorizationHelpers.cpp.s
+.PHONY : HypernetBase/FactorizationHelpers.cpp.s
+
 HypernetBase/Hypernet.obj: HypernetBase/Hypernet.cpp.obj
 
 .PHONY : HypernetBase/Hypernet.obj
@@ -175,6 +202,33 @@ HypernetBase/Hypernet.s: HypernetBase/Hypernet.cpp.s
 HypernetBase/Hypernet.cpp.s:
 	$(MAKE) -f CMakeFiles\MPIHypernetTest.dir\build.make CMakeFiles/MPIHypernetTest.dir/HypernetBase/Hypernet.cpp.s
 .PHONY : HypernetBase/Hypernet.cpp.s
+
+HypernetBase/Node.obj: HypernetBase/Node.cpp.obj
+
+.PHONY : HypernetBase/Node.obj
+
+# target to build an object file
+HypernetBase/Node.cpp.obj:
+	$(MAKE) -f CMakeFiles\MPIHypernetTest.dir\build.make CMakeFiles/MPIHypernetTest.dir/HypernetBase/Node.cpp.obj
+.PHONY : HypernetBase/Node.cpp.obj
+
+HypernetBase/Node.i: HypernetBase/Node.cpp.i
+
+.PHONY : HypernetBase/Node.i
+
+# target to preprocess a source file
+HypernetBase/Node.cpp.i:
+	$(MAKE) -f CMakeFiles\MPIHypernetTest.dir\build.make CMakeFiles/MPIHypernetTest.dir/HypernetBase/Node.cpp.i
+.PHONY : HypernetBase/Node.cpp.i
+
+HypernetBase/Node.s: HypernetBase/Node.cpp.s
+
+.PHONY : HypernetBase/Node.s
+
+# target to generate assembly for a file
+HypernetBase/Node.cpp.s:
+	$(MAKE) -f CMakeFiles\MPIHypernetTest.dir\build.make CMakeFiles/MPIHypernetTest.dir/HypernetBase/Node.cpp.s
+.PHONY : HypernetBase/Node.cpp.s
 
 HypernetBase/Reductions.obj: HypernetBase/Reductions.cpp.obj
 
@@ -230,33 +284,6 @@ Main.cpp.s:
 	$(MAKE) -f CMakeFiles\MPIHypernetTest.dir\build.make CMakeFiles/MPIHypernetTest.dir/Main.cpp.s
 .PHONY : Main.cpp.s
 
-PairConnectivity.obj: PairConnectivity.cpp.obj
-
-.PHONY : PairConnectivity.obj
-
-# target to build an object file
-PairConnectivity.cpp.obj:
-	$(MAKE) -f CMakeFiles\MPIHypernetTest.dir\build.make CMakeFiles/MPIHypernetTest.dir/PairConnectivity.cpp.obj
-.PHONY : PairConnectivity.cpp.obj
-
-PairConnectivity.i: PairConnectivity.cpp.i
-
-.PHONY : PairConnectivity.i
-
-# target to preprocess a source file
-PairConnectivity.cpp.i:
-	$(MAKE) -f CMakeFiles\MPIHypernetTest.dir\build.make CMakeFiles/MPIHypernetTest.dir/PairConnectivity.cpp.i
-.PHONY : PairConnectivity.cpp.i
-
-PairConnectivity.s: PairConnectivity.cpp.s
-
-.PHONY : PairConnectivity.s
-
-# target to generate assembly for a file
-PairConnectivity.cpp.s:
-	$(MAKE) -f CMakeFiles\MPIHypernetTest.dir\build.make CMakeFiles/MPIHypernetTest.dir/PairConnectivity.cpp.s
-.PHONY : PairConnectivity.cpp.s
-
 RandomHypernet.obj: RandomHypernet.cpp.obj
 
 .PHONY : RandomHypernet.obj
@@ -296,18 +323,21 @@ help:
 	@echo ... HypernetBase/Branch.obj
 	@echo ... HypernetBase/Branch.i
 	@echo ... HypernetBase/Branch.s
+	@echo ... HypernetBase/FactorizationHelpers.obj
+	@echo ... HypernetBase/FactorizationHelpers.i
+	@echo ... HypernetBase/FactorizationHelpers.s
 	@echo ... HypernetBase/Hypernet.obj
 	@echo ... HypernetBase/Hypernet.i
 	@echo ... HypernetBase/Hypernet.s
+	@echo ... HypernetBase/Node.obj
+	@echo ... HypernetBase/Node.i
+	@echo ... HypernetBase/Node.s
 	@echo ... HypernetBase/Reductions.obj
 	@echo ... HypernetBase/Reductions.i
 	@echo ... HypernetBase/Reductions.s
 	@echo ... Main.obj
 	@echo ... Main.i
 	@echo ... Main.s
-	@echo ... PairConnectivity.obj
-	@echo ... PairConnectivity.i
-	@echo ... PairConnectivity.s
 	@echo ... RandomHypernet.obj
 	@echo ... RandomHypernet.i
 	@echo ... RandomHypernet.s
