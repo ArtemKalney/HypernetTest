@@ -477,7 +477,7 @@ void ComputeSolution(T &solution, int &size, int &option, std::vector<Branch> br
         MPI_Send(&i, 0, MPI_INT, i, SEND_SOLUTION_TAG, MPI_COMM_WORLD);
     }
     // сохранение среденего времени 
-    if (IS_TEST_TIME == 1 && TEST_HYPERNETS > 1) {
+    if (IS_TEST_TIME == 1) {
         averageTime = averageTime / TEST_HYPERNETS;
         std::cout << "Average time = " << averageTime;
         return;
@@ -567,7 +567,7 @@ void Master(int size) {
     T solution = T::GetZero();
     if (IS_OPTIMIZATION != 1) {
         ComputeSolution<T>(solution, size, option, branches, nodes, routes, time);
-        if (IS_TEST_TIME == 1 && TEST_HYPERNETS == 1) {
+        if (IS_TEST_TIME != 1) {
             PrintSolution(solution, time);
         }
     } else {

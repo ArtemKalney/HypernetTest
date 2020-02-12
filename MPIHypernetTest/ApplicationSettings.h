@@ -7,7 +7,7 @@
 // Определяет что считается (полином или число)
 #define IS_NUMBER_COMPUTATION 1
 // Работа с тестированием на время, имеет приоритет перед оптимизацией
-#define IS_TEST_TIME 1
+#define IS_TEST_TIME 0
 #define TEST_HYPERNETS 10
 #define TEST_HYPERNET_NODES 25
 #define TEST_HYPERNET_BRANCHES 30
@@ -15,7 +15,7 @@
 // Работа с оптимизацией
 #define IS_OPTIMIZATION 0
 #define IS_OPTIMIZATION_AOSH 0
-#define OPTIMIZATION_TREE_SIZE 11 // if IS_OPTIMIZATION_AOSH != 1 must be <= 20
+#define OPTIMIZATION_TREE_SIZE 11
 #define OPTIMIZATION_KP_COUNT 7
 #define OPTIMIZATION_MAPPING_TIME 300000
 // Режим генерации укладки рёбер при генерации случайной гиперсети
