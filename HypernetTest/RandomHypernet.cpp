@@ -75,11 +75,13 @@ void SetMapping(std::vector<Branch> &primaryNetwork, std::vector<Branch> &second
         Mapping(primaryNetwork, nodeRotes, branchRoutes, isVisited, nodeRote, branchRoute, node, edge.GetSecondNode(),
                 clock());
         int randomIndex = nodeRotes.size() > 1 ? rand() % (nodeRotes.size() - 1) : 0;
-        nodeRote = nodeRotes[randomIndex];
-        branchRoute = branchRoutes[randomIndex];
-        routes.emplace_back(routes.size(), std::make_shared<std::vector<int>>(nodeRote));
-        for(auto &item : branchRoute) {
-            std::find(primaryNetwork.begin(), primaryNetwork.end(), item) -> GetRoutes().push_back(routes.back());
+        if (nodeRotes.size() > 0) {
+            nodeRote = nodeRotes[randomIndex];
+            branchRoute = branchRoutes[randomIndex];
+            routes.emplace_back(routes.size(), std::make_shared<std::vector<int>>(nodeRote));
+            for(auto &item : branchRoute) {
+                std::find(primaryNetwork.begin(), primaryNetwork.end(), item) -> GetRoutes().push_back(routes.back());
+            }
         }
     }
 }

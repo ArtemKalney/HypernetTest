@@ -20,15 +20,16 @@
 #define IS_RANDOM_HYPERNET_SIMPLE_MAPPING 1
 // Режим дебага, нумерация вершин с 0
 #define IS_DEBUG 1
-#define DEBUG_FIRST_NODE 15
-#define DEBUG_SECOND_NODE 24
+#define DEBUG_FIRST_NODE 0
+#define DEBUG_SECOND_NODE 1
 // Экспериментальные показатели для CHAIN_REDUCTION
 #define IS_FULL_SEARCH_CHAINS 0
 #define IS_REDUCE_RELIABLE_CHAINS 0
 // Работа с оптимизацией
+// KpNodesCombination определяются вручную в Main.cpp как глобальная переменная
 #define IS_OPTIMIZATION 0
-#define IS_OPTIMIZATION_AOSH 0
-#define OPTIMIZATION_TREE_SIZE 8
+#define IS_OPTIMIZATION_AOSH 1
+#define OPTIMIZATION_TREE_SIZE 27
 #define OPTIMIZATION_FIRST_TREE_ROOT 0
 #define OPTIMIZATION_SECOND_TREE_ROOT 1
 #define OPTIMIZATION_MAPPING_TIME 300000
