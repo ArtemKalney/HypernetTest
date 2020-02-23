@@ -242,7 +242,7 @@ int main(int argc, char** argv) {
                 KpNodesCombination = {0, 6, 12, 18, 24};
                 initialHypernet = GetKpRandomHypernet(branches, nodes);
             } else {
-                k = n + 1;
+                k = n + RANDOM_ADDITIONAL_EDGES;
                 initialHypernet = GetRandomHypernet();
             }
             initialHypernet.LogHypernet();
