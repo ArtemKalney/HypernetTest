@@ -9,4 +9,5 @@ void Send(const T &object, int processorNumber);
 template <class T>
 T Recv();
 H GetRandomHypernet();
-H GetRandomHypernet(std::vector<Branch> &primaryNetwork, std::vector<Node> &nodes);
+H GetAoshRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nodes);
+H GetKpRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nodes);

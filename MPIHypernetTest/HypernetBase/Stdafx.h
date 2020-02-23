@@ -11,3 +11,4 @@
 #include <iterator>
 #include <ctime>
 #include <memory>
+#include <stack>

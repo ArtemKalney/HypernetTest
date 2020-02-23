@@ -15,11 +15,8 @@
 // Работа с оптимизацией
 #define IS_OPTIMIZATION 0
 #define IS_OPTIMIZATION_AOSH 0
-#define OPTIMIZATION_TREE_SIZE 11
 #define OPTIMIZATION_KP_COUNT 7
-#define OPTIMIZATION_MAPPING_TIME 300000
-// Режим генерации укладки рёбер при генерации случайной гиперсети
-#define IS_RANDOM_HYPERNET_SIMPLE_MAPPING 1
+#define RANDOM_TREE_SIZE 11
 // Режим дебага
 #define IS_DEBUG 1
 // Включение двухуровневой парраллелизации

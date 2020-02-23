@@ -3989,10 +3989,10 @@ CMakeFiles/MPIHypernetTest.dir/Main.cpp.obj: e:/MinGW/include/boost/type_traits/
 CMakeFiles/MPIHypernetTest.dir/Main.cpp.obj: e:/MinGW/include/boost/utility/enable_if.hpp
 CMakeFiles/MPIHypernetTest.dir/Main.cpp.obj: e:/MinGW/include/boost/version.hpp
 
-CMakeFiles/MPIHypernetTest.dir/RandomHypernet.cpp.obj: C:/Program\ Files\ (x86)/Microsoft\ SDKs/MPI/include/mpi.h
-CMakeFiles/MPIHypernetTest.dir/RandomHypernet.cpp.obj: ../ApplicationSettings.h
-CMakeFiles/MPIHypernetTest.dir/RandomHypernet.cpp.obj: ../Funcs.h
 CMakeFiles/MPIHypernetTest.dir/RandomHypernet.cpp.obj: ../Globals.h
+CMakeFiles/MPIHypernetTest.dir/RandomHypernet.cpp.obj: ../ApplicationSettings.h
+CMakeFiles/MPIHypernetTest.dir/RandomHypernet.cpp.obj: C:/Program\ Files\ (x86)/Microsoft\ SDKs/MPI/include/mpi.h
+CMakeFiles/MPIHypernetTest.dir/RandomHypernet.cpp.obj: ../Funcs.h
 CMakeFiles/MPIHypernetTest.dir/RandomHypernet.cpp.obj: ../HypernetBase/Branch.h
 CMakeFiles/MPIHypernetTest.dir/RandomHypernet.cpp.obj: ../HypernetBase/Element.h
 CMakeFiles/MPIHypernetTest.dir/RandomHypernet.cpp.obj: ../HypernetBase/Hypernet.h
@@ -4000,6 +4000,7 @@ CMakeFiles/MPIHypernetTest.dir/RandomHypernet.cpp.obj: ../HypernetBase/IIdentity
 CMakeFiles/MPIHypernetTest.dir/RandomHypernet.cpp.obj: ../HypernetBase/Node.h
 CMakeFiles/MPIHypernetTest.dir/RandomHypernet.cpp.obj: ../HypernetBase/Operators.h
 CMakeFiles/MPIHypernetTest.dir/RandomHypernet.cpp.obj: ../HypernetBase/Route.h
+CMakeFiles/MPIHypernetTest.dir/RandomHypernet.cpp.obj: ../HypernetBase/Stdafx.h
 CMakeFiles/MPIHypernetTest.dir/RandomHypernet.cpp.obj: ../RandomHypernet.cpp
 CMakeFiles/MPIHypernetTest.dir/RandomHypernet.cpp.obj: ../Stdafx.h
 CMakeFiles/MPIHypernetTest.dir/RandomHypernet.cpp.obj: e:/MinGW/include/boost/aligned_storage.hpp

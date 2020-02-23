@@ -461,7 +461,11 @@ void ComputeSolution(T &solution, int &size, int &option, std::vector<Branch> br
         H initialHypernet;
         // выбор метода получения гиперстеи (случайно или из аргументов функции)
         if (IS_OPTIMIZATION == 1) {
-            initialHypernet = GetRandomHypernet(branches, nodes);
+            if (IS_OPTIMIZATION_AOSH == 1) {
+                initialHypernet = GetAoshRandomHypernet(branches, nodes);
+            } else {
+                initialHypernet = GetKpRandomHypernet(branches, nodes);
+            }
             if (IS_DEBUG == 1) {
                 initialHypernet.LogHypernet();
             }
