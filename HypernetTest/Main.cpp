@@ -242,6 +242,7 @@ int main(int argc, char** argv) {
                 KpNodesCombination = {0, 6, 12, 18, 24};
                 initialHypernet = GetKpRandomHypernet(branches, nodes);
             } else {
+                k = n + 1;
                 initialHypernet = GetRandomHypernet();
             }
             initialHypernet.LogHypernet();
@@ -249,9 +250,6 @@ int main(int argc, char** argv) {
         } else {
             initialHypernet = H(std::move(branches), std::move(nodes), std::move(routes));
         }
-        initialHypernet.RenumerateNodes(0, 16);
-        initialHypernet.LogHypernet();
-        return 0;
         initialHypernet.RemoveEmptyBranches();
         ComputeBinomialCoefficients();
         Branch branchSum = Branch::GetZero();

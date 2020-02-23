@@ -24,8 +24,8 @@
 #define IS_FULL_SEARCH_CHAINS 0
 #define IS_REDUCE_RELIABLE_CHAINS 0
 // Работа с оптимизацией
-#define IS_RANDOM_HYPERNET 1
-#define IS_RANDOM_AOSH 1
+#define IS_RANDOM_HYPERNET 0
+#define IS_RANDOM_AOSH 0
 #define IS_RANDOM_KP 0
 #define RANDOM_TREE_SIZE 27
 #define RANDOM_FIRST_TREE_ROOT 0
