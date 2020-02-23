@@ -11,3 +11,5 @@ extern int ReliableHypernets, UnconnectedHypernets, TwoNodesHypernets, ChainsRed
 extern const double p;
 extern std::ifstream input;
 extern std::ofstream output;
+extern int seed;
+extern int FirstRoot, SecondRoot;

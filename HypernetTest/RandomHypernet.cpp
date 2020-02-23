@@ -1,10 +1,44 @@
 #include "Funcs.h"
-#include "Globals.h"
 
-std::vector<Branch> GetRandomTree(const int &nodesCount, std::vector<int> &nodes,
+//todo compile in separate library
+
+// генератор случайных сетей для построения случайной гиперсети
+std::vector<Branch> GetRandomNetwork(int &nodesCount, int &edgeCount) {
+    std::vector<Branch> network;
+    std::vector<int> nodes1; // набор вершин 1
+    for (int i = 0; i < nodesCount; i++) {
+        nodes1.push_back(i);
+    }
+    std::vector<int> nodes2; // набор вершин 2
+    int j = rand() % (nodes1.size() - 1);
+    // цикл построения случайного дерева, гарантирует связность сети
+    for (int i = 0; i < nodesCount - 1; i++) {
+        nodes2.push_back(nodes1[j]);
+        nodes1.erase(nodes1.begin() + j);
+        int firstPosition = nodes1.size() > 1 ? rand() % (nodes1.size() - 1) : 0;
+        int secondPosition = nodes2.size() > 1 ? rand() % (nodes2.size() - 1) : 0;
+        j = firstPosition;
+        network.push_back(Branch::GetSimpleElement(network.size(), nodes1[firstPosition], nodes2[secondPosition]));
+    }
+    // расстановка оставшихся рёбер
+    for (int i = 0; i < edgeCount - nodesCount + 1; i++) {
+        int firstNode = rand() % nodesCount, secondNode = rand() % nodesCount;
+        while (firstNode == secondNode)
+            secondNode = rand() % nodesCount;
+        network.push_back(Branch::GetSimpleElement(network.size(), firstNode, secondNode));
+    }
+
+    return network;
+}
+
+// получение случайного дерева заданного размера с запретами использования конкретных вершин
+std::vector<Branch> GetRandomTree(const int &nodesRequired, std::vector<int> &nodes,
                                   const std::vector<int> &forbiddenNodes) {
+    if (nodesRequired > n) {
+        throw "GetRandomTree: nodesRequired > n";
+    }
     std::vector<Branch> tree;
-    while (nodes.size() != nodesCount) {
+    while (nodes.size() != nodesRequired) {
         int node = rand() % n;
         std::vector<int> newForbiddenNodes;
         newForbiddenNodes.reserve(nodes.size() + forbiddenNodes.size());
@@ -17,7 +51,7 @@ std::vector<Branch> GetRandomTree(const int &nodesCount, std::vector<int> &nodes
     std::vector<int> firstSetNodes = nodes;
     std::vector<int> secondSetNodes;
     int j = rand() % (firstSetNodes.size() - 1);
-    for (int i = 0; i < nodesCount - 1; i++) {
+    for (int i = 0; i < nodesRequired - 1; i++) {
         secondSetNodes.push_back(firstSetNodes[j]);
         firstSetNodes.erase(firstSetNodes.begin() + j);
         int firstPosition = firstSetNodes.size() > 1 ? rand() % (firstSetNodes.size() - 1) : 0;
@@ -29,71 +63,87 @@ std::vector<Branch> GetRandomTree(const int &nodesCount, std::vector<int> &nodes
     return tree;
 }
 
-void Mapping(const std::vector<Branch> &primaryNetwork, std::vector<std::vector<int>> &nodeRotes,
-             std::vector<std::vector<Branch>> &branchRoutes, std::vector<bool> &isVisited, std::vector<int> &nodeRote,
-             std::vector<Branch> &branchRoute, int &node, const int &endNode, const int &startTime) {
-    isVisited[node] = true;
-    if(node == endNode) {
-        nodeRotes.push_back(nodeRote);
-        branchRoutes.push_back(branchRoute);
-    }
-    for(auto &branch : primaryNetwork) {
-        int searchTime = clock() - startTime;
-        if (searchTime >= OPTIMIZATION_MAPPING_TIME) {
-            throw "Timeout";
-        }
-        if (IS_RANDOM_HYPERNET_SIMPLE_MAPPING == 1 && !nodeRotes.empty() && !branchRoutes.empty()) {
+// укладка ребра в первичную сеть
+void BFSWithRoutes(const std::vector<Branch> &primaryNetwork, std::vector<int> &nodeRote,
+                   std::vector<Branch> &branchRoute, int &startNode, const int &endNode) {
+    std::vector<bool> isVisited(n, false);
+    std::stack<int> queue;
+    queue.push(startNode);
+    isVisited[startNode] = true;
+    std::vector<std::vector<int>> nodeRotes(n);
+    nodeRotes[startNode].push_back(startNode);
+    std::vector<std::vector<Branch>> branchRoutes(n);
+
+    while(!queue.empty()) {
+        int node = queue.top();
+        queue.pop();
+        if (node == endNode) {
+            nodeRote = nodeRotes[endNode];
+            branchRoute = branchRoutes[endNode];
             return;
         }
-        if (H::IsIncident(node, branch)) {
-            int incidentNode = branch.GetFirstNode() != node ? branch.GetFirstNode() : branch.GetSecondNode();
-            if (!isVisited[incidentNode]) {
-                nodeRote.push_back(incidentNode);
-                branchRoute.push_back(branch);
-                Mapping(primaryNetwork, nodeRotes, branchRoutes, isVisited, nodeRote, branchRoute, incidentNode,
-                        endNode, startTime);
-                nodeRote.erase(std::find(nodeRote.begin(), nodeRote.end(), incidentNode));
-                auto it = std::find_if(branchRoute.begin(), branchRoute.end(), [branch](Branch &item) -> bool {
-                    return  item == branch;
-                });
-                branchRoute.erase(it);
+
+        for(auto &branch : primaryNetwork) {
+            if (H::IsIncident(node, branch)) {
+                int incidentNode = branch.GetFirstNode() != node ? branch.GetFirstNode() : branch.GetSecondNode();
+                if (!isVisited[incidentNode]) {
+                    queue.push(incidentNode);
+                    isVisited[incidentNode] = true;
+                    nodeRotes[incidentNode] = nodeRotes[node];
+                    nodeRotes[incidentNode].push_back(incidentNode);
+                    branchRoutes[incidentNode] = branchRoutes[node];
+                    branchRoutes[incidentNode].push_back(branch);
+                }
             }
         }
     }
-
-    isVisited[node] = false;
 }
 
+// получение укладки ребра в первичную сеть
 void SetMapping(std::vector<Branch> &primaryNetwork, std::vector<Branch> &secondaryNetwork, std::vector<Route> &routes) {
     for (auto &edge : secondaryNetwork) {
         int node = edge.GetFirstNode();
-        std::vector<bool> isVisited(n, false);
         std::vector<int> nodeRote{node};
         std::vector<Branch> branchRoute;
-        std::vector<std::vector<int>> nodeRotes;
-        std::vector<std::vector<Branch>> branchRoutes;
-        Mapping(primaryNetwork, nodeRotes, branchRoutes, isVisited, nodeRote, branchRoute, node, edge.GetSecondNode(),
-                clock());
-        int randomIndex = nodeRotes.size() > 1 ? rand() % (nodeRotes.size() - 1) : 0;
-        if (nodeRotes.size() > 0) {
-            nodeRote = nodeRotes[randomIndex];
-            branchRoute = branchRoutes[randomIndex];
-            routes.emplace_back(routes.size(), std::make_shared<std::vector<int>>(nodeRote));
-            for(auto &item : branchRoute) {
-                std::find(primaryNetwork.begin(), primaryNetwork.end(), item) -> GetRoutes().push_back(routes.back());
-            }
+        BFSWithRoutes(primaryNetwork, nodeRote, branchRoute, node, edge.GetSecondNode());
+        routes.emplace_back(routes.size(), std::make_shared<std::vector<int>>(nodeRote));
+        for(auto &item : branchRoute) {
+            std::find(primaryNetwork.begin(), primaryNetwork.end(), item) -> GetRoutes().push_back(routes.back());
         }
     }
 }
 
-H TryGetKpRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nodes) {
-    srand(time(0));
+// получение случайной гиперсети необходимой для работы алгоритма оптимизации (возможен timeout)
+H GetAoshRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nodes) {
+    srand(seed++);
+    std::vector<int> firstTreeNodes{FirstRoot};
+    std::vector<int> forbiddenNodes{SecondRoot};
+    auto firstRandomTree = GetRandomTree(RANDOM_TREE_SIZE, firstTreeNodes, forbiddenNodes);
+    std::vector<Route> routes;
+    SetMapping(primaryNetwork, firstRandomTree, routes);
+    std::vector<int> secondTreeNodes{FirstRoot};
+    forbiddenNodes.clear();
+    auto secondRandomTree = GetRandomTree(RANDOM_TREE_SIZE, secondTreeNodes, forbiddenNodes);
+    SetMapping(primaryNetwork, secondRandomTree, routes);
+    for (auto &node : firstTreeNodes) {
+        if (std::find(secondTreeNodes.begin(), secondTreeNodes.end(), node) != secondTreeNodes.end()) {
+            TreeNodeIntersections++;
+        }
+    }
+    UnconnectedTreeNodes = n - firstTreeNodes.size() - secondTreeNodes.size() +
+                           TreeNodeIntersections;
+
+    return H(std::move(primaryNetwork), std::move(nodes), std::move(routes));
+}
+
+H GetKpRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nodes) {
+    srand(seed++);
     std::vector<Route> routes;
     std::vector<int> forbiddenNodes = KpNodesCombination;
     for (auto &root : KpNodesCombination) {
         std::vector<int> treeNodes{root};
-        int nodesCount = OPTIMIZATION_TREE_SIZE;
-        if (n - forbiddenNodes.size() + 1 < OPTIMIZATION_TREE_SIZE) {
+        int nodesCount = RANDOM_TREE_SIZE;
+        if (n - forbiddenNodes.size() + 1 < RANDOM_TREE_SIZE) {
             nodesCount = n - forbiddenNodes.size() + 1;
         }
         auto randomTree = GetRandomTree(nodesCount, treeNodes, forbiddenNodes);
@@ -108,41 +158,18 @@ H TryGetKpRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &
     return H(std::move(primaryNetwork), std::move(nodes), std::move(routes));
 }
 
-H TryGetAoshRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nodes) {
-    srand(time(0));
-    std::vector<int> firstTreeNodes{OPTIMIZATION_FIRST_TREE_ROOT};
-    std::vector<int> forbiddenNodes{OPTIMIZATION_SECOND_TREE_ROOT};
-    auto firstRandomTree = GetRandomTree(OPTIMIZATION_TREE_SIZE, firstTreeNodes, forbiddenNodes);
+// получение случайной гиперсети
+H GetRandomHypernet() {
+    srand(seed++);
+    auto primaryNetwork = GetRandomNetwork(n, m);
+    auto secondaryNetwork = GetRandomNetwork(n, k);
     std::vector<Route> routes;
-    SetMapping(primaryNetwork, firstRandomTree, routes);
-    std::vector<int> secondTreeNodes{OPTIMIZATION_SECOND_TREE_ROOT};
-    forbiddenNodes.clear();
-    auto secondRandomTree = GetRandomTree(OPTIMIZATION_TREE_SIZE, secondTreeNodes, forbiddenNodes);
-    SetMapping(primaryNetwork, secondRandomTree, routes);
-    for (auto &node : firstTreeNodes) {
-        if (std::find(secondTreeNodes.begin(), secondTreeNodes.end(), node) != secondTreeNodes.end()) {
-            TreeNodeIntersections++;
-        }
+    SetMapping(primaryNetwork, secondaryNetwork, routes);
+    std::vector<Node> nodes;
+    for (int i = 0; i < n; i++) {
+        Node node = Node::GetSimpleElement(i, p, false);
+        nodes.push_back(node);
     }
-    UnconnectedTreeNodes = n - firstTreeNodes.size() - secondTreeNodes.size() +
-                           TreeNodeIntersections;
 
     return H(std::move(primaryNetwork), std::move(nodes), std::move(routes));
-}
-
-H GetRandomHypernet(std::vector<Branch> &primaryNetwork, std::vector<Node> &nodes) {
-    try {
-        if (IS_OPTIMIZATION_AOSH == 1) {
-            return TryGetAoshRandomHypernet(primaryNetwork, nodes);
-        } else {
-            return TryGetKpRandomHypernet(primaryNetwork, nodes);
-        }
-    } catch (const char *str) {
-        if (IS_DEBUG == 1) {
-            output << str << std::endl;
-        }
-        TreeNodeIntersections = 0;
-        UnconnectedTreeNodes = 0;
-        return GetRandomHypernet(primaryNetwork, nodes);
-    }
 }

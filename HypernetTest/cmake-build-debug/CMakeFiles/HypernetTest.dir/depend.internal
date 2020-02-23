@@ -122,9 +122,10 @@ CMakeFiles/HypernetTest.dir/PairConnectivity.cpp.obj
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Stdafx.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/PairConnectivity.cpp
 CMakeFiles/HypernetTest.dir/RandomHypernet.cpp.obj
- E:/Projects/Git repositories/HypernetTest/HypernetTest/ApplicationSettings.h
+ ..//Globals.h
+ ../ApplicationSettings.h
+ ../HypernetBase/Stdafx.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/Funcs.h
- E:/Projects/Git repositories/HypernetTest/HypernetTest/Globals.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Branch.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Element.h
  E:/Projects/Git repositories/HypernetTest/HypernetTest/HypernetBase/Hypernet.h

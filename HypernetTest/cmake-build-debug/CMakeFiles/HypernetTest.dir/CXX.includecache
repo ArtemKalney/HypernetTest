@@ -37,6 +37,8 @@ ctime
 -
 memory
 -
+stack
+-
 
 ../libs/googletest/include/gtest/gtest-death-test.h
 gtest/internal/gtest-death-test-internal.h
@@ -451,6 +453,8 @@ ctime
 -
 memory
 -
+stack
+-
 
 E:/Projects/Git repositories/HypernetTest/HypernetTest/Main.cpp
 Globals.h
@@ -473,8 +477,6 @@ E:/Projects/Git repositories/HypernetTest/HypernetTest/Funcs.h
 E:/Projects/Git repositories/HypernetTest/HypernetTest/RandomHypernet.cpp
 Funcs.h
 E:/Projects/Git repositories/HypernetTest/HypernetTest/Funcs.h
-Globals.h
-E:/Projects/Git repositories/HypernetTest/HypernetTest/Globals.h
 
 E:/Projects/Git repositories/HypernetTest/HypernetTest/Tests.cpp
 Globals.h
