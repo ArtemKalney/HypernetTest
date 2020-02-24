@@ -6,6 +6,7 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
 void ComputeBinomialCoefficients();
 H GetAoshRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nodes);
 H GetKpRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nodes);
+H GetRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nodes);
 H GetRandomHypernet();
 template <class T>
 T FullEnumeration(H &H);

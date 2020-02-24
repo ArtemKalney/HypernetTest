@@ -243,7 +243,11 @@ int main(int argc, char** argv) {
                 initialHypernet = GetKpRandomHypernet(branches, nodes);
             } else {
                 k = n + RANDOM_ADDITIONAL_EDGES;
-                initialHypernet = GetRandomHypernet();
+                if (IS_RANDOM_SN == 1) {
+                    initialHypernet = GetRandomHypernet(branches, nodes);
+                } else {
+                    initialHypernet = GetRandomHypernet();
+                }
             }
             initialHypernet.LogHypernet();
             return 0;
