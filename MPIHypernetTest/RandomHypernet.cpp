@@ -1,6 +1,7 @@
 #include "Funcs.h"
 
 //todo compile in separate library
+//todo GetRandomNetwork через GetRandomTree
 
 // генератор случайных сетей для построения случайной гиперсети
 std::vector<Branch> GetRandomNetwork(int &nodesCount, int &edgeCount) {
@@ -154,6 +155,16 @@ H GetKpRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nod
         }
         SetMapping(primaryNetwork, randomTree, routes);
     }
+
+    return H(std::move(primaryNetwork), std::move(nodes), std::move(routes));
+}
+
+// получение случайной гиперсети
+H GetRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nodes) {
+    srand(seed++);
+    auto secondaryNetwork = GetRandomNetwork(n, k);
+    std::vector<Route> routes;
+    SetMapping(primaryNetwork, secondaryNetwork, routes);
 
     return H(std::move(primaryNetwork), std::move(nodes), std::move(routes));
 }
