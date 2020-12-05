@@ -1,0 +1,100 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/ApproximationAlgorithm.cpp
+Stdafx.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Stdafx.h
+Funcs.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Funcs.h
+Globals.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Globals.h
+
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Branch.cpp
+Branch.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Branch.h
+Globals.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Globals.h
+
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Branch.h
+Stdafx.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Stdafx.h
+Route.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Route.h
+
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Funcs.h
+Branch.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Branch.h
+Hypernet.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Hypernet.h
+
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Globals.h
+Branch.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Branch.h
+Hypernet.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Hypernet.h
+
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Hypernet.cpp
+Hypernet.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Hypernet.h
+
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Hypernet.h
+Stdafx.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Stdafx.h
+Branch.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Branch.h
+Route.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Route.h
+
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Main.cpp
+Funcs.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Funcs.h
+Globals.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Globals.h
+
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/PairConnectivity.cpp
+Stdafx.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Stdafx.h
+Funcs.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Funcs.h
+Globals.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Globals.h
+
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Rote.cpp
+Route.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Route.h
+
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Route.h
+Stdafx.h
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Stdafx.h
+
+E:/Projects/Git repositories/HypernetTest/src/ApproximationTest/Stdafx.h
+cstdio
+-
+tchar.h
+-
+fstream
+-
+iomanip
+-
+cmath
+-
+iostream
+-
+vector
+-
+algorithm
+-
+iterator
+-
+ctime
+-
+memory
+-
+ctime
+-
+
