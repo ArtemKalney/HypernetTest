@@ -4,4 +4,4 @@
 
 # HypernetTest
 
-Для десериализации json была использована библиотека [boost](https://stackoverflow.com/questions/36519453/setup-boost-in-clion). Для распараллеливания вычислений используется библиотека [MS-MPI](https://docs.microsoft.com/en-us/message-passing-interface/microsoft-mpi?redirectedfrom=MSDN).
+Для распараллеливания вычислений используется библиотека [MS-MPI](https://docs.microsoft.com/en-us/message-passing-interface/microsoft-mpi?redirectedfrom=MSDN). Для сериализации json была использована библиотека [boost](https://stackoverflow.com/questions/36519453/setup-boost-in-clion).
