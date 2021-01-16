@@ -11,10 +11,10 @@
 				<Option working_dir="E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="E:/MinGWLight/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="E:/MinGWLight/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="E:/MinGWLight/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="E:/MinGWLight/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/PROGRA~1/MINGWL~1/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/PROGRA~1/MINGWL~1/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/MINGWL~1/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/MINGWL~1/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="MPIHypernetTest">
@@ -26,19 +26,19 @@
 				<Compiler>
 					<Add directory="E:/Projects/Git repositories/HypernetTest/src/MPIHypernetTest"/>
 					<Add directory="C:/Program Files (x86)/Microsoft SDKs/MPI/include"/>
-					<Add directory="e:/MinGW/include"/>
-					<Add directory="E:/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++"/>
-					<Add directory="E:/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32"/>
-					<Add directory="E:/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward"/>
-					<Add directory="E:/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include"/>
-					<Add directory="E:/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed"/>
-					<Add directory="E:/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/include"/>
+					<Add directory="C:/Program Files/MinGW/include"/>
+					<Add directory="C:/Program Files/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++"/>
+					<Add directory="C:/Program Files/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/Program Files/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward"/>
+					<Add directory="C:/Program Files/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include"/>
+					<Add directory="C:/Program Files/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed"/>
+					<Add directory="C:/Program Files/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="E:/MinGWLight/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 MPIHypernetTest"/>
-					<CompileFile command="E:/MinGWLight/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="E:/MinGWLight/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="E:/MinGWLight/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/PROGRA~1/MINGWL~1/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 MPIHypernetTest"/>
+					<CompileFile command="C:/PROGRA~1/MINGWL~1/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/MINGWL~1/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/MINGWL~1/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="MPIHypernetTest/fast">
@@ -50,19 +50,19 @@
 				<Compiler>
 					<Add directory="E:/Projects/Git repositories/HypernetTest/src/MPIHypernetTest"/>
 					<Add directory="C:/Program Files (x86)/Microsoft SDKs/MPI/include"/>
-					<Add directory="e:/MinGW/include"/>
-					<Add directory="E:/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++"/>
-					<Add directory="E:/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32"/>
-					<Add directory="E:/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward"/>
-					<Add directory="E:/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include"/>
-					<Add directory="E:/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed"/>
-					<Add directory="E:/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/include"/>
+					<Add directory="C:/Program Files/MinGW/include"/>
+					<Add directory="C:/Program Files/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++"/>
+					<Add directory="C:/Program Files/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/Program Files/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward"/>
+					<Add directory="C:/Program Files/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include"/>
+					<Add directory="C:/Program Files/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed"/>
+					<Add directory="C:/Program Files/MinGWLight/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="E:/MinGWLight/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 MPIHypernetTest/fast"/>
-					<CompileFile command="E:/MinGWLight/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="E:/MinGWLight/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="E:/MinGWLight/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/PROGRA~1/MINGWL~1/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 MPIHypernetTest/fast"/>
+					<CompileFile command="C:/PROGRA~1/MINGWL~1/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/MINGWL~1/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/MINGWL~1/mingw64/bin/mingw32-make.exe -f &quot;E:/Projects/Git repositories/HypernetTest/src/cmake-build-debug/MPIHypernetTest/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>

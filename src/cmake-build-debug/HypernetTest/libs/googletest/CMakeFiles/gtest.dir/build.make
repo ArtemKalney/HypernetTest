@@ -60,15 +60,15 @@ HypernetTest/libs/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.obj: Hypernet
 HypernetTest/libs/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.obj: HypernetTest/libs/googletest/CMakeFiles/gtest.dir/includes_CXX.rsp
 HypernetTest/libs/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.obj: ../HypernetTest/libs/googletest/src/gtest-all.cc
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="E:\Projects\Git repositories\HypernetTest\src\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object HypernetTest/libs/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.obj"
-	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\HYPERN~1\libs\GOOGLE~1" && E:\MinGWLight\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\gtest.dir\src\gtest-all.cc.obj -c "E:\Projects\Git repositories\HypernetTest\src\HypernetTest\libs\googletest\src\gtest-all.cc"
+	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\HYPERN~1\libs\GOOGLE~1" && C:\PROGRA~1\MINGWL~1\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\gtest.dir\src\gtest-all.cc.obj -c "E:\Projects\Git repositories\HypernetTest\src\HypernetTest\libs\googletest\src\gtest-all.cc"
 
 HypernetTest/libs/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gtest.dir/src/gtest-all.cc.i"
-	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\HYPERN~1\libs\GOOGLE~1" && E:\MinGWLight\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "E:\Projects\Git repositories\HypernetTest\src\HypernetTest\libs\googletest\src\gtest-all.cc" > CMakeFiles\gtest.dir\src\gtest-all.cc.i
+	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\HYPERN~1\libs\GOOGLE~1" && C:\PROGRA~1\MINGWL~1\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "E:\Projects\Git repositories\HypernetTest\src\HypernetTest\libs\googletest\src\gtest-all.cc" > CMakeFiles\gtest.dir\src\gtest-all.cc.i
 
 HypernetTest/libs/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gtest.dir/src/gtest-all.cc.s"
-	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\HYPERN~1\libs\GOOGLE~1" && E:\MinGWLight\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Projects\Git repositories\HypernetTest\src\HypernetTest\libs\googletest\src\gtest-all.cc" -o CMakeFiles\gtest.dir\src\gtest-all.cc.s
+	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\HYPERN~1\libs\GOOGLE~1" && C:\PROGRA~1\MINGWL~1\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Projects\Git repositories\HypernetTest\src\HypernetTest\libs\googletest\src\gtest-all.cc" -o CMakeFiles\gtest.dir\src\gtest-all.cc.s
 
 HypernetTest/libs/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.obj.requires:
 

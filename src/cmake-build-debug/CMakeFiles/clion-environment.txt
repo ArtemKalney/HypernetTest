@@ -1,4 +1,4 @@
-ToolSet: w64 6.0@E:\MinGWLight\mingw64
+ToolSet: w64 6.0@C:\Program Files\MinGWLight\mingw64
 Options: 
 
 Options:

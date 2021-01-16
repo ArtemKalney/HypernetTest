@@ -59,15 +59,15 @@ include ApproximationTest/CMakeFiles/ApproximationTest.dir/flags.make
 ApproximationTest/CMakeFiles/ApproximationTest.dir/Main.cpp.obj: ApproximationTest/CMakeFiles/ApproximationTest.dir/flags.make
 ApproximationTest/CMakeFiles/ApproximationTest.dir/Main.cpp.obj: ../ApproximationTest/Main.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="E:\Projects\Git repositories\HypernetTest\src\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object ApproximationTest/CMakeFiles/ApproximationTest.dir/Main.cpp.obj"
-	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && E:\MinGWLight\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\ApproximationTest.dir\Main.cpp.obj -c "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Main.cpp"
+	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && C:\PROGRA~1\MINGWL~1\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\ApproximationTest.dir\Main.cpp.obj -c "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Main.cpp"
 
 ApproximationTest/CMakeFiles/ApproximationTest.dir/Main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ApproximationTest.dir/Main.cpp.i"
-	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && E:\MinGWLight\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Main.cpp" > CMakeFiles\ApproximationTest.dir\Main.cpp.i
+	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && C:\PROGRA~1\MINGWL~1\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Main.cpp" > CMakeFiles\ApproximationTest.dir\Main.cpp.i
 
 ApproximationTest/CMakeFiles/ApproximationTest.dir/Main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ApproximationTest.dir/Main.cpp.s"
-	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && E:\MinGWLight\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Main.cpp" -o CMakeFiles\ApproximationTest.dir\Main.cpp.s
+	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && C:\PROGRA~1\MINGWL~1\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Main.cpp" -o CMakeFiles\ApproximationTest.dir\Main.cpp.s
 
 ApproximationTest/CMakeFiles/ApproximationTest.dir/Main.cpp.obj.requires:
 
@@ -83,15 +83,15 @@ ApproximationTest/CMakeFiles/ApproximationTest.dir/Main.cpp.obj.provides.build: 
 ApproximationTest/CMakeFiles/ApproximationTest.dir/PairConnectivity.cpp.obj: ApproximationTest/CMakeFiles/ApproximationTest.dir/flags.make
 ApproximationTest/CMakeFiles/ApproximationTest.dir/PairConnectivity.cpp.obj: ../ApproximationTest/PairConnectivity.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="E:\Projects\Git repositories\HypernetTest\src\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object ApproximationTest/CMakeFiles/ApproximationTest.dir/PairConnectivity.cpp.obj"
-	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && E:\MinGWLight\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\ApproximationTest.dir\PairConnectivity.cpp.obj -c "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\PairConnectivity.cpp"
+	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && C:\PROGRA~1\MINGWL~1\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\ApproximationTest.dir\PairConnectivity.cpp.obj -c "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\PairConnectivity.cpp"
 
 ApproximationTest/CMakeFiles/ApproximationTest.dir/PairConnectivity.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ApproximationTest.dir/PairConnectivity.cpp.i"
-	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && E:\MinGWLight\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\PairConnectivity.cpp" > CMakeFiles\ApproximationTest.dir\PairConnectivity.cpp.i
+	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && C:\PROGRA~1\MINGWL~1\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\PairConnectivity.cpp" > CMakeFiles\ApproximationTest.dir\PairConnectivity.cpp.i
 
 ApproximationTest/CMakeFiles/ApproximationTest.dir/PairConnectivity.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ApproximationTest.dir/PairConnectivity.cpp.s"
-	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && E:\MinGWLight\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\PairConnectivity.cpp" -o CMakeFiles\ApproximationTest.dir\PairConnectivity.cpp.s
+	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && C:\PROGRA~1\MINGWL~1\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\PairConnectivity.cpp" -o CMakeFiles\ApproximationTest.dir\PairConnectivity.cpp.s
 
 ApproximationTest/CMakeFiles/ApproximationTest.dir/PairConnectivity.cpp.obj.requires:
 
@@ -107,15 +107,15 @@ ApproximationTest/CMakeFiles/ApproximationTest.dir/PairConnectivity.cpp.obj.prov
 ApproximationTest/CMakeFiles/ApproximationTest.dir/Branch.cpp.obj: ApproximationTest/CMakeFiles/ApproximationTest.dir/flags.make
 ApproximationTest/CMakeFiles/ApproximationTest.dir/Branch.cpp.obj: ../ApproximationTest/Branch.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="E:\Projects\Git repositories\HypernetTest\src\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object ApproximationTest/CMakeFiles/ApproximationTest.dir/Branch.cpp.obj"
-	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && E:\MinGWLight\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\ApproximationTest.dir\Branch.cpp.obj -c "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Branch.cpp"
+	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && C:\PROGRA~1\MINGWL~1\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\ApproximationTest.dir\Branch.cpp.obj -c "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Branch.cpp"
 
 ApproximationTest/CMakeFiles/ApproximationTest.dir/Branch.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ApproximationTest.dir/Branch.cpp.i"
-	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && E:\MinGWLight\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Branch.cpp" > CMakeFiles\ApproximationTest.dir\Branch.cpp.i
+	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && C:\PROGRA~1\MINGWL~1\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Branch.cpp" > CMakeFiles\ApproximationTest.dir\Branch.cpp.i
 
 ApproximationTest/CMakeFiles/ApproximationTest.dir/Branch.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ApproximationTest.dir/Branch.cpp.s"
-	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && E:\MinGWLight\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Branch.cpp" -o CMakeFiles\ApproximationTest.dir\Branch.cpp.s
+	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && C:\PROGRA~1\MINGWL~1\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Branch.cpp" -o CMakeFiles\ApproximationTest.dir\Branch.cpp.s
 
 ApproximationTest/CMakeFiles/ApproximationTest.dir/Branch.cpp.obj.requires:
 
@@ -131,15 +131,15 @@ ApproximationTest/CMakeFiles/ApproximationTest.dir/Branch.cpp.obj.provides.build
 ApproximationTest/CMakeFiles/ApproximationTest.dir/Hypernet.cpp.obj: ApproximationTest/CMakeFiles/ApproximationTest.dir/flags.make
 ApproximationTest/CMakeFiles/ApproximationTest.dir/Hypernet.cpp.obj: ../ApproximationTest/Hypernet.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="E:\Projects\Git repositories\HypernetTest\src\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object ApproximationTest/CMakeFiles/ApproximationTest.dir/Hypernet.cpp.obj"
-	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && E:\MinGWLight\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\ApproximationTest.dir\Hypernet.cpp.obj -c "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Hypernet.cpp"
+	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && C:\PROGRA~1\MINGWL~1\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\ApproximationTest.dir\Hypernet.cpp.obj -c "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Hypernet.cpp"
 
 ApproximationTest/CMakeFiles/ApproximationTest.dir/Hypernet.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ApproximationTest.dir/Hypernet.cpp.i"
-	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && E:\MinGWLight\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Hypernet.cpp" > CMakeFiles\ApproximationTest.dir\Hypernet.cpp.i
+	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && C:\PROGRA~1\MINGWL~1\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Hypernet.cpp" > CMakeFiles\ApproximationTest.dir\Hypernet.cpp.i
 
 ApproximationTest/CMakeFiles/ApproximationTest.dir/Hypernet.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ApproximationTest.dir/Hypernet.cpp.s"
-	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && E:\MinGWLight\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Hypernet.cpp" -o CMakeFiles\ApproximationTest.dir\Hypernet.cpp.s
+	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && C:\PROGRA~1\MINGWL~1\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Hypernet.cpp" -o CMakeFiles\ApproximationTest.dir\Hypernet.cpp.s
 
 ApproximationTest/CMakeFiles/ApproximationTest.dir/Hypernet.cpp.obj.requires:
 
@@ -155,15 +155,15 @@ ApproximationTest/CMakeFiles/ApproximationTest.dir/Hypernet.cpp.obj.provides.bui
 ApproximationTest/CMakeFiles/ApproximationTest.dir/Rote.cpp.obj: ApproximationTest/CMakeFiles/ApproximationTest.dir/flags.make
 ApproximationTest/CMakeFiles/ApproximationTest.dir/Rote.cpp.obj: ../ApproximationTest/Rote.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="E:\Projects\Git repositories\HypernetTest\src\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object ApproximationTest/CMakeFiles/ApproximationTest.dir/Rote.cpp.obj"
-	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && E:\MinGWLight\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\ApproximationTest.dir\Rote.cpp.obj -c "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Rote.cpp"
+	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && C:\PROGRA~1\MINGWL~1\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\ApproximationTest.dir\Rote.cpp.obj -c "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Rote.cpp"
 
 ApproximationTest/CMakeFiles/ApproximationTest.dir/Rote.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ApproximationTest.dir/Rote.cpp.i"
-	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && E:\MinGWLight\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Rote.cpp" > CMakeFiles\ApproximationTest.dir\Rote.cpp.i
+	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && C:\PROGRA~1\MINGWL~1\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Rote.cpp" > CMakeFiles\ApproximationTest.dir\Rote.cpp.i
 
 ApproximationTest/CMakeFiles/ApproximationTest.dir/Rote.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ApproximationTest.dir/Rote.cpp.s"
-	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && E:\MinGWLight\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Rote.cpp" -o CMakeFiles\ApproximationTest.dir\Rote.cpp.s
+	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && C:\PROGRA~1\MINGWL~1\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\Rote.cpp" -o CMakeFiles\ApproximationTest.dir\Rote.cpp.s
 
 ApproximationTest/CMakeFiles/ApproximationTest.dir/Rote.cpp.obj.requires:
 
@@ -179,15 +179,15 @@ ApproximationTest/CMakeFiles/ApproximationTest.dir/Rote.cpp.obj.provides.build: 
 ApproximationTest/CMakeFiles/ApproximationTest.dir/ApproximationAlgorithm.cpp.obj: ApproximationTest/CMakeFiles/ApproximationTest.dir/flags.make
 ApproximationTest/CMakeFiles/ApproximationTest.dir/ApproximationAlgorithm.cpp.obj: ../ApproximationTest/ApproximationAlgorithm.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="E:\Projects\Git repositories\HypernetTest\src\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object ApproximationTest/CMakeFiles/ApproximationTest.dir/ApproximationAlgorithm.cpp.obj"
-	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && E:\MinGWLight\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\ApproximationTest.dir\ApproximationAlgorithm.cpp.obj -c "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\ApproximationAlgorithm.cpp"
+	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && C:\PROGRA~1\MINGWL~1\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\ApproximationTest.dir\ApproximationAlgorithm.cpp.obj -c "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\ApproximationAlgorithm.cpp"
 
 ApproximationTest/CMakeFiles/ApproximationTest.dir/ApproximationAlgorithm.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ApproximationTest.dir/ApproximationAlgorithm.cpp.i"
-	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && E:\MinGWLight\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\ApproximationAlgorithm.cpp" > CMakeFiles\ApproximationTest.dir\ApproximationAlgorithm.cpp.i
+	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && C:\PROGRA~1\MINGWL~1\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\ApproximationAlgorithm.cpp" > CMakeFiles\ApproximationTest.dir\ApproximationAlgorithm.cpp.i
 
 ApproximationTest/CMakeFiles/ApproximationTest.dir/ApproximationAlgorithm.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ApproximationTest.dir/ApproximationAlgorithm.cpp.s"
-	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && E:\MinGWLight\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\ApproximationAlgorithm.cpp" -o CMakeFiles\ApproximationTest.dir\ApproximationAlgorithm.cpp.s
+	cd /d "E:\Projects\Git repositories\HypernetTest\src\CMAKE-~1\APPROX~1" && C:\PROGRA~1\MINGWL~1\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "E:\Projects\Git repositories\HypernetTest\src\ApproximationTest\ApproximationAlgorithm.cpp" -o CMakeFiles\ApproximationTest.dir\ApproximationAlgorithm.cpp.s
 
 ApproximationTest/CMakeFiles/ApproximationTest.dir/ApproximationAlgorithm.cpp.obj.requires:
 

@@ -18,7 +18,7 @@ set(CMAKE_CXX_COMPILER_ID "GNU")
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../MPIHypernetTest"
   "C:/Program Files (x86)/Microsoft SDKs/MPI/include"
-  "e:/MinGW/include"
+  "C:/Program Files/MinGW/include"
   )
 
 # Targets to which this target links.
