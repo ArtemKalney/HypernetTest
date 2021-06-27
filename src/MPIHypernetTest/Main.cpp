@@ -2,6 +2,7 @@
 #include "Funcs.h"
 #include "DTO.h"
 #include "PairConnectivity.h"
+#include "../HypernetModel/Helpers/DataHelper.h"
 
 // инициализация глобальных переменных
 std::ifstream input;
@@ -16,18 +17,6 @@ std::vector<int> KpNodesCombination;
 const double p = 0.9;
 unsigned long long int TotalBytesTransfer = 0;
 int seed = time(0);
-
-// проверка уникальности индекса в списке
-template <class T>
-bool IsUniqueId(const T &items, const int &id) {
-    int count = 0;
-    for(auto &item : items) {
-        if (item.GetId() == id) {
-            count++;
-        }
-    }
-    return count < 2;
-}
 
 // получение данных из файла
 void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vector<Route>& routes,
@@ -122,33 +111,6 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
     input >> str;
     if (strcmp(str, "$$$") != 0) {
         throw "GetData: Incorrect entry";
-    }
-}
-
-// вычисление биномиальных коэффицентов
-void ComputeBinomialCoefficients() {
-    Bin.resize(m + 1);
-    for(auto &item : Bin) {
-        item.resize(m + 1);
-        item.front() = 1;
-    }
-    for (int i = 0; i < Bin.size(); i++) {
-        if (i != 0) {
-            for (int j = 1; j < m + 1; j++) {
-                Bin[i][j] = Bin[i - 1][j - 1] + Bin[i - 1][j];
-            }
-        }
-    }
-}
-
-// метод необходимый для изменения размера ветви
-template <class T>
-void NormalizeSolution(T &element){
-    element.GetC().resize(m + 1);
-    if (element.GetPower() < m) {
-        int power = m - element.GetPower();
-        T unity = T::GetElement(Bin[power], power);
-        element = element * unity;
     }
 }
 
@@ -251,6 +213,7 @@ void SendControl(H &H, const T& pseudoElement, int &size) {
         }
     }
 }
+
 //todo разобраться с условием HasReliablePath
 template <class T>
 void PrepareSendHypernet(T &sum, std::vector<H> &hypernetList, H &H, T& pseudoElement, int &size) {
@@ -351,14 +314,6 @@ void ComputeAPC(T &sum, const H& initialHypernet, int &size) {
     }
 }
 
-// обработчик ошибок
-void ErrorHandler(const char *str) {
-    std::cout << "--------------------------------" << std::endl;
-    std::cout << "Occurred next error:" << std::endl;
-    std::cout << str << std::endl;
-    std::cout << "--------------------------------" << std::endl;
-}
-
 // вычисление гиперсети
 template <class T>
 void ComputeHypernet(T &sum, H &initialHypernet, int &size, int &option) {
@@ -385,6 +340,7 @@ void BcastDataByMaster() {
     MPI_Bcast(&m, 1, MPI_INT, HOST_PROCESSOR, MPI_COMM_WORLD);
     MPI_Bcast(&k, 1, MPI_INT, HOST_PROCESSOR, MPI_COMM_WORLD);
 }
+
 // вывод расчётных данных
 template <class T>
 void PrintSolution(T &solution, double &time) {
@@ -408,15 +364,7 @@ void PrintSolution(T &solution, double &time) {
         std::cout << "TotalBytesTransfer : " << TotalBytesTransfer << std::endl;
         std::cout << "HelpProcessors : " << HelpProcessors << std::endl;
     }
-    if (!solution.IsZero()) {
-        if (IS_NUMBER_COMPUTATION == 0) {
-            NormalizeSolution(solution);
-        }
-        std::cout << "Value at point " << p << ": " << std::setprecision(14) << solution.GetPolynomialValue(p)
-                  << std::endl;
-    } else {
-        std::cout << "unconnected hypernet" << std::endl;
-    }
+    PrintSolution(solution);
     for (auto &item : solution.GetC()) {
         output << std::setprecision(14) << item << " ";
     }
@@ -546,6 +494,7 @@ void ComputeCombinations(const std::vector<int> &vector, std::vector<std::vector
         combination.pop_back();
     }
 }
+
 // инициализация работы процесса мастера
 template <class T>
 void Master(int size) {

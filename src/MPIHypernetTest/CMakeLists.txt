@@ -10,7 +10,7 @@ set(SOURCE_FILES Main.cpp Stdafx.h Funcs.h Globals.h DTO.h ../HypernetModel/Help
         ../HypernetTest/Stdafx.h ../HypernetModel/Branch.h
         ../HypernetModel/Branch.cpp ../HypernetModel/Hypernet.h ../HypernetModel/Hypernet.cpp ../HypernetModel/Route.H
         ../HypernetModel/Node.h ../HypernetModel/IIdentity.h ../HypernetModel/Helpers/ReductionHelper.cpp ApplicationSettings.h
-        ../HypernetModel/Element.h ../HypernetModel/Helpers/FactorizationHelper.cpp ../HypernetModel/Node.cpp ../HypernetModel/Operators.h PairConnectivity.h)
+        ../HypernetModel/Element.h ../HypernetModel/Helpers/FactorizationHelper.cpp ../HypernetModel/Node.cpp ../HypernetModel/Operators.h PairConnectivity.h ../HypernetModel/Helpers/DataHelper.cpp ../HypernetModel/Helpers/DataHelper.h)
 add_executable(MPIHypernetTest ${SOURCE_FILES})
 # Require MPI for this project:
 find_package(MPI REQUIRED)

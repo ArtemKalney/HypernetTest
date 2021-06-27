@@ -8,7 +8,7 @@ set(SOURCE_FILES Main.cpp Funcs.h Globals.h Stdafx.h
         ../HypernetModel/Helpers/ReductionHelper.cpp Tests.cpp ../HypernetModel/Node.h
         ../HypernetModel/Node.cpp
         ComputeMENC.h ComputeAPC.h ../HypernetModel/Helpers/FactorizationHelper.cpp FullEnumeration.cpp ../HypernetModel/IIdentity.h ApplicationSettings.h ../HypernetModel/Element.h ../HypernetModel/Operators.h
-        ../HypernetModel/Helpers/RandomHypernetHelper.cpp)
+        ../HypernetModel/Helpers/RandomHypernetHelper.cpp ../HypernetModel/Helpers/DataHelper.cpp ../HypernetModel/Helpers/DataHelper.h)
 add_executable(HypernetTest ${SOURCE_FILES})
 #standard libraries
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")

@@ -12,3 +12,4 @@ template <class T>
 T FullEnumeration(H &H);
 template <class T>
 T PairConnectivity(H &H);
+void ErrorHandler(const char *str);
