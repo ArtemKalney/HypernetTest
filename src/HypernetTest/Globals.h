@@ -1,6 +1,6 @@
 #pragma once
 
-#include "HypernetBase/Stdafx.h"
+#include "Stdafx.h"
 #include "ApplicationSettings.h"
 
 extern std::vector<std::vector<double>> Bin;

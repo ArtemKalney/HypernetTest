@@ -1,6 +1,6 @@
 #pragma once
 
-#include "HypernetBase/Hypernet.h"
+#include "../HypernetModel/Hypernet.h"
 
 // структура для коммуникациями между процессами
 template<class T>

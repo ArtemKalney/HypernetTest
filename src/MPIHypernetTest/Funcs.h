@@ -1,6 +1,6 @@
 #pragma once
 
-#include "HypernetBase/Hypernet.h"
+#include "../HypernetModel/Hypernet.h"
 
 // определения заголовков для глобальных функций
 

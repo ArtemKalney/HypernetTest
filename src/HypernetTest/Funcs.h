@@ -1,6 +1,6 @@
 #pragma once
 
-#include "HypernetBase/Hypernet.h"
+#include "../HypernetModel/Hypernet.h"
 
 void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vector<Route>& routes);
 void ComputeBinomialCoefficients();

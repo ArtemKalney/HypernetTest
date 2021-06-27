@@ -12,8 +12,6 @@
 #include <ctime>
 #include <memory>
 #include <stack>
-#include <mpi.h>
-#include <sstream>
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/serialization/base_object.hpp>

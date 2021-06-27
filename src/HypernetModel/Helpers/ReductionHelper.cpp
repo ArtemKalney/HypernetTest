@@ -1,4 +1,4 @@
-#include "Hypernet.h"
+#include "../Hypernet.h"
 #include "Globals.h"
 
 // Chain replacement by branch
