@@ -1,9 +1,5 @@
 #pragma once
 
-#include "../HypernetModel/Route.h"
-#include "../HypernetModel/Node.h"
-#include "../HypernetModel/Branch.h"
+#include "../HypernetModel/Hypernet.h"
 
-void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vector<Route>& routes);
-void ComputeBinomialCoefficients();
-void ErrorHandler(const char *str);
+H GetRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nodes, std::vector<int>& testNodes);

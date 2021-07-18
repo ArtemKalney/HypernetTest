@@ -8,8 +8,4 @@ template <class T>
 void Send(const T &object, int processorNumber);
 template <class T>
 T Recv();
-H GetRandomHypernet();
-H GetAoshRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nodes);
 H GetKpRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nodes);
-void ComputeBinomialCoefficients();
-void ErrorHandler(const char *str);

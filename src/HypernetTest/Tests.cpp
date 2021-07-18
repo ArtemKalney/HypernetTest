@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 #include "ComputeMENC.h"
 #include "ComputeAPC.h"
+#include "../HypernetModel/Helpers/DataHelper.h"
 
 //todo разобраться почему точность для ветвей низкая
 const double Eps = 0.00001;

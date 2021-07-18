@@ -3,6 +3,7 @@
 #include "DTO.h"
 #include "PairConnectivity.h"
 #include "../HypernetModel/Helpers/DataHelper.h"
+#include "../HypernetModel/Helpers/RandomHypernetHelper.h"
 
 // инициализация глобальных переменных
 std::ifstream input;
@@ -29,88 +30,10 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
         return;
     }
 
-    if (!input.is_open()) {
-        throw "GetData: File can not be opened!";
-    }
-    char str[50];
-    input.getline(str, 50);
-    std::cout << "Input hypernet : " << str << std::endl;
-    int buf;
-    input >> buf; n = buf;
-    input >> buf; m = buf;
-    input >> buf; k = buf;
     if (IS_OPTIMIZATION == 1) {
-        input >> buf; l = buf;
-    }
-    // Read all nodes from input.txt
-    for (int i = 0; i < n; i++) {
-        input >> buf; int nodeNumber = buf - 1;
-        double doubleBuf;
-        input >> doubleBuf; double value = doubleBuf;
-        Node node = Node::GetSimpleElement(nodeNumber, value, false);
-        nodes.push_back(node);
-        if (!IsUniqueId(nodes, nodeNumber)) {
-            throw "GetData: not unique branch id";
-        }
-    }
-    std::vector<std::vector<int>> branchRouteIds;
-    // Read all branches from input.txt
-    for (int i = 0; i < m; i++) {
-        input >> buf; int id = buf;
-        input >> buf; int firstNode = buf - 1;
-        input >> buf; int secondNode = buf - 1;
-        std::vector<int> vector;
-        input >> buf;
-        while (buf != 0) {
-            int routeId = buf;
-            vector.push_back(routeId);
-            input >> buf;
-        }
-        branchRouteIds.push_back(vector);
-        branches.push_back(Branch::GetSimpleElement(id, firstNode, secondNode));
-        if (!IsUniqueId(branches, id)) {
-            throw "GetData: not unique branch id";
-        }
-    }
-    // Read all routes from input.txt
-    for (int i = 0; i < k; i++) {
-        std::vector<int> vector;
-        input >> buf; int id = buf;
-        input >> buf;
-        while (buf != 0) {
-            int node = buf - 1;
-            vector.push_back(node);
-            input >> buf;
-        }
-
-        auto ptr = std::make_shared<std::vector<int>>(vector);
-        routes.emplace_back(id, ptr);
-        if (!IsUniqueId(routes, id)) {
-            throw "GetData: not unique route id";
-        }
-    }
-    if (IS_OPTIMIZATION == 1) {
-        // Read all test nodes from input.txt
-        for (int i = 0; i < l; i++) {
-            input >> buf;
-            testNodes.push_back(--buf);
-        }
-    }
-    // Fill branch Routes by ids
-    for (int i = 0; i < branches.size(); i++) {
-        auto vector = branchRouteIds[i];
-        for (auto &routeId : vector) {
-            auto it = std::find_if(routes.begin(), routes.end(), [routeId](Route &item) ->
-                    bool { return routeId == item.Id; });
-            if (it != routes.end()) {
-                branches[i].GetRoutes().push_back(routes[it - routes.begin()]);
-            }
-        }
-    }
-    // Input should end by $$$
-    input >> str;
-    if (strcmp(str, "$$$") != 0) {
-        throw "GetData: Incorrect entry";
+        GetDataWithTestNodes(branches, nodes, routes, testNodes);
+    } else {
+        GetData(branches, nodes, routes);
     }
 }
 
@@ -409,11 +332,7 @@ void ComputeSolution(T &solution, int &size, int &option, std::vector<Branch> br
         H initialHypernet;
         // выбор метода получения гиперстеи (случайно или из аргументов функции)
         if (IS_OPTIMIZATION == 1) {
-            if (IS_OPTIMIZATION_AOSH == 1) {
-                initialHypernet = GetAoshRandomHypernet(branches, nodes);
-            } else {
-                initialHypernet = GetKpRandomHypernet(branches, nodes);
-            }
+            initialHypernet = GetKpRandomHypernet(branches, nodes);
             if (IS_DEBUG == 1) {
                 initialHypernet.LogHypernet();
             }
@@ -524,24 +443,13 @@ void Master(int size) {
             PrintSolution(solution, time);
         }
     } else {
-        if (IS_OPTIMIZATION_AOSH == 1) {
-            for(int i=0; i<testNodes.size() - 1; i++) {
-                FirstRoot = testNodes[i];
-                for(int j=i+1; j<testNodes.size(); j++) {
-                    SecondRoot = testNodes[j];
-                    ComputeSolution<T>(solution, size, option, branches, nodes, routes, time);
-                    PrintSolutionOptimization(solution, time);
-                }
-            }
-        } else {
-            std::vector<std::vector<int>> combinations;
-            std::vector<int> combination;
-            ComputeCombinations(testNodes, combinations, combination, 0, OPTIMIZATION_KP_COUNT);
-            for(auto &item : combinations) {
-                KpNodesCombination = item;
-                ComputeSolution<T>(solution, size, option, branches, nodes, routes, time);
-                PrintSolutionOptimization(solution, time);
-            }
+        std::vector<std::vector<int>> combinations;
+        std::vector<int> combination;
+        ComputeCombinations(testNodes, combinations, combination, 0, OPTIMIZATION_KP_COUNT);
+        for(auto &item : combinations) {
+            KpNodesCombination = item;
+            ComputeSolution<T>(solution, size, option, branches, nodes, routes, time);
+            PrintSolutionOptimization(solution, time);
         }
     }
     for (int i = 1; i < size; i++) {

@@ -4,10 +4,11 @@
 #include "ComputeMENC.h"
 #include "ComputeAPC.h"
 #include "../HypernetModel/Helpers/DataHelper.h"
+#include "../HypernetModel/Helpers/RandomHypernetHelper.h"
 
 std::ifstream input;
 std::ofstream output;
-int n = 0, m = 0, k = 0;
+int n = 0, m = 0, k = 0, l = 0;
 int ReliableHypernets = 0, UnconnectedHypernets = 0, TwoNodesHypernets = 0, ChainsReduced = 0,
         UnconnectedNodesReduced = 0, PairConnectivityCalls = 0, EdgesReduced = 0, ComplexChains = 0,
         TreeNodeIntersections = 0, UnconnectedTreeNodes = 0;
@@ -94,24 +95,11 @@ int main(int argc, char** argv) {
         // Create an initialHypernet
         H initialHypernet;
         if (IS_RANDOM_HYPERNET == 1) {
-            if (IS_RANDOM_AOSH == 1) {
-                FirstRoot = RANDOM_FIRST_TREE_ROOT;
-                SecondRoot = RANDOM_SECOND_TREE_ROOT;
-                initialHypernet = GetAoshRandomHypernet(branches, nodes);
-                output << "FirstRoot " << RANDOM_FIRST_TREE_ROOT + 1 << std::endl;
-                output << "SecondRoot " << RANDOM_SECOND_TREE_ROOT + 1 << std::endl;
-                output << "TreeNodeIntersections " << TreeNodeIntersections << std::endl;
-                output << "UnconnectedTreeNodes " << UnconnectedTreeNodes << std::endl;
-            } else if (IS_RANDOM_KP == 1) {
-                KpNodesCombination = {0, 6, 12, 18, 24};
-                initialHypernet = GetKpRandomHypernet(branches, nodes);
+            k = n + RANDOM_ADDITIONAL_EDGES;
+            if (USE_PRIMARY_NETWORK == 1) {
+                initialHypernet = GetRandomHypernet(branches, nodes);
             } else {
-                k = n + RANDOM_ADDITIONAL_EDGES;
-                if (IS_RANDOM_SN == 1) {
-                    initialHypernet = GetRandomHypernet(branches, nodes);
-                } else {
-                    initialHypernet = GetRandomHypernet();
-                }
+                initialHypernet = GetRandomHypernet();
             }
             initialHypernet.LogHypernet();
             return 0;

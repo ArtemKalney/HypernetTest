@@ -23,12 +23,7 @@
 // Экспериментальные показатели для CHAIN_REDUCTION
 #define IS_FULL_SEARCH_CHAINS 0
 #define IS_REDUCE_RELIABLE_CHAINS 0
-// Работа с оптимизацией
+// Генерация случайной гиперсети (без вычисления надёжности)
 #define IS_RANDOM_HYPERNET 0
-#define IS_RANDOM_AOSH 0
-#define IS_RANDOM_KP 0
-#define IS_RANDOM_SN 1
-#define RANDOM_TREE_SIZE 27
-#define RANDOM_FIRST_TREE_ROOT 0
-#define RANDOM_SECOND_TREE_ROOT 16
+#define USE_PRIMARY_NETWORK 1
 #define RANDOM_ADDITIONAL_EDGES 5
