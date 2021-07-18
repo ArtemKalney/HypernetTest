@@ -16,3 +16,5 @@
 // Экспериментальные показатели для CHAIN_REDUCTION
 #define IS_FULL_SEARCH_CHAINS 0
 #define IS_REDUCE_RELIABLE_CHAINS 0
+// пропорция стевых вершин
+#define NETWORK_NODES_PROPRTION 5

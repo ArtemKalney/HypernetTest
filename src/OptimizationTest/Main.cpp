@@ -8,7 +8,7 @@
 std::ifstream input;
 std::ofstream output;
 const double p = 0.9;
-int n = 0, m = 0, k = 0, l = 0;
+int n = 0, m = 0, k = 0;
 int ReliableHypernets = 0, UnconnectedHypernets = 0, TwoNodesHypernets = 0, ChainsReduced = 0,
         UnconnectedNodesReduced = 0, PairConnectivityCalls = 0, EdgesReduced = 0, ComplexChains = 0,
         TreeNodeIntersections = 0, UnconnectedTreeNodes = 0;
@@ -23,11 +23,10 @@ int main(int argc, char** argv) {
         std::vector<Branch> branches;
         std::vector<Node> nodes;
         std::vector<Route> routes;
-        std::vector<int> testNodes;
-        GetDataWithTestNodes(branches, nodes, routes, testNodes);
+        GetData(branches, nodes, routes);
         // Create an initialHypernet
         H initialHypernet;
-        initialHypernet = GetRandomHypernet(branches, nodes, testNodes);
+        initialHypernet = GetRandomNetworkHypernet(branches, nodes);
         initialHypernet.RemoveEmptyBranches();
         ComputeBinomialCoefficients();
         Branch branchSum = Branch::GetZero();

@@ -8,8 +8,6 @@
 void ComputeBinomialCoefficients();
 void ErrorHandler(const char *str);
 void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vector<Route>& routes);
-void GetDataWithTestNodes(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vector<Route>& routes,
-                          std::vector<int>& testNodes);
 
 template <class T>
 void NormalizeSolution(T &element){

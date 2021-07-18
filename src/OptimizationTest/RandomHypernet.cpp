@@ -1,8 +1,16 @@
 #include "../HypernetModel/Hypernet.h"
 #include "../HypernetModel/Helpers/RandomHypernetHelper.h"
 
-H GetRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nodes, std::vector<int>& testNodes) {
+H GetRandomNetworkHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nodes) {
     srand(seed++);
+    int node = rand() % nodes.size();
+    std::vector<int> testNodes {node};
+    while (node == testNodes.back() && nodes.size() / testNodes.size() < NETWORK_NODES_PROPRTION) {
+        node = rand() % nodes.size();
+        if (node != testNodes.back()) {
+            testNodes.push_back(node);
+        }
+    }
     int size = testNodes.size();
     k = size *  (size - 1) / 2;
 
