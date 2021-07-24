@@ -101,3 +101,8 @@ void ErrorHandler(const char *str) {
     std::cout << str << std::endl;
     std::cout << "--------------------------------" << std::endl;
 }
+
+void HandleException(const std::exception &e) {
+    std::cerr << e.what() << std::endl;
+    output << e.what() << std::endl;
+}

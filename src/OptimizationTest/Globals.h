@@ -11,3 +11,4 @@ extern const double p;
 extern std::ifstream input;
 extern std::ofstream output;
 extern int seed;
+extern int GeneticAlgorithmIterations, CheckedConditions, UncheckedConditions;

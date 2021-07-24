@@ -5,14 +5,14 @@ H GetRandomNetworkHypernet(std::vector<Branch> primaryNetwork, std::vector<Node>
     srand(seed++);
     int node = rand() % nodes.size();
     std::vector<int> testNodes {node};
-    while (node == testNodes.back() && nodes.size() / testNodes.size() < NETWORK_NODES_PROPRTION) {
+    while (nodes.size() / testNodes.size() > NETWORK_NODES_PROPORTION) {
         node = rand() % nodes.size();
-        if (node != testNodes.back()) {
+        if (std::find(testNodes.begin(), testNodes.end(), node) == testNodes.end()) {
             testNodes.push_back(node);
         }
     }
     int size = testNodes.size();
-    k = size *  (size - 1) / 2;
+    k = size * (size - 1) / 2;
 
     auto secondaryNetwork = GetRandomNetwork(size, k);
     std::vector<Route> routes;

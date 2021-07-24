@@ -483,20 +483,6 @@ void ComputeSolution(T &solution, int &size, int &option, std::vector<Branch> br
     solution = solution + sum;
 }
 
-void ComputeCombinations(const std::vector<int> &vector, std::vector<std::vector<int>> &combinations,
-                         std::vector<int> &combination, int offset, int k) {
-    if (k == 0) {
-        combinations.push_back(combination);
-        return;
-    }
-
-    for (int i = offset; i <= vector.size() - k; ++i) {
-        combination.push_back(vector[i]);
-        ComputeCombinations(vector, combinations, combination, i + 1, k - 1);
-        combination.pop_back();
-    }
-}
-
 // инициализация работы процесса мастера
 template <class T>
 void Master(int size) {

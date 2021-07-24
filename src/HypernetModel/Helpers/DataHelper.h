@@ -6,8 +6,25 @@
 #include "../Branch.h"
 
 void ComputeBinomialCoefficients();
+//todo перейти на использование std::runtime_error
 void ErrorHandler(const char *str);
 void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vector<Route>& routes);
+void HandleException(const std::exception &e);
+
+template <class T>
+void ComputeCombinations(const std::vector<T> &vector, std::vector<std::vector<T>> &combinations,
+                         std::vector<T> &combination, int offset, int k) {
+    if (k == 0) {
+        combinations.push_back(combination);
+        return;
+    }
+
+    for (int i = offset; i <= vector.size() - k; ++i) {
+        combination.push_back(vector[i]);
+        ComputeCombinations(vector, combinations, combination, i + 1, k - 1);
+        combination.pop_back();
+    }
+}
 
 template <class T>
 void NormalizeSolution(T &element){
