@@ -81,7 +81,7 @@ void SetMapping(std::vector<Branch> &primaryNetwork, std::vector<Branch> &second
 }
 
 // получение случайной гиперсети
-H GetRandomHypernet(std::vector<Branch> primaryNetwork, std::vector<Node> &nodes) {
+H GetRandomHypernet(std::vector<Branch>& primaryNetwork, std::vector<Node> &nodes) {
     srand(seed++);
     auto secondaryNetwork = GetRandomNetwork(n, k);
     std::vector<Route> routes;

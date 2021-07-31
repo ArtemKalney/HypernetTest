@@ -4,6 +4,7 @@
 #include "../Route.h"
 #include "../Node.h"
 #include "../Branch.h"
+#include "../Hypernet.h"
 
 void ComputeBinomialCoefficients();
 //todo перейти на использование std::runtime_error
@@ -53,12 +54,28 @@ void PrintSolution(T& sum) {
 }
 
 template <class T>
-bool IsUniqueId(const T &items, const int &id) {
+bool IsUniqueId(const std::vector<T>& items, const int id) {
     int count = 0;
     for(auto &item : items) {
         if (item.GetId() == id) {
             count++;
         }
     }
+
     return count < 2;
+}
+
+template <class T>
+int GetUniqueId(const std::vector<T>& items, const int startId) {
+    int id = startId;
+    while (!IsUniqueId(items, id) || std::find(items.begin(), items.end(), id) != items.end()) {
+        id++;
+    }
+
+    return id;
+}
+
+template <class T>
+int GetUniqueId(const std::vector<T>& items) {
+    return GetUniqueId(items, items.size());
 }

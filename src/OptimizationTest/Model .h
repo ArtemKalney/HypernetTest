@@ -1,43 +1,58 @@
 #pragma once
 
 #include "../HypernetModel/Hypernet.h"
+#include "../HypernetModel/Helpers/DataHelper.h"
 
 class Model {
 private:
     H _hypernet;
     std::vector<Branch> _solution;
-    int _objFunctionValue;
-    bool _isConditionsChecked;
+    int _objFunctionValue{};
+    bool _isConditionsChecked{};
+    double _reliability{};
 public:
     Model() = default;
 
     Model(H &hypernet, std::vector<Branch> &solution) :
             _hypernet(hypernet),
-            _solution(solution),
-            _objFunctionValue(0)
+            _solution(std::move(solution))
     {
         std::vector<Node> newNodes;
         // добавляем b-nodes
-        for(auto &item : solution) {
-            newNodes.push_back(AddNode(item));
+        for(auto &item : _solution) {
+            // находим нужную ветсь для нашей копии гиперсети
+            newNodes.push_back(AddNode(*std::find(_hypernet.GetFN().begin(), _hypernet.GetFN().end(), item)));
         }
         // добавляем c-node
-        Node newNode = Node::GetSimpleElement(_hypernet.GetNodes().size() + 1, p, false);
+        Node newNode = Node::GetSimpleElement(GetUniqueId(_hypernet.GetNodes()), p, false);
         _hypernet.GetNodes().push_back(newNode);
         for(auto &item : newNodes) {
-            Branch newBranch = Branch::GetSimpleElement(_hypernet.GetFN().size() + 1, newNode.GetId(), item.GetId());
+            Branch newBranch = Branch::GetSimpleElement(GetUniqueId(_hypernet.GetFN()), newNode.GetId(), item.GetId());
             std::vector<int> newVector {newNode.GetId(), item.GetId()};
             auto ptr = std::make_shared<std::vector<int>>(newVector);
-            Route newRoute = Route(_hypernet.GetF().size(), ptr);
+            Route newRoute = Route(GetUniqueId(_hypernet.GetF()), ptr);
             newBranch.GetRoutes().push_back(newRoute);
+//            newBranch.SetIsReliable(true);
             _hypernet.GetFN().push_back(newBranch);
+            _hypernet.GetF().emplace_back(newRoute);
         }
-        _objFunctionValue = solution.size();
+        _hypernet.RenumerateNodes(0, newNode.GetId());
+        if (IS_DEBUG == 1) {
+            _hypernet.LogHypernet();
+        }
+        if (!_hypernet.IsValidHypernet()) {
+            throw std::runtime_error("Generated not valid hypernet in model");
+        }
+        _objFunctionValue = _solution.size();
         _isConditionsChecked = CheckConditions();
     }
 
     double GetObjFunctionValue() const {
         return _objFunctionValue;
+    }
+
+    double GetReliability() const {
+        return _reliability;
     }
 
     std::vector<Branch>& GetSolution() {

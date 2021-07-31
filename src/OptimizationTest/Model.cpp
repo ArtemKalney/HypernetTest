@@ -1,42 +1,55 @@
 #include "Model .h"
 #include "../HypernetTest/ComputeMENC.h"
+#include "../HypernetModel/Helpers/DataHelper.h"
 
 Node Model::AddNode(Branch &branch) {
     // добавляем вершину
-    Node newNode = Node::GetSimpleElement(_hypernet.GetNodes().size() + 1, p, false);
+    Node newNode = Node::GetSimpleElement(GetUniqueId(_hypernet.GetNodes()), p, false);
     _hypernet.GetNodes().push_back(newNode);
-    // добавляем ветвь
-    int secondNode = branch.GetSecondNode();
-    branch.SetSecondNode(newNode.GetId());
-    Branch newBranch = Branch::GetSimpleElement(_hypernet.GetFN().size() + 1, newNode.GetId(), secondNode);
     // добавляем маршруты
+    int firstNode = -1;
+    std::vector<Route> newRoutes;
     for(auto &route : branch.GetRoutes()) {
         auto newVector = *route.Ptr;
-        auto it = std::find(route.Ptr->begin(), route.Ptr->end(), secondNode);
-        route.Ptr->erase(it, route.Ptr->end());
-        newVector.erase(route.Ptr->begin(), it);
-        if (std::find(route.Ptr->begin(), route.Ptr->end(), branch.GetFirstNode()) != route.Ptr->end()) {
-            route.Ptr->push_back(newNode.GetId());
-            newVector.insert(newVector.begin(), newNode.GetId());
-        } else {
-            route.Ptr->insert(route.Ptr->begin(), newNode.GetId());
-            newVector.push_back(newNode.GetId());
+        for (int i = 0; i < newVector.size() - 1; ++i) {
+            if (H::IsIncident(newVector[i], branch) && H::IsIncident(newVector[i + 1], branch)) {
+                firstNode = newVector[i];
+                newVector.erase(newVector.begin() + i + 1, newVector.end());
+                newVector.push_back(newNode.GetId());
+                route.Ptr->erase(route.Ptr->begin(), route.Ptr->begin() + i + 1);
+                route.Ptr->insert(route.Ptr->begin(), newNode.GetId());
+                break;
+            }
         }
         auto ptr = std::make_shared<std::vector<int>>(newVector);
-        Route newRoute = Route(_hypernet.GetF().size(), ptr);
+        Route newRoute = Route(GetUniqueId(_hypernet.GetF()), ptr);
         // заменяем старый маршрут новым
         for(auto &item : _hypernet.GetFN()) {
-            for(auto &node : newVector) {
-                auto branchIt = std::find(item.GetRoutes().begin(), item.GetRoutes().end(), node);
-                if (branchIt != item.GetRoutes().end()) {
-                    item.GetRoutes()[branchIt - item.GetRoutes().begin()] = newRoute;
+            auto routeIt = std::find(item.GetRoutes().begin(), item.GetRoutes().end(), route);
+            if (routeIt != item.GetRoutes().end()) {
+                for (int i = 0; i < newVector.size() - 1; ++i) {
+                    if (H::IsIncident(newVector[i], item) && H::IsIncident(newVector[i + 1], item)) {
+                       *routeIt = newRoute;
+                        continue;
+                    }
                 }
             }
         }
-        newBranch.GetRoutes().push_back(newRoute);
+        newRoutes.push_back(newRoute);
         _hypernet.GetF().emplace_back(newRoute);
     }
-    _hypernet.GetFN().push_back(newBranch);
+    // добавляем ветвь
+    if (firstNode < 0) {
+        throw std::runtime_error("First node for new branch not found for model.");
+    }
+    Branch newBranch = Branch::GetSimpleElement(GetUniqueId(_hypernet.GetFN()), firstNode, newNode.GetId());
+    if (branch.GetFirstNode() == firstNode) {
+        branch.SetFirstNode(newNode.GetId());
+    } else {
+        branch.SetSecondNode(newNode.GetId());
+    }
+    newBranch.SetRoutes(newRoutes);
+    _hypernet.GetFN().emplace_back(newBranch);
 
     return newNode;
 }
@@ -46,16 +59,22 @@ bool Model::CheckConditions() {
         return false;
     }
 
-    Branch branchSum = Branch::GetZero();
-    Node nodeSum = Node::GetZero();
     if (IS_NODES_RELIABLE == 1) {
+        Branch branchSum = Branch::GetZero();
         ComputeMENC(branchSum, _hypernet);
-        if (branchSum.GetPolynomialValue(p) < MIN_MENC_VALUE) {
+        //todo переделать без обновления переменных
+        n = _hypernet.GetNodes().size();
+        m = _hypernet.GetFN().size();
+        k = _hypernet.GetF().size();
+        _reliability = branchSum.GetPolynomialValue(p);
+        if (_reliability < MIN_MENC_VALUE) {
             return false;
         }
     } else {
+        Node nodeSum = Node::GetZero();
         ComputeMENC(nodeSum, _hypernet);
-        if (nodeSum.GetPolynomialValue(p) < MIN_MENC_VALUE) {
+        _reliability = nodeSum.GetPolynomialValue(p);
+        if (_reliability < MIN_MENC_VALUE) {
             return false;
         }
     }
@@ -86,7 +105,7 @@ bool operator !=(Model &firstElement, Model &secondElement) {
 }
 
 void Model::PrintModel() {
-    std::cout << "Route:";
-    PrintVector(_solution);
-    std::cout << "ObjFunctionValue=" << GetObjFunctionValue() << std::endl;
+    std::cout << "Solution:" << VectorToString(_solution) << std::endl;
+    std::cout << "Reliability:" << _reliability << std::endl;
+    std::cout << "ObjFunctionValue:" << _objFunctionValue << std::endl;
 }

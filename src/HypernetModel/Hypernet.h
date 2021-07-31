@@ -132,6 +132,8 @@ public:
 
     Branch ParallelReduction();
 
+    bool IsValidHypernet();
+
     //print
     void PrintHypernet();
 

@@ -8,7 +8,7 @@
 //todo разобраться почему точность для ветвей низкая
 const double Eps = 0.00001;
 const double NodeEps = 0.0000000000001;
-const std::string TestFolderPath = "inputs/tests/";
+const std::string TestFolderPath = "../../HypernetTest/inputs/tests/";
 
 class TestCriteria : public ::testing::Test {
 public:

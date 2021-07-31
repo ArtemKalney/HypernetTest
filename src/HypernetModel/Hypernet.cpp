@@ -499,20 +499,21 @@ void H::PrintHypernet() {
 }
 
 void H::LogHypernet() {
-    output << "Hypernet(" << n << ", " << m << ", " << _F.size() << ")" << std::endl;
+    output << "Hypernet(" << _nodes.size() << ", " << _FN.size() << ", " << _F.size() << ")" << std::endl;
     output << _nodes.size() << " " << _FN.size() << " "  << _F.size() << std::endl;
+    for(auto &node : _nodes) {
+        output << node.GetId() << std::endl;
+        output << node.GetValue() << std::endl;
+    }
     for(auto &branch : _FN) {
         output << branch.GetId() << std::endl;
-        output << branch.GetFirstNode() + 1 << " " << branch.GetSecondNode() + 1 << std::endl;
-        for (auto &item : branch.GetRoutes()) {
-            output << item.GetId() + 1 << " ";
-        }
-        output << 0 << std::endl;
+        output << branch.GetFirstNode() << " " << branch.GetSecondNode() << std::endl;
+        output << VectorToString(branch.GetRoutes(), " ") << " " << 0 << std::endl;
     }
     for(auto &route : _F) {
-        output << route.GetId() + 1 << std::endl;
+        output << route.GetId() << std::endl;
         for (auto &item : *route.Ptr) {
-            output << item + 1 << " ";
+            output << item << " ";
         }
         output << 0 << std::endl;
     }
@@ -538,6 +539,25 @@ void H::RenumerateNodesForGen(const int& firstNode, const int& secondNode) {
         }
     }
 }
+
+bool H::IsValidHypernet() {
+    for(auto &branch : _FN) {
+        for(auto &item : branch.GetRoutes()) {
+            bool isIncidentRoute = false;
+            for (int i = 0; i < item.Ptr->size() - 1; ++i) {
+                if (H::IsIncident(item.Ptr->at(i), branch) && H::IsIncident(item.Ptr->at(i + 1), branch)) {
+                    isIncidentRoute = true;
+                }
+            }
+            if (!isIncidentRoute) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
 // to debug
 std::vector<std::vector<int>> H::GetRoutesF(){
     std::vector<std::vector<int>> edges;

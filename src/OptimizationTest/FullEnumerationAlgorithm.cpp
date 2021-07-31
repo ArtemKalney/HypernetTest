@@ -2,6 +2,9 @@
 #include "../HypernetModel/Helpers/DataHelper.h"
 
 std::shared_ptr<Model> FullEnumerationAlgorithm::GetMinModel() {
+    if (MAX_BRANCH_COUNT - 1 > _hypernet.GetFN().size()) {
+        throw std::runtime_error("MAX_BRANCH_COUNT is bigger then size of branches");
+    }
     std::vector<std::vector<Branch>> combinations;
     std::vector<Branch> vector;
     for (int i = 1; i < MAX_BRANCH_COUNT; ++i) {
@@ -14,16 +17,16 @@ std::shared_ptr<Model> FullEnumerationAlgorithm::GetMinModel() {
         if (model->GetIsConditionsChecked()) {
             CheckedConditions++;
             models.push_back(*model);
-            if (IS_DEBUG == 1) {
-                model->PrintModel();
-                std::cout << std::endl;
-            }
         } else {
             UncheckedConditions++;
         }
+        if (IS_DEBUG == 1) {
+            model->PrintModel();
+            std::cout << std::endl;
+        }
     }
     if (models.empty()) {
-        throw std::runtime_error("There ara no models satisfying the task conditions. Please check task conditions.");
+        throw std::runtime_error("There ara no models satisfying the task conditions. Please check model conditions.");
     }
     auto minModelIt = std::min_element(models.begin(), models.end(), Model::ModelCompare);
 

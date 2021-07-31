@@ -1,26 +1,9 @@
 #include "Globals.h"
 #include "Funcs.h"
 
-void LogData() {
-    time_t rawTime;
-    time(&rawTime);
-    output << ctime(&rawTime);
-    output << PairConnectivityCalls << " ";
-    output << UnconnectedNodesReduced << " ";
-    output << EdgesReduced << " ";
-    output << ChainsReduced << " ";
-    output << ComplexChains << " ";
-    output << ReliableHypernets << " ";
-    output << UnconnectedHypernets << " ";
-    output << TwoNodesHypernets << std::endl;
-}
-
 template <class T>
 T RecursivePairConnectivity(H &H, T &pseudoElement) {
     PairConnectivityCalls++;
-    if (IS_DEBUG == 1) {
-        LogData();
-    }
     T returnValue;
     bool hasReturnValue = H.Reductions<T>(pseudoElement, returnValue);
     if (hasReturnValue) {

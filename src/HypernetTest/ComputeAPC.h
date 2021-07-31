@@ -39,8 +39,8 @@ void ComputeAPC(T& sum, const H& initialHypernet) {
                         H.RenumerateNodesForGen(i, 0);
                     }
                 }
-                auto res = FullEnumeration<T>(H);
-                sum = sum + res;
+                auto result = FullEnumeration<T>(H);
+                sum = sum + result;
             }
             if (IS_DEBUG == 1) {
                 output << "+R" << i + 1 << "," << j + 1 << std::endl;

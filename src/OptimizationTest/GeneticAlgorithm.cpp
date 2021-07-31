@@ -9,27 +9,23 @@ std::shared_ptr<Model> GeneticAlgorithm::GetMinModel() {
     auto minModelIt = std::min_element(_population.begin(), _population.end(), Model::ModelCompare);
     _currentMinModel = *minModelIt;
     if (IS_DEBUG == 1) {
-        std::cout << "_currentMinModel:";
-        PrintVector(_currentMinModel.GetSolution());
+        std::cout << "_currentMinModel:" << VectorToString(_currentMinModel.GetSolution()) << std::endl;
         std::cout << "ObjFunctionValue=" << _currentMinModel.GetObjFunctionValue() << std::endl << std::endl;
     }
     while (_currentMinModel.GetObjFunctionValue() > REQUIRED_ROUTE_DISTANCE) {
         GeneticAlgorithmIterations++;
         auto parent1Model = ChooseParent();
         if (IS_DEBUG == 1) {
-            std::cout << "parent1Model:" << std::string(4, ' ');
-            PrintVector(parent1Model.GetSolution());
+            std::cout << "parent1Model:" << std::string(4, ' ') << VectorToString(parent1Model.GetSolution()) << std::endl;
         }
         auto parent2Model = ChooseParent();
         if (IS_DEBUG == 1 && parent1Model != parent2Model) {
-            std::cout << "parent2Model:" << std::string(4, ' ');
-            PrintVector(parent2Model.GetSolution());
+            std::cout << "parent2Model:" << std::string(4, ' ') << VectorToString(parent2Model.GetSolution()) << std::endl;
         }
         while (parent1Model == parent2Model) {
             parent2Model = ChooseParent();
             if (IS_DEBUG == 1 && parent1Model != parent2Model) {
-                std::cout << "parent2Model:" << std::string(4, ' ');
-                PrintVector(parent2Model.GetSolution());
+                std::cout << "parent2Model:" << std::string(4, ' ') << VectorToString(parent2Model.GetSolution()) << std::endl;
             }
         }
         auto crossedModel = CrossOperator(parent1Model, parent2Model);
@@ -38,23 +34,20 @@ std::shared_ptr<Model> GeneticAlgorithm::GetMinModel() {
             if (!crossedModel.GetIsConditionsChecked()) {
                 std::cout << "IsCheckConditions=false" << std::endl;
             }
-            std::cout << "crossedModel:" << std::string(4, ' ');
-            PrintVector(crossedModel.GetSolution());
+            std::cout << "crossedModel:" << std::string(4, ' ') << VectorToString(crossedModel.GetSolution()) << std::endl;
         }
         auto mutatedModel = MutationOperator(crossedModel);
         if (IS_DEBUG == 1 && mutatedModel != crossedModel) {
             if (!crossedModel.GetIsConditionsChecked()) {
                 std::cout << "IsCheckConditions=false" << std::endl;
             }
-            std::cout << "mutatedModel:" << std::string(4, ' ');
-            PrintVector(mutatedModel.GetSolution());
+            std::cout << "mutatedModel:" << std::string(4, ' ') << VectorToString(mutatedModel.GetSolution()) << std::endl;
         }
         auto newMinModel = LocalDescentAlgorithm(mutatedModel);
         if (newMinModel.GetObjFunctionValue() < _currentMinModel.GetObjFunctionValue()) {
             _currentMinModel = newMinModel;
             if (IS_DEBUG == 1) {
-                std::cout << "_currentMinModel:";
-                PrintVector(newMinModel.GetSolution());
+                std::cout << "_currentMinModel:" << VectorToString(newMinModel.GetSolution()) << std::endl;
                 std::cout << "ObjFunctionValue=" << _currentMinModel.GetObjFunctionValue() << std::endl << std::endl;
             }
         }

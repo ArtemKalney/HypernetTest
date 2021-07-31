@@ -1,7 +1,7 @@
 #pragma once
 
 // Определяет какие элементы надёжны в сети (ветви или вершины)
-#define IS_NODES_RELIABLE 0
+#define IS_NODES_RELIABLE 1
 // Определяет что считается (полином или число)
 #define IS_NUMBER_COMPUTATION 1
 // Режим дебага
@@ -16,14 +16,15 @@
 // Экспериментальные показатели для CHAIN_REDUCTION
 #define IS_FULL_SEARCH_CHAINS 0
 #define IS_REDUCE_RELIABLE_CHAINS 0
-// пропорция стевых вершин
+// параметры для генерации гиперсети
 #define NETWORK_NODES_PROPORTION 5
+// параметры для модели
+#define MIN_MENC_VALUE 2
+#define MAX_BRANCH_COUNT 3
 // параметры для алгоритма полного перебора
 #define IS_FULL_ENUMERATION_ALGORITHM 1
 // параметры для генетического алгоритма
 #define IS_GENETIC_ALGORITHM 1
-#define MIN_MENC_VALUE 2
-#define MAX_BRANCH_COUNT 10
 #define USE_MAX_POPULATION_CAPACITY 1
 #define MAX_INITIAL_POPULATION_COUNT 10
 #define LOCAL_DISTANCE 2

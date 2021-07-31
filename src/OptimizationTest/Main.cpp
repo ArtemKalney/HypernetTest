@@ -19,6 +19,21 @@ std::vector<std::vector<double>> Bin;
 int seed = time(0);
 int CheckedConditions, UncheckedConditions, GeneticAlgorithmIterations;
 
+void OutputResult(const std::shared_ptr<Model> model, int startTime) {
+    output << "Solution:" << VectorToString(model->GetSolution()) << std::endl;
+    output << "Reliability:" << model->GetReliability() << std::endl;
+    output << "ObjFunctionValue:" << model->GetObjFunctionValue() << std::endl;
+    output << "Statistics:" << std::endl;
+    output << std::string(3, ' ') << "Time:" << clock() - startTime << std::endl;
+    if (IS_FULL_ENUMERATION_ALGORITHM == 1) {
+        output << std::string(3, ' ') << "CheckedConditions:" << CheckedConditions << std::endl;
+        output << std::string(3, ' ') << "UncheckedConditions:" << UncheckedConditions << std::endl;
+    }
+    if (IS_GENETIC_ALGORITHM == 1) {
+        output << std::string(3, ' ') << "GeneticAlgorithmIterations:" << GeneticAlgorithmIterations << std::endl;
+    }
+}
+
 int main(int argc, char** argv) {
     input.open("input.txt");
     output.open("output.txt");
@@ -29,14 +44,18 @@ int main(int argc, char** argv) {
     H initialHypernet;
     try {
         GetData(branches, nodes, routes);
-        initialHypernet.RemoveEmptyBranches();
-        ComputeBinomialCoefficients();
     }
     catch (std::exception const &e) {
         HandleException(e);
 
         return EXIT_FAILURE;
     }
+    initialHypernet = GetRandomNetworkHypernet(branches, nodes);
+    initialHypernet.RemoveEmptyBranches();
+    if (IS_DEBUG == 1) {
+        initialHypernet.LogHypernet();
+    }
+    ComputeBinomialCoefficients();
     std::shared_ptr<Model> minModel;
     int startTime = clock();
     try {
@@ -56,6 +75,12 @@ int main(int argc, char** argv) {
 
         return EXIT_FAILURE;
     }
+    catch (const char *str) {
+        ErrorHandler(str);
+
+        return EXIT_FAILURE;
+    }
+    OutputResult(minModel, startTime);
     input.close();
     output.close();
     if (IS_DEBUG != 1) {

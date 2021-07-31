@@ -4,7 +4,7 @@
 #define IS_TEST 0
 #define IS_TEST_CHECK_SPECIFICATIONS 1
 // Определяет какие элементы надёжны в сети (ветви или вершины)
-#define IS_NODES_RELIABLE 0
+#define IS_NODES_RELIABLE 1
 // Определяет что считается (полином или число)
 #define IS_NUMBER_COMPUTATION 1
 // Режим полного перебора
