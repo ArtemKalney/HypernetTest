@@ -57,7 +57,7 @@ Node Model::AddNode(Branch &branch) {
 }
 
 bool Model::CheckConditions() {
-    if (_solution.size() > MAX_BRANCH_COUNT) {
+    if (_solution.size() >= MAX_BRANCH_COUNT) {
         return false;
     }
 

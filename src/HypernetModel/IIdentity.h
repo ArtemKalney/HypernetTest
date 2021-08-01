@@ -6,6 +6,11 @@ class IIdentity
 public:
     virtual ~IIdentity() = default;
     virtual int GetId() const = 0;
+
+    static bool IdentityCompare(const IIdentity &a, const IIdentity &b)
+    {
+        return a.GetId() < b.GetId();
+    }
 };
 
 template <class T>

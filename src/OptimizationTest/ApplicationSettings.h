@@ -19,12 +19,12 @@
 // параметры для генерации гиперсети
 #define NETWORK_NODES_PROPORTION 5
 // параметры для модели
-#define MIN_MENC_VALUE 2
+#define MIN_MENC_VALUE 4
 #define MAX_BRANCH_COUNT 3
 // параметры для алгоритма полного перебора
 #define IS_FULL_ENUMERATION_ALGORITHM 1
 // параметры для генетического алгоритма
-#define IS_GENETIC_ALGORITHM 1
+#define IS_GENETIC_ALGORITHM 0
 #define USE_MAX_POPULATION_CAPACITY 1
 #define MAX_INITIAL_POPULATION_COUNT 10
 #define LOCAL_DISTANCE 2

@@ -34,7 +34,7 @@ public:
             auto ptr = std::make_shared<std::vector<int>>(newVector);
             Route newRoute = Route(GetUniqueId(_hypernet.GetF()), ptr);
             newBranch.GetRoutes().push_back(newRoute);
-//            newBranch.SetIsReliable(true);
+            newBranch.SetIsReliable(true);
             _hypernet.GetFN().push_back(newBranch);
             _hypernet.GetF().emplace_back(newRoute);
         }

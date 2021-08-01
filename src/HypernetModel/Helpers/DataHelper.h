@@ -66,16 +66,6 @@ bool IsUniqueId(const std::vector<T>& items, const int id) {
 }
 
 template <class T>
-int GetUniqueId(const std::vector<T>& items, const int startId) {
-    int id = startId;
-    while (!IsUniqueId(items, id) || std::find(items.begin(), items.end(), id) != items.end()) {
-        id++;
-    }
-
-    return id;
-}
-
-template <class T>
 int GetUniqueId(const std::vector<T>& items) {
-    return GetUniqueId(items, items.size());
+    return std::max_element(items.begin(), items.end(), IIdentity::IdentityCompare)->GetId() + 1;
 }
