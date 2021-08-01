@@ -87,21 +87,19 @@ public:
     }
 
     //todo уменьшить static функкций
-    static Branch GetElement(const std::vector<double> &C, const int &power);
+    static Branch GetElement(const std::vector<double> &C, int power);
 
-    static Branch GetElement(const int &power);
+    static Branch GetElement(int power, int vectorSize);
 
-    static Branch GetSimpleElement();
+    static Branch GetSimpleElement(int vectorSize);
 
-    static Branch GetSimpleElement(const int &id, const int &firstNode, const int &secondNode);
+    static Branch GetSimpleElement(int id, int firstNode, int secondNode, int vectorSize);
 
     static Branch GetZero();
 
     static Branch GetUnity();
 
     static bool EqualNodes(const Branch &firstBranch, const Branch &secondBranch);
-
-    bool IsUnacceptableElement();
 
     bool IsZero();
 

@@ -1,26 +1,26 @@
 #include "Node.h"
 #include "Globals.h"
 
-Node Node::GetElement(const int &power) {
-    std::vector<double> C(m);
+Node Node::GetElement(const int power, const int vectorSize) {
+    std::vector<double> C(vectorSize);
     C.front() = 1;
     double value = std::pow(p, power);
     return Node(-1, value, C, power, false, false);
 }
 
-Node Node::GetElement(const std::vector<double> &C, const int &power) {
+Node Node::GetElement(const std::vector<double>& C, const int power) {
     double value = std::pow(p, power);
     return Node(-1, value, C, power, false, false);
 }
 
-Node Node::GetSimpleElement(const int &id, double value, bool isVisited) {
-    std::vector<double> C(m);
+Node Node::GetSimpleElement(const int id, double value, bool isVisited, const int vectorSize) {
+    std::vector<double> C(vectorSize);
     C.front() = 1;
     return Node(id, value, C, 1, isVisited, false);
 }
 
-Node Node::GetSimpleElement() {
-    return GetSimpleElement(-1, p, false);
+Node Node::GetSimpleElement(const int vectorSize) {
+    return GetSimpleElement(-1, p, false, vectorSize);
 }
 
 Node Node::GetZero() {
@@ -38,11 +38,6 @@ Node Node::GetUnity() {
 
 bool Node::IsUnity() {
     return IS_NUMBER_COMPUTATION == 1 ? GetValue() == 1 : GetC().size() == 1 && GetC().front() == 1;
-}
-
-bool Node::IsUnacceptableElement() {
-    bool isNodeUnacceptable = _id < 0 || _id > n, isPowerUnacceptable = GetPower() < 0 || GetPower() > m;
-    return isNodeUnacceptable || isPowerUnacceptable;
 }
 
 bool Node::IsZero() const {

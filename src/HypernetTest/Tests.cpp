@@ -41,7 +41,7 @@ H GetHypernetForTest() {
     } catch (const char *str) {
         std::cout << str << std::endl;
     }
-    ComputeBinomialCoefficients();
+    ComputeBinomialCoefficients(branches.size());
     H initialHypernet = H(std::move(branches), std::move(nodes), std::move(routes));
     initialHypernet.RemoveEmptyBranches();
 

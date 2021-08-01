@@ -11,9 +11,6 @@ T RecursivePairConnectivity(H &H, T &pseudoElement) {
     }
 
     T allowingElement = H.GetAllowingElement<T>();
-    if (allowingElement.IsUnacceptableElement()) {
-        throw "PairConnectivity: unacceptable allowingElement";
-    }
     T pseudoElement1, pseudoElement2;
     pseudoElement1 = pseudoElement * allowingElement;
     pseudoElement2 = pseudoElement * ~allowingElement;
@@ -41,7 +38,7 @@ T RecursivePairConnectivity(H &H, T &pseudoElement) {
 
 template <>
 Branch PairConnectivity(H &H) {
-    Branch pseudoBranch = Branch::GetElement(0);
+    Branch pseudoBranch = Branch::GetElement(0, H.GetFN().front().GetC().size());
     if (!H.IsSNconnected()) {
         Branch::GetZero();
     }
@@ -52,7 +49,8 @@ Branch PairConnectivity(H &H) {
 template <>
 Node PairConnectivity(H &H) {
     //препологаем что уже проверли редукцию по выделенным вершинам
-    Node pseudoNode = Node::GetSimpleElement() * Node::GetSimpleElement();
+    Node pseudoNode = Node::GetSimpleElement(H.GetFN().front().GetC().size()) *
+            Node::GetSimpleElement(H.GetFN().front().GetC().size());
     auto it = std::find_if(H.GetNodes().begin(), H.GetNodes().end(),
                            [](Node &item) -> bool { return item == 0; });
     it->SetIsReliable(true);

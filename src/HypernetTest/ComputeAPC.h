@@ -4,9 +4,9 @@
 #include "Funcs.h"
 
 template <class T>
-void ComputeAPC(T& sum, const H& initialHypernet) {
-    for (int i = 0; i < n; i++) {
-        for (int j = i + 1; j < n; j++) {
+void ComputeAPC(T& sum, H& initialHypernet) {
+    for (int i = 0; i < initialHypernet.GetNodes().size(); i++) {
+        for (int j = i + 1; j < initialHypernet.GetNodes().size(); j++) {
             if (IS_FULL_ENUMERATION != 1) {
                 auto H = initialHypernet;
                 if (i != 0 || j != 1) {
@@ -49,12 +49,12 @@ void ComputeAPC(T& sum, const H& initialHypernet) {
     }
 
     if (IS_NUMBER_COMPUTATION == 1) {
-        sum.SetValue(sum.GetValue() / Bin[n][2]);
+        sum.SetValue(sum.GetValue() / Bin[initialHypernet.GetNodes().size()][2]);
         return;
     }
     for (int i = 0; i < sum.GetC().size(); i++) {
         auto sumVector = sum.GetC();
-        sumVector[i] = sumVector[i] / Bin[n][2];
+        sumVector[i] = sumVector[i] / Bin[initialHypernet.GetNodes().size()][2];
         sum.SetC(sumVector);
     }
 }

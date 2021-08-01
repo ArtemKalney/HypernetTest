@@ -8,7 +8,6 @@
 // инициализация глобальных переменных
 std::ifstream input;
 std::ofstream output;
-int n = 0, m = 0, k = 0, l = 0;
 int ReliableHypernets = 0, UnconnectedHypernets = 0, TwoNodesHypernets = 0, ChainsReduced = 0,
         UnconnectedNodesReduced = 0, PairConnectivityCalls = 0, EdgesReduced = 0, ComplexChains = 0, HelpProcessors = 0,
         TreeNodeIntersections = 0, UnconnectedTreeNodes = 0;
@@ -27,17 +26,17 @@ void GetDataWithTestNodes(std::vector<Branch>& branches, std::vector<Node>& node
     char str[50];
     input.getline(str, 50);
     std::cout << "Input graph : " << str << std::endl;
-    int buf;
-    input >> buf; n = buf;
-    input >> buf; m = buf;
-    input >> buf; k = buf;
-    input >> buf; l = buf;
+    int buf, nodeSize, branchSize, routeSize, testNodeSize;
+    input >> buf; nodeSize = buf;
+    input >> buf; branchSize = buf;
+    input >> buf; routeSize = buf;
+    input >> buf; testNodeSize = buf;
     // Read all nodes from input.txt
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < nodeSize; i++) {
         input >> buf; int nodeNumber = buf - 1;
         double doubleBuf;
         input >> doubleBuf; double value = doubleBuf;
-        Node node = Node::GetSimpleElement(nodeNumber, value, false);
+        Node node = Node::GetSimpleElement(nodeNumber, value, false, branchSize);
         nodes.push_back(node);
         if (!IsUniqueId(nodes, nodeNumber)) {
             throw "GetData: not unique branch id";
@@ -45,7 +44,7 @@ void GetDataWithTestNodes(std::vector<Branch>& branches, std::vector<Node>& node
     }
     std::vector<std::vector<int>> branchRouteIds;
     // Read all branches from input.txt
-    for (int i = 0; i < m; i++) {
+    for (int i = 0; i < branchSize; i++) {
         input >> buf; int id = buf;
         input >> buf; int firstNode = buf - 1;
         input >> buf; int secondNode = buf - 1;
@@ -57,13 +56,13 @@ void GetDataWithTestNodes(std::vector<Branch>& branches, std::vector<Node>& node
             input >> buf;
         }
         branchRouteIds.push_back(vector);
-        branches.push_back(Branch::GetSimpleElement(id, firstNode, secondNode));
+        branches.push_back(Branch::GetSimpleElement(id, firstNode, secondNode, branchSize));
         if (!IsUniqueId(branches, id)) {
             throw "GetData: not unique branch id";
         }
     }
     // Read all routes from input.txt
-    for (int i = 0; i < k; i++) {
+    for (int i = 0; i < routeSize; i++) {
         std::vector<int> vector;
         input >> buf; int id = buf;
         input >> buf;
@@ -80,7 +79,7 @@ void GetDataWithTestNodes(std::vector<Branch>& branches, std::vector<Node>& node
         }
     }
     // Read all test nodes from input.txt
-    for (int i = 0; i < l; i++) {
+    for (int i = 0; i < testNodeSize; i++) {
         input >> buf;
         testNodes.push_back(--buf);
     }
@@ -102,27 +101,9 @@ void GetDataWithTestNodes(std::vector<Branch>& branches, std::vector<Node>& node
     }
 }
 
-// получение данных из файла
-void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vector<Route>& routes,
-             std::vector<int>& testNodes) {
-    if (IS_TEST_TIME == 1) {
-        n = TEST_HYPERNET_NODES;
-        m = TEST_HYPERNET_BRANCHES;
-        k = TEST_HYPERNET_EDGES;
-        std::cout << "Input graph : H(" << n << ", " << m << ", " << k << ")" << std::endl;
-        return;
-    }
-
-    if (IS_OPTIMIZATION == 1) {
-        GetDataWithTestNodes(branches, nodes, routes, testNodes);
-    } else {
-        GetData(branches, nodes, routes);
-    }
-}
-
 // отправления объекта ядру для расчёта
 template <class T>
-void Send(const T &object, int processorNumber){
+void Send(const T &object, const int processorNumber){
     std::stringstream ss;
     boost::archive::binary_oarchive oarchive{ss};
     oarchive << object;
@@ -151,7 +132,7 @@ T Recv() {
 
 // управление исполнением программы используя MPI (уровень 2)
 template <class T>
-void SendControl(std::vector<H> &hypernetList, const T& pseudoElement, int &size) {
+void SendControl(std::vector<H>& hypernetList, const T& pseudoElement, const int size) {
     std::stack<int> freeProcessors;
     for (int i = 1; i < size; ++i) {
         freeProcessors.push(i);
@@ -191,7 +172,7 @@ void SendControl(std::vector<H> &hypernetList, const T& pseudoElement, int &size
 
 // управление исполнением программы используя MPI (уровень 1)
 template <class T>
-void SendControl(H &H, const T& pseudoElement, int &size) {
+void SendControl(H& H, const T& pseudoElement, const int size) {
     std::stack<int> freeProcessors;
     for (int i = 1; i < size; ++i) {
         freeProcessors.push(i);
@@ -222,24 +203,23 @@ void SendControl(H &H, const T& pseudoElement, int &size) {
 
 //todo разобраться с условием HasReliablePath
 template <class T>
-void PrepareSendHypernet(T &sum, std::vector<H> &hypernetList, H &H, T& pseudoElement, int &size) {
+void PrepareSendHypernet(T& sum, std::vector<H>& hypernetList, H& H, T& pseudoElement, int size) {
     if (!H.IsSNconnected()) {
         return;
     }
 
     if (IS_NODES_RELIABLE == 1) {
-        pseudoElement = T::GetElement(0);
+        pseudoElement = T::GetElement(0, H.GetFN().front().GetC().size());
     } else {
-        pseudoElement = T::GetSimpleElement() * T::GetSimpleElement();
-        auto it = std::find_if(H.GetNodes().begin(), H.GetNodes().end(),
-                               [](Node &item) -> bool { return item == 0; });
+        pseudoElement = T::GetSimpleElement(H.GetFN().front().GetC().size()) *
+                T::GetSimpleElement(H.GetFN().front().GetC().size());
+        auto it = std::find_if(H.GetNodes().begin(), H.GetNodes().end(), [](Node &item) -> bool { return item == 0; });
         it->SetIsReliable(true);
-        it = std::find_if(H.GetNodes().begin(), H.GetNodes().end(),
-                          [](Node &item) -> bool { return item == 1; });
+        it = std::find_if(H.GetNodes().begin(), H.GetNodes().end(), [](Node &item) -> bool { return item == 1; });
         it->SetIsReliable(true);
-
         if (H.HasReliablePath<Node>()) {
             sum = sum + pseudoElement;
+
             return;
         }
     }
@@ -252,10 +232,10 @@ void PrepareSendHypernet(T &sum, std::vector<H> &hypernetList, H &H, T& pseudoEl
 
 // вычисление MENC
 template <class T>
-void ComputeMENC(T &sum, const H& initialHypernet,  int &size) {
+void ComputeMENC(T& sum, H& initialHypernet, int size) {
     std::vector<H> hypernetList;
     T pseudoElement;
-    for (int i = 1; i < n; i++) {
+    for (int i = 1; i < initialHypernet.GetNodes().size(); i++) {
         auto H = initialHypernet;
         if (i != 1) {
             H.RenumerateNodes(i, 1);
@@ -270,7 +250,7 @@ void ComputeMENC(T &sum, const H& initialHypernet,  int &size) {
 
 // вычисление ComputeMENCKP
 template <class T>
-void ComputeMENCKP(T &sum, const H &initialHypernet, int &size) {
+void ComputeMENCKP(T& sum, H& initialHypernet, int size) {
     std::vector<H> hypernetList;
     T pseudoElement;
     for(auto &item : KpNodesCombination) {
@@ -278,7 +258,7 @@ void ComputeMENCKP(T &sum, const H &initialHypernet, int &size) {
         if (item != 1) {
             H.RenumerateNodes(item, 1);
         }
-        for (int i = 1; i < n; i++) {
+        for (int i = 1; i < initialHypernet.GetNodes().size(); i++) {
             if (i != 1) {
                 H.RenumerateNodes(i, 1);
             }
@@ -293,11 +273,11 @@ void ComputeMENCKP(T &sum, const H &initialHypernet, int &size) {
 
 // вычисление APC
 template <class T>
-void ComputeAPC(T &sum, const H& initialHypernet, int &size) {
+void ComputeAPC(T& sum, H& initialHypernet, const int size) {
     std::vector<H> hypernetList;
     T pseudoElement;
-    for (int i = 0; i < n; i++) {
-        for (int j = i + 1; j < n; j++) {
+    for (int i = 0; i < initialHypernet.GetNodes().size(); i++) {
+        for (int j = i + 1; j < initialHypernet.GetNodes().size(); j++) {
             auto H = initialHypernet;
             if (i != 0 || j != 1) {
                 if (i != 0 && j != 1) {
@@ -322,7 +302,7 @@ void ComputeAPC(T &sum, const H& initialHypernet, int &size) {
 
 // вычисление гиперсети
 template <class T>
-void ComputeHypernet(T &sum, H &initialHypernet, int &size, int &option) {
+void ComputeHypernet(T& sum, H& initialHypernet, const int size, const int option) {
     initialHypernet.RemoveEmptyBranches();
     if (option == 1) {
         ComputeAPC<T>(sum, initialHypernet, size);
@@ -339,12 +319,9 @@ void BcastDataByMaster() {
     boost::archive::binary_oarchive oarchive{ss};
     oarchive << Bin;
     int length = ss.str().size();
-    TotalBytesTransfer += length + 4*sizeof(int);
+    TotalBytesTransfer += length + 4 * sizeof(int);
     MPI_Bcast(&length, 1, MPI_INT, HOST_PROCESSOR, MPI_COMM_WORLD);
     MPI_Bcast((void *) ss.str().c_str(), length, MPI_BYTE, HOST_PROCESSOR, MPI_COMM_WORLD);
-    MPI_Bcast(&n, 1, MPI_INT, HOST_PROCESSOR, MPI_COMM_WORLD);
-    MPI_Bcast(&m, 1, MPI_INT, HOST_PROCESSOR, MPI_COMM_WORLD);
-    MPI_Bcast(&k, 1, MPI_INT, HOST_PROCESSOR, MPI_COMM_WORLD);
 }
 
 // вывод расчётных данных
@@ -393,15 +370,16 @@ void PrintSolutionOptimization(T &solution, double &time) {
 
 // получение решения
 template <class T>
-void ComputeSolution(T &solution, int &size, int &option, std::vector<Branch> branches, std::vector<Node> nodes,
-                     std::vector<Route> routes, double &time) {
+void ComputeSolution(T& solution, const int size, const int option, std::vector<Branch>& branches,
+                     std::vector<Node>& nodes, std::vector<Route>& routes, double& time) {
     // переменные начала времени расчёта и среднего времени расчёта
     double startTime, averageTime = 0;
     T sum = T::GetZero();
     // выбор тестирования по конфигурации приложения (время, оптимизация, расчёт гиперсети)
+    H initialHypernet;
     if (IS_TEST_TIME == 1) {
         for (int i = 0; i < TEST_HYPERNETS; i++) {
-            H initialHypernet = GetRandomHypernet();
+            initialHypernet = GetRandomHypernet(TEST_HYPERNET_NODES, TEST_HYPERNET_BRANCHES, TEST_HYPERNET_EDGES);
             if (IS_DEBUG == 1) {
                 initialHypernet.LogHypernet();
             }
@@ -412,7 +390,6 @@ void ComputeSolution(T &solution, int &size, int &option, std::vector<Branch> br
             averageTime += endTime - startTime;
         }
     } else {
-        H initialHypernet;
         // выбор метода получения гиперстеи (случайно или из аргументов функции)
         if (IS_OPTIMIZATION == 1) {
             initialHypernet = GetKpRandomHypernet(branches, nodes);
@@ -467,11 +444,11 @@ void ComputeSolution(T &solution, int &size, int &option, std::vector<Branch> br
     // обработка полченного значения в завсимости от выбранного критериия 
     if (option == 1) {
         if (IS_NUMBER_COMPUTATION == 1) {
-            sum.SetValue(sum.GetValue() / Bin[n][2]);
+            sum.SetValue(sum.GetValue() / Bin[initialHypernet.GetNodes().size()][2]);
         } else {
             for (int i = 0; i < sum.GetC().size(); i++) {
                 auto sumVector = sum.GetC();
-                sumVector[i] = sumVector[i] / Bin[n][2];
+                sumVector[i] = sumVector[i] / Bin[initialHypernet.GetNodes().size()][2];
                 sum.SetC(sumVector);
             }
         }
@@ -479,7 +456,6 @@ void ComputeSolution(T &solution, int &size, int &option, std::vector<Branch> br
         sum = sum + T::GetUnity();
     }
     time = MPI_Wtime() - startTime;
-
     solution = solution + sum;
 }
 
@@ -493,16 +469,26 @@ void Master(int size) {
     std::vector<Node> nodes;
     std::vector<Route> routes;
     std::vector<int> testNodes;
-    GetData(branches, nodes, routes, testNodes);
+    if (IS_TEST_TIME == 1) {
+        std::cout << "Input graph : H(" << TEST_HYPERNET_NODES << ", " << TEST_HYPERNET_BRANCHES << ", " <<
+                  TEST_HYPERNET_EDGES << ")" << std::endl;
+    } else {
+        if (IS_OPTIMIZATION == 1) {
+            GetDataWithTestNodes(branches, nodes, routes, testNodes);
+        } else {
+            GetData(branches, nodes, routes);
+        }
+    }
     std::cout << "Press 1 to get APC polynomial" << std::endl;
     std::cout << "Press 2 to get MENC polynomial" << std::endl;
     int option;
     std::cin >> option;
     if (option != 1 && option != 2) {
         std::cout << "Wrong number" << std::endl;
+
         return;
     }
-    ComputeBinomialCoefficients();
+    ComputeBinomialCoefficients(IS_TEST_TIME == 1 ? TEST_HYPERNET_BRANCHES : branches.size());
     BcastDataByMaster();
     double time;
     T solution = T::GetZero();
@@ -537,9 +523,6 @@ void BcastDataBySlaves() {
     ss.write((const char *) data, length);
     boost::archive::binary_iarchive iarchive(ss);
     iarchive >> Bin;
-    MPI_Bcast(&n, 1, MPI_INT, HOST_PROCESSOR, MPI_COMM_WORLD);
-    MPI_Bcast(&m, 1, MPI_INT, HOST_PROCESSOR, MPI_COMM_WORLD);
-    MPI_Bcast(&k, 1, MPI_INT, HOST_PROCESSOR, MPI_COMM_WORLD);
 }
 
 // инициализация работы процессов исполнителей
@@ -611,19 +594,19 @@ int main(int argc, char **argv) {
                 Slaves<Node>();
             }
         }
-    } catch (const std::overflow_error &e) {
-        std::cout << "throw std::overflow_error (same type rule)" << std::endl << e.what();
-    } catch (const std::runtime_error &e) {
-        std::cout << "throw std::underflow_error (base class rule)" << std::endl << e.what();
-    } catch (const std::exception &e) {
-        std::cout << "throw std::logic_error (base class rule)" << std::endl << e.what();
-    } catch (const char *str) {
+    }
+    catch (std::exception const &e) {
+        HandleException(e);
+
+        return EXIT_FAILURE;
+    }
+    catch (const char *str) {
         ErrorHandler(str);
-    } catch (...) {
-        std::cout << "throw std::string or int or any other unrelated type";
+
+        return EXIT_FAILURE;
     }
     MPI_Finalize(); // окончание работы MPI
     input.close();
     output.close();
-    return 0;
+    return EXIT_SUCCESS;
 }

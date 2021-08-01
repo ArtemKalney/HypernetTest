@@ -2,7 +2,8 @@
 #include "Globals.h"
 
 template <class T>
-void RecursiveFullEnumeration(const H &H, T &sum, const std::vector<T> &elements, std::vector<bool> &mask, int &curPos) {
+void RecursiveFullEnumeration(const H& H, T& sum, const std::vector<T>& elements, std::vector<bool>& mask, int curPos,
+                              const int vectorSize) {
     if (curPos == elements.size()) {
         auto hypernet = H;
         for (int i = 0; i < mask.size(); i++) {
@@ -16,12 +17,12 @@ void RecursiveFullEnumeration(const H &H, T &sum, const std::vector<T> &elements
 
         if (hypernet.IsSNconnected()) {
             ReliableHypernets++;
-            T result = T::GetElement(0);
+            T result = T::GetElement(0, vectorSize);
             for (bool item : mask) {
                 if (item) {
-                    result = result * T::GetSimpleElement();
+                    result = result * T::GetSimpleElement(vectorSize);
                 } else {
-                    result = result * ~T::GetSimpleElement();
+                    result = result * ~T::GetSimpleElement(vectorSize);
                 }
             }
 
@@ -32,9 +33,9 @@ void RecursiveFullEnumeration(const H &H, T &sum, const std::vector<T> &elements
     } else {
         mask[curPos] = false;
         int increasedPos = curPos + 1;
-        RecursiveFullEnumeration(H, sum, elements, mask, increasedPos);
+        RecursiveFullEnumeration(H, sum, elements, mask, increasedPos, vectorSize);
         mask[curPos] = true;
-        RecursiveFullEnumeration(H, sum, elements, mask, increasedPos);
+        RecursiveFullEnumeration(H, sum, elements, mask, increasedPos, vectorSize);
     }
 }
 
@@ -44,7 +45,7 @@ Branch FullEnumeration<Branch>(H &H) {
     auto FN = H.GetFN();
     Branch sum = Branch::GetZero();
     std::vector<bool> branchMask(FN.size(), false);
-    RecursiveFullEnumeration(H, sum, FN, branchMask, startPos);
+    RecursiveFullEnumeration(H, sum, FN, branchMask, startPos, H.GetFN().front().GetC().size());
     return sum;
 }
 
@@ -54,6 +55,6 @@ Node FullEnumeration<Node>(H &H) {
     auto nodes = H.GetNodes();
     std::vector<bool> nodeMask(nodes.size(), false);
     Node sum = Node::GetZero();
-    RecursiveFullEnumeration(H, sum, nodes, nodeMask, startPos);
+    RecursiveFullEnumeration(H, sum, nodes, nodeMask, startPos, H.GetFN().front().GetC().size());
     return sum;
 }

@@ -14,9 +14,6 @@ T PairConnectivity(H &H, T &pseudoElement) {
     }
 
     T allowingElement = H.GetAllowingElement<T>();
-    if (allowingElement.IsUnacceptableElement()) {
-        throw "PairConnectivity: unacceptable allowingElement";
-    }
     T pseudoElement1, pseudoElement2;
     pseudoElement1 = pseudoElement * allowingElement;
     pseudoElement2 = pseudoElement * ~allowingElement;

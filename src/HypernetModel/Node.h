@@ -62,19 +62,17 @@ public:
         return _isVisited;
     }
 
-    static Node GetElement(const std::vector<double> &C, const int &power);
+    static Node GetElement(const std::vector<double>& C, int power);
 
-    static Node GetSimpleElement(const int &id, double value, bool isVisited);
+    static Node GetSimpleElement(int id, double value, bool isVisited, int vectorSize);
 
-    static Node GetSimpleElement();
+    static Node GetSimpleElement(int vectorSize);
 
     static Node GetZero();
 
     static Node GetUnity();
 
-    static Node GetElement(const int &power);
-
-    bool IsUnacceptableElement();
+    static Node GetElement(int power, int vectorSize);
 
     bool IsZero() const;
 

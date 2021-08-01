@@ -4,7 +4,8 @@
 
 Node Model::AddNode(Branch &branch) {
     // добавляем вершину
-    Node newNode = Node::GetSimpleElement(GetUniqueId(_hypernet.GetNodes()), p, false);
+    Node newNode = Node::GetSimpleElement(GetUniqueId(_hypernet.GetNodes()), p, false,
+                                          _hypernet.GetFN().front().GetC().size());
     _hypernet.GetNodes().push_back(newNode);
     // добавляем маршруты
     int firstNode = -1;
@@ -42,7 +43,8 @@ Node Model::AddNode(Branch &branch) {
     if (firstNode < 0) {
         throw std::runtime_error("First node for new branch not found for model.");
     }
-    Branch newBranch = Branch::GetSimpleElement(GetUniqueId(_hypernet.GetFN()), firstNode, newNode.GetId());
+    Branch newBranch = Branch::GetSimpleElement(GetUniqueId(_hypernet.GetFN()), firstNode, newNode.GetId(),
+                                                _hypernet.GetFN().front().GetC().size());
     if (branch.GetFirstNode() == firstNode) {
         branch.SetFirstNode(newNode.GetId());
     } else {
@@ -62,10 +64,6 @@ bool Model::CheckConditions() {
     if (IS_NODES_RELIABLE == 1) {
         Branch branchSum = Branch::GetZero();
         ComputeMENC(branchSum, _hypernet);
-        //todo переделать без обновления переменных
-        n = _hypernet.GetNodes().size();
-        m = _hypernet.GetFN().size();
-        k = _hypernet.GetF().size();
         _reliability = branchSum.GetPolynomialValue(p);
         if (_reliability < MIN_MENC_VALUE) {
             return false;

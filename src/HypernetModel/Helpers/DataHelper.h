@@ -6,8 +6,7 @@
 #include "../Branch.h"
 #include "../Hypernet.h"
 
-void ComputeBinomialCoefficients();
-//todo перейти на использование std::runtime_error
+void ComputeBinomialCoefficients(int vectorSize);
 void ErrorHandler(const char *str);
 void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vector<Route>& routes);
 void HandleException(const std::exception &e);
@@ -29,9 +28,10 @@ void ComputeCombinations(const std::vector<T> &vector, std::vector<std::vector<T
 
 template <class T>
 void NormalizeSolution(T &element){
-    element.GetC().resize(m + 1);
-    if (element.GetPower() < m) {
-        int power = m - element.GetPower();
+    int vectorSize = element.GetC().size();
+    element.GetC().resize(vectorSize + 1);
+    if (element.GetPower() < vectorSize) {
+        int power = vectorSize - element.GetPower();
         T unity = T::GetElement(Bin[power], power);
         element = element * unity;
     }

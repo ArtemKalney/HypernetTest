@@ -16,7 +16,7 @@ void RenumerateNodes(std::vector<Branch>& network, const int firstNode, const in
     }
 }
 
-H GetRandomNetworkHypernet(std::vector<Branch>& primaryNetwork, std::vector<Node> &nodes) {
+H GetRandomNetworkHypernet(std::vector<Branch>& primaryNetwork, std::vector<Node>& nodes) {
     srand(seed++);
     int node = rand() % nodes.size();
     std::vector<int> testNodes {node};
@@ -26,14 +26,13 @@ H GetRandomNetworkHypernet(std::vector<Branch>& primaryNetwork, std::vector<Node
             testNodes.push_back(node);
         }
     }
-    int nodesSize = testNodes.size();
-    k = nodesSize * (nodesSize - 1) / 2;
-    auto secondaryNetwork = GetRandomNetwork(nodesSize, k);
+    auto secondaryNetwork = GetRandomNetwork(testNodes.size(), testNodes.size() * (testNodes.size() - 1) / 2,
+                                             primaryNetwork.size());
     for (int i = 0; i < testNodes.size(); ++i) {
         RenumerateNodes(secondaryNetwork, i, testNodes[i]);
     }
     std::vector<Route> routes;
-    SetMapping(primaryNetwork, secondaryNetwork, routes);
+    SetMapping(primaryNetwork, secondaryNetwork, routes, nodes.size());
 
     return H(std::move(primaryNetwork), std::move(nodes), std::move(routes));
 }

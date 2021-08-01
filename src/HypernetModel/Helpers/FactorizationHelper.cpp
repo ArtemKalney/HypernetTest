@@ -15,6 +15,12 @@ Branch H::GetAllowingElement<Branch>() {
             }
         }
     }
+    bool isFirstNodeUnacceptable = allowingBranch.GetFirstNode() < 0,
+            isSecondNodeUnacceptable = allowingBranch.GetSecondNode() < 0,
+            isPowerUnacceptable = allowingBranch.GetPower() < 0;
+    if (isFirstNodeUnacceptable || isSecondNodeUnacceptable || isPowerUnacceptable) {
+        throw "PairConnectivity: unacceptable allowingElement";
+    }
 
     return allowingBranch;
 }
@@ -38,6 +44,10 @@ Node H::GetAllowingElement<Node>() {
             allowingNode = node;
             maxIncidentEdgesCount = incidentEdgesCount;
         }
+    }
+    bool isNodeUnacceptable = allowingNode.GetId() < 0, isPowerUnacceptable = allowingNode.GetPower() < 0;
+    if (isNodeUnacceptable || isPowerUnacceptable) {
+        throw "PairConnectivity: unacceptable allowingElement";
     }
 
     return allowingNode;

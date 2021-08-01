@@ -24,10 +24,12 @@ public:
             newNodes.push_back(AddNode(*std::find(_hypernet.GetFN().begin(), _hypernet.GetFN().end(), item)));
         }
         // добавляем c-node
-        Node newNode = Node::GetSimpleElement(GetUniqueId(_hypernet.GetNodes()), p, false);
+        Node newNode = Node::GetSimpleElement(GetUniqueId(_hypernet.GetNodes()), p, false,
+                                              _hypernet.GetFN().front().GetC().size());
         _hypernet.GetNodes().push_back(newNode);
         for(auto &item : newNodes) {
-            Branch newBranch = Branch::GetSimpleElement(GetUniqueId(_hypernet.GetFN()), newNode.GetId(), item.GetId());
+            Branch newBranch = Branch::GetSimpleElement(GetUniqueId(_hypernet.GetFN()), newNode.GetId(), item.GetId(),
+                                                        _hypernet.GetFN().front().GetC().size());
             std::vector<int> newVector {newNode.GetId(), item.GetId()};
             auto ptr = std::make_shared<std::vector<int>>(newVector);
             Route newRoute = Route(GetUniqueId(_hypernet.GetF()), ptr);

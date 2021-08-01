@@ -1,12 +1,12 @@
 #pragma once
 
 // Тесты, на тестирование не влиияет IS_NODES_RELIABLE
-#define IS_TEST 0
+#define IS_TEST 1
 #define IS_TEST_CHECK_SPECIFICATIONS 1
 // Определяет какие элементы надёжны в сети (ветви или вершины)
 #define IS_NODES_RELIABLE 1
 // Определяет что считается (полином или число)
-#define IS_NUMBER_COMPUTATION 1
+#define IS_NUMBER_COMPUTATION 0
 // Режим полного перебора
 #define IS_FULL_ENUMERATION 0
 // Каждая редукция требует чтобы были включены предыдущие
@@ -25,5 +25,4 @@
 #define IS_REDUCE_RELIABLE_CHAINS 0
 // Генерация случайной гиперсети (без вычисления надёжности)
 #define IS_RANDOM_HYPERNET 0
-#define USE_PRIMARY_NETWORK 1
 #define RANDOM_ADDITIONAL_EDGES 5

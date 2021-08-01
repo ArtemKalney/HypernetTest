@@ -8,7 +8,6 @@
 
 std::ifstream input;
 std::ofstream output;
-int n = 0, m = 0, k = 0;
 int ReliableHypernets = 0, UnconnectedHypernets = 0, TwoNodesHypernets = 0, ChainsReduced = 0,
         UnconnectedNodesReduced = 0, PairConnectivityCalls = 0, EdgesReduced = 0, ComplexChains = 0,
         TreeNodeIntersections = 0, UnconnectedTreeNodes = 0;
@@ -19,11 +18,11 @@ int seed = time(0);
 int FirstRoot, SecondRoot;
 
 template <class T>
-void ComputePairConnectivities(T& sum, const H& initialHypernet) {
+void ComputePairConnectivities(T& sum, H& initialHypernet) {
     // All connectivities
     if (IS_DEBUG != 1) {
-        for (int i = 0; i < n; i++) {
-            for (int j = i + 1; j < n; j++) {
+        for (int i = 0; i < initialHypernet.GetNodes().size(); i++) {
+            for (int j = i + 1; j < initialHypernet.GetNodes().size(); j++) {
                 auto H = initialHypernet;
                 if (i != 0 || j != 1) {
                     if (i != 0 && j != 1) {
@@ -94,20 +93,16 @@ int main(int argc, char** argv) {
         }
         // Create an initialHypernet
         H initialHypernet;
+        ComputeBinomialCoefficients(branches.size());
         if (IS_RANDOM_HYPERNET == 1) {
-            k = n + RANDOM_ADDITIONAL_EDGES;
-            if (USE_PRIMARY_NETWORK == 1) {
-                initialHypernet = GetRandomHypernet(branches, nodes);
-            } else {
-                initialHypernet = GetRandomHypernet();
-            }
+            initialHypernet = GetRandomHypernet(branches, nodes, initialHypernet.GetNodes().size() + RANDOM_ADDITIONAL_EDGES);
             initialHypernet.LogHypernet();
+
             return 0;
         } else {
             initialHypernet = H(std::move(branches), std::move(nodes), std::move(routes));
         }
         initialHypernet.RemoveEmptyBranches();
-        ComputeBinomialCoefficients();
         Branch branchSum = Branch::GetZero();
         Node nodeSum = Node::GetZero();
         int startTime = clock();
@@ -161,16 +156,16 @@ int main(int argc, char** argv) {
         } else {
             PrintSolution(nodeSum);
         }
-    } catch (const std::overflow_error &e) {
-        std::cout << "throw std::overflow_error" << std::endl << e.what();
-    } catch (const std::runtime_error &e) {
-        std::cout << "throw std::underflow_error" << std::endl << e.what();
-    } catch (const std::exception &e) {
-        std::cout << "throw std::logic_error" << std::endl << e.what();
-    } catch (const char *str) {
+    }
+    catch (std::exception const &e) {
+        HandleException(e);
+
+        return EXIT_FAILURE;
+    }
+    catch (const char *str) {
         ErrorHandler(str);
-    } catch (...) {
-        std::cout << "throw std::string or int or any other unrelated type";
+
+        return EXIT_FAILURE;
     }
 
     input.close();
@@ -178,5 +173,5 @@ int main(int argc, char** argv) {
     if (IS_DEBUG != 1) {
         system("pause>>void");
     }
-    return 0;
+    return EXIT_SUCCESS;
 }

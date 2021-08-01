@@ -11,16 +11,16 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
     char str[50];
     input.getline(str, 50);
     std::cout << "Input graph : " << str << std::endl;
-    int buf;
-    input >> buf; n = buf;
-    input >> buf; m = buf;
-    input >> buf; k = buf;
+    int buf, nodeSize, branchSize, routeSize;
+    input >> buf; nodeSize = buf;
+    input >> buf; branchSize = buf;
+    input >> buf; routeSize = buf;
     // Read all nodes from input.txt
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < nodeSize; i++) {
         input >> buf; int nodeNumber = buf - 1;
         double doubleBuf;
         input >> doubleBuf; double value = doubleBuf;
-        Node node = Node::GetSimpleElement(nodeNumber, value, false);
+        Node node = Node::GetSimpleElement(nodeNumber, value, false, branchSize);
         nodes.push_back(node);
         if (!IsUniqueId(nodes, nodeNumber)) {
             throw "GetData: not unique branch id";
@@ -28,7 +28,7 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
     }
     std::vector<std::vector<int>> branchRouteIds;
     // Read all branches from input.txt
-    for (int i = 0; i < m; i++) {
+    for (int i = 0; i < branchSize; i++) {
         input >> buf; int id = buf;
         input >> buf; int firstNode = buf - 1;
         input >> buf; int secondNode = buf - 1;
@@ -40,13 +40,13 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
             input >> buf;
         }
         branchRouteIds.push_back(vector);
-        branches.push_back(Branch::GetSimpleElement(id, firstNode, secondNode));
+        branches.push_back(Branch::GetSimpleElement(id, firstNode, secondNode, branchSize));
         if (!IsUniqueId(branches, id)) {
             throw "GetData: not unique branch id";
         }
     }
     // Read all routes from input.txt
-    for (int i = 0; i < k; i++) {
+    for (int i = 0; i < routeSize; i++) {
         std::vector<int> vector;
         input >> buf; int id = buf;
         input >> buf;
@@ -80,15 +80,15 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
     }
 }
 
-void ComputeBinomialCoefficients() {
-    Bin.resize(m + 1);
+void ComputeBinomialCoefficients(const int vectorSize) {
+    Bin.resize(vectorSize + 1);
     for(auto &item : Bin) {
-        item.resize(m + 1);
+        item.resize(vectorSize + 1);
         item.front() = 1;
     }
     for (int i = 0; i < Bin.size(); i++) {
         if (i != 0) {
-            for (int j = 1; j < m + 1; j++) {
+            for (int j = 1; j < vectorSize + 1; j++) {
                 Bin[i][j] = Bin[i - 1][j - 1] + Bin[i - 1][j];
             }
         }

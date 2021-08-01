@@ -2,26 +2,26 @@
 #include "Globals.h"
 
 //todo возможно надо заменить на GetUnity
-Branch Branch::GetElement(const int &power) {
-    std::vector<double> C(m);
+Branch Branch::GetElement(const int power, const int vectorSize) {
+    std::vector<double> C(vectorSize);
     C.front() = 1;
     std::vector<Route> routes;
     double value = std::pow(p, power);
     return Branch(-1, value, C, routes, power, 0, 0, false);
 }
 
-Branch Branch::GetElement(const std::vector<double> &C, const int &power) {
+Branch Branch::GetElement(const std::vector<double>& C, const int power) {
     std::vector<Route> routes;
     double value = std::pow(p, power);
     return Branch(-1, value, C, routes, power, 0, 0, false);
 }
 
-Branch Branch::GetSimpleElement() {
-    return GetSimpleElement(-1, -1, -1);
+Branch Branch::GetSimpleElement(const int vectorSize) {
+    return GetSimpleElement(-1, -1, -1, vectorSize);
 }
 
-Branch Branch::GetSimpleElement(const int &id, const int &firstNode, const int &secondNode) {
-    std::vector<double> C(m);
+Branch Branch::GetSimpleElement(const int id, const int firstNode, const int secondNode, const int vectorSize) {
+    std::vector<double> C(vectorSize);
     C.front() = 1;
     std::vector<Route> routes;
     double value = p;
@@ -49,13 +49,6 @@ bool Branch::EqualNodes(const Branch& firstBranch, const Branch& secondBranch) {
     auto reversedNodes = firstBranch.GetFirstNode() == secondBranch.GetSecondNode() &&
                          firstBranch.GetSecondNode() == secondBranch.GetFirstNode();
     return sameNodes || reversedNodes;
-}
-
-bool Branch::IsUnacceptableElement() {
-    bool isFirstNodeUnacceptable = _firstNode < 0 || _secondNode > n,
-            isSecondNodeUnacceptable = _secondNode < 0 || _firstNode > n,
-            isPowerUnacceptable = GetPower() < 0 || GetPower() > m;
-    return isFirstNodeUnacceptable || isSecondNodeUnacceptable || isPowerUnacceptable;
 }
 
 bool Branch::IsZero() {

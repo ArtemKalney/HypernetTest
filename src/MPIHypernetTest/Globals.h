@@ -5,7 +5,6 @@
 
 extern std::vector<std::vector<double>> Bin;
 extern std::vector<int> KpNodesCombination;
-extern int n, m, k, l;
 extern int ReliableHypernets, UnconnectedHypernets, TwoNodesHypernets, ChainsReduced, UnconnectedNodesReduced,
         PairConnectivityCalls, EdgesReduced, ComplexChains, HelpProcessors, TreeNodeIntersections, UnconnectedTreeNodes;
 extern int FirstRoot, SecondRoot;

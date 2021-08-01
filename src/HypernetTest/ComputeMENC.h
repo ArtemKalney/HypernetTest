@@ -4,8 +4,8 @@
 #include "Funcs.h"
 
 template <class T>
-void ComputeMENC(T& sum, const H& initialHypernet) {
-    for (int i = 1; i < n; i++) {
+void ComputeMENC(T& sum, H& initialHypernet) {
+    for (int i = 1; i < initialHypernet.GetNodes().size(); i++) {
         if (IS_FULL_ENUMERATION != 1) {
             auto H = initialHypernet;
             if (i != 1) {
