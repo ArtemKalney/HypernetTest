@@ -40,7 +40,6 @@ int main(int argc, char** argv) {
     std::vector<Branch> branches;
     std::vector<Node> nodes;
     std::vector<Route> routes;
-    H initialHypernet;
     try {
         GetData(branches, nodes, routes);
     }
@@ -50,7 +49,12 @@ int main(int argc, char** argv) {
         return EXIT_FAILURE;
     }
     ComputeBinomialCoefficients(branches.size());
-    initialHypernet = GetRandomNetworkHypernet(branches, nodes);
+    H initialHypernet;
+    if (IS_GENERATE_NETWORK == 1) {
+        initialHypernet = GetRandomNetworkHypernet(branches, nodes);
+    } else {
+        initialHypernet = H(std::move(branches), std::move(nodes), std::move(routes));
+    }
     initialHypernet.RemoveEmptyBranches();
     if (IS_DEBUG == 1) {
         initialHypernet.LogHypernet();
@@ -66,7 +70,7 @@ int main(int argc, char** argv) {
             minModel = geneticAlgorithm->GetMinModel();
         }
         if (!minModel->GetIsConditionsChecked()) {
-            throw std::runtime_error("Solution does not satisfy conditions");
+            throw std::runtime_error("Solution does not satisfy conditions.");
         }
     }
     catch (std::exception const &e) {

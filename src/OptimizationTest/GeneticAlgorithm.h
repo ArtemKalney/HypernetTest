@@ -12,7 +12,7 @@ private:
 public:
     GeneticAlgorithm() = default;
 
-    GeneticAlgorithm(H &hypernet) : _hypernet(hypernet) {}
+    GeneticAlgorithm(H& hypernet) : _hypernet(hypernet) {}
 
     std::vector<Model> GetInitialPopulation();
 

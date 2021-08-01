@@ -9,23 +9,22 @@ std::shared_ptr<Model> GeneticAlgorithm::GetMinModel() {
     auto minModelIt = std::min_element(_population.begin(), _population.end(), Model::ModelCompare);
     _currentMinModel = *minModelIt;
     if (IS_DEBUG == 1) {
-        std::cout << "_currentMinModel:" << VectorToString(_currentMinModel.GetSolution()) << std::endl;
-        std::cout << "ObjFunctionValue=" << _currentMinModel.GetObjFunctionValue() << std::endl << std::endl;
+        _currentMinModel.PrintModel("_currentMinModel");
     }
     while (_currentMinModel.GetObjFunctionValue() > REQUIRED_ROUTE_DISTANCE) {
         GeneticAlgorithmIterations++;
         auto parent1Model = ChooseParent();
         if (IS_DEBUG == 1) {
-            std::cout << "parent1Model:" << std::string(4, ' ') << VectorToString(parent1Model.GetSolution()) << std::endl;
+            parent1Model.PrintModel("parent1Model");
         }
         auto parent2Model = ChooseParent();
         if (IS_DEBUG == 1 && parent1Model != parent2Model) {
-            std::cout << "parent2Model:" << std::string(4, ' ') << VectorToString(parent2Model.GetSolution()) << std::endl;
+            parent2Model.PrintModel("parent2Model");
         }
         while (parent1Model == parent2Model) {
             parent2Model = ChooseParent();
             if (IS_DEBUG == 1 && parent1Model != parent2Model) {
-                std::cout << "parent2Model:" << std::string(4, ' ') << VectorToString(parent2Model.GetSolution()) << std::endl;
+                parent2Model.PrintModel("parent2Model");
             }
         }
         auto crossedModel = CrossOperator(parent1Model, parent2Model);
@@ -34,21 +33,20 @@ std::shared_ptr<Model> GeneticAlgorithm::GetMinModel() {
             if (!crossedModel.GetIsConditionsChecked()) {
                 std::cout << "IsCheckConditions=false" << std::endl;
             }
-            std::cout << "crossedModel:" << std::string(4, ' ') << VectorToString(crossedModel.GetSolution()) << std::endl;
+            crossedModel.PrintModel("crossedModel");
         }
         auto mutatedModel = MutationOperator(crossedModel);
         if (IS_DEBUG == 1 && mutatedModel != crossedModel) {
             if (!crossedModel.GetIsConditionsChecked()) {
                 std::cout << "IsCheckConditions=false" << std::endl;
             }
-            std::cout << "mutatedModel:" << std::string(4, ' ') << VectorToString(mutatedModel.GetSolution()) << std::endl;
+            mutatedModel.PrintModel("mutatedModel");
         }
         auto newMinModel = LocalDescentAlgorithm(mutatedModel);
         if (newMinModel.GetObjFunctionValue() < _currentMinModel.GetObjFunctionValue()) {
             _currentMinModel = newMinModel;
             if (IS_DEBUG == 1) {
-                std::cout << "_currentMinModel:" << VectorToString(newMinModel.GetSolution()) << std::endl;
-                std::cout << "ObjFunctionValue=" << _currentMinModel.GetObjFunctionValue() << std::endl << std::endl;
+                newMinModel.PrintModel("newMinModel");
             }
         }
         auto maxModelIt = std::max_element(_population.begin(), _population.end(), Model::ModelCompare);
@@ -61,6 +59,9 @@ std::shared_ptr<Model> GeneticAlgorithm::GetMinModel() {
 
 //Выбираем случайно из всех возможных комбинаций
 std::vector<Model> GeneticAlgorithm::GetInitialPopulation() {
+    if (MAX_BRANCH_COUNT - 1 > _hypernet.GetFN().size()) {
+        throw std::runtime_error("MAX_BRANCH_COUNT is bigger then size of branches.");
+    }
     std::vector<std::vector<Branch>> combinations;
     std::vector<Branch> vector;
     if (USE_MAX_POPULATION_CAPACITY == 1) {
@@ -74,13 +75,20 @@ std::vector<Model> GeneticAlgorithm::GetInitialPopulation() {
     std::vector<Model> models;
     for(auto &solution : combinations) {
         auto model = new Model(_hypernet, solution);
-        auto isConditionsChecked = model->GetIsConditionsChecked();
-        if (isConditionsChecked && models.size() < MAX_INITIAL_POPULATION_COUNT) {
-            models.push_back(*model);
+        if (model->GetIsConditionsChecked()) {
+            models.emplace_back(*model);
         }
     }
+    if (models.size() < MAX_INITIAL_POPULATION_COUNT) {
+        throw std::runtime_error("MAX_INITIAL_POPULATION_COUNT is bigger then got population.");
+    }
+    std::vector<Model> population;
+    for (int i = 0; i < MAX_INITIAL_POPULATION_COUNT; ++i) {
+        auto minModelIt = std::min_element(models.begin(), models.end(), Model::ModelCompare);
+        population.emplace_back(*minModelIt);
+    }
 
-    return models;
+    return population;
 }
 
 //Турнирная селекция
@@ -104,20 +112,20 @@ Model GeneticAlgorithm::ChooseParent() {
 }
 
 // Одноточечный оператор скрещивания
-Model GeneticAlgorithm::CrossOperator(Model &parent1, Model &parent2) {
+Model GeneticAlgorithm::CrossOperator(Model& parent1, Model& parent2) {
     srand(_seed++);
     auto position = rand() % _hypernet.GetFN().size();
     std::vector<Branch> vector;
-//    for(auto &item : parent1.GetSolution()) {
-//        if (item.GetPosition() <= position) {
-//            vector.push_back(item);
-//        }
-//    }
-//    for(auto &item : parent2.GetSolution()) {
-//        if (item.GetPosition() > position) {
-//            vector.push_back(item);
-//        }
-//    }
+    for (int i = 0; i < _hypernet.GetFN().size(); ++i) {
+        auto branch = _hypernet.GetFN()[i];
+        if (i <= position &&
+                std::find(parent1.GetSolution().begin(), parent1.GetSolution().end(), branch) != parent1.GetSolution().end()) {
+            vector.push_back(branch);
+        } else if (i > position &&
+                std::find(parent2.GetSolution().begin(), parent2.GetSolution().end(), branch) != parent2.GetSolution().end()) {
+            vector.push_back(branch);
+        }
+    }
     auto model = new Model(_hypernet, vector);
 
     return *model;
@@ -128,7 +136,6 @@ Model GeneticAlgorithm::MutationOperator(Model &model) {
     srand(_seed++);
     auto mutatedSolution = model.GetSolution();
     for(auto &item : _hypernet.GetFN()) {
-        // p=1/_data.Bins.size()
         if (rand() % _hypernet.GetFN().size() == 0) {
             auto it = std::find(mutatedSolution.begin(), mutatedSolution.end(), item);
             if (it != mutatedSolution.end()) {

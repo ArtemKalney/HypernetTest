@@ -105,5 +105,10 @@ bool operator !=(Model &firstElement, Model &secondElement) {
 void Model::PrintModel() {
     std::cout << "Solution:" << VectorToString(_solution) << std::endl;
     std::cout << "Reliability:" << _reliability << std::endl;
-    std::cout << "ObjFunctionValue:" << _objFunctionValue << std::endl;
+    std::cout << "ObjFunctionValue:" << _objFunctionValue << std::endl << std::endl;
+}
+
+void Model::PrintModel(const std::string& header) {
+    std::cout << std::string(3, ' ') << header << ":" << std::endl;
+    PrintModel();
 }

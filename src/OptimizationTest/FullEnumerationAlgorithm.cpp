@@ -22,7 +22,6 @@ std::shared_ptr<Model> FullEnumerationAlgorithm::GetMinModel() {
         }
         if (IS_DEBUG == 1) {
             model->PrintModel();
-            std::cout << std::endl;
         }
     }
     if (models.empty()) {

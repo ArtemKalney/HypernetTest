@@ -71,6 +71,8 @@ public:
 
     void PrintModel();
 
+    void PrintModel(const std::string& header);
+
     static bool ModelCompare(const Model &a, const Model &b)
     {
         return a.GetObjFunctionValue() < b.GetObjFunctionValue();

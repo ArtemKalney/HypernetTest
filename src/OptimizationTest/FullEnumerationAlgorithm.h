@@ -9,7 +9,7 @@ private:
 public:
     FullEnumerationAlgorithm() = default;
 
-    FullEnumerationAlgorithm(H &hypernet) : _hypernet(hypernet) {}
+    FullEnumerationAlgorithm(H& hypernet) : _hypernet(hypernet) {}
 
     std::shared_ptr<Model> GetMinModel();
 };
