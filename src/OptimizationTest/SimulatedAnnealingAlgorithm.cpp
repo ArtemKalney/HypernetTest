@@ -14,6 +14,7 @@ std::shared_ptr<Model> SimulatedAnnealingAlgorithm::GetMinModel() {
         auto neighborhood = GetNeighborhood(_currentMinModel);
         auto newModel = GenerateStateCandidate(neighborhood);
         if (newModel.GetObjFunctionValue() < _currentMinModel.GetObjFunctionValue()) {
+
             _currentMinModel = newModel;
         } else {
             double p = exp(-((newModel.GetObjFunctionValue() - _currentMinModel.GetObjFunctionValue()) / _t));
