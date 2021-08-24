@@ -5,16 +5,16 @@ std::shared_ptr<Model> SimulatedAnnealingAlgorithm::GetMinModel() {
     SetInitialState();
     int count = 0;
     while (_t > T_MIN) {
-        if (IS_DEBUG == 1 && count > MAX_ITERATION_COUNT) {
+        if (IS_DEBUG == 1 && count == MAX_ITERATION_COUNT) {
             return std::make_shared<Model>(_currentMinModel);
         }
 
+        SimulatedAnnealingAlgorithmIterations++;
         count++;
         srand(_seed++);
         auto neighborhood = GetNeighborhood(_currentMinModel);
         auto newModel = GenerateStateCandidate(neighborhood);
         if (newModel.GetObjFunctionValue() < _currentMinModel.GetObjFunctionValue()) {
-
             _currentMinModel = newModel;
         } else {
             double p = exp(-((newModel.GetObjFunctionValue() - _currentMinModel.GetObjFunctionValue()) / _t));

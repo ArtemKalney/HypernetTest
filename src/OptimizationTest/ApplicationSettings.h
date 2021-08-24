@@ -24,12 +24,6 @@
 #define MAX_BRANCH_COUNT 3
 // параметры для алгоритма полного перебора
 #define IS_FULL_ENUMERATION_ALGORITHM 0
-// параметры для генетического алгоритма
-#define IS_GENETIC_ALGORITHM 0
-#define USE_MAX_POPULATION_CAPACITY 0
-#define MAX_INITIAL_POPULATION_COUNT 1
-#define GENETIC_ALGORITHM_LOCAL_DISTANCE 2
-#define REQUIRED_ROUTE_DISTANCE 1257
 // параметры для алгоритма имитации отжига
 #define IS_SIMULATED_ANNEALING_ALGORITHM 1
 #define T_MAX 10

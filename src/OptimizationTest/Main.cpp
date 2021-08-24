@@ -14,7 +14,7 @@ int ReliableHypernets = 0, UnconnectedHypernets = 0, TwoNodesHypernets = 0, Chai
         TreeNodeIntersections = 0, UnconnectedTreeNodes = 0;
 std::vector<std::vector<double>> Bin;
 int seed = time(0);
-int CheckedConditions, UncheckedConditions, GeneticAlgorithmIterations;
+int CheckedConditions, UncheckedConditions, SimulatedAnnealingAlgorithmIterations;
 
 void OutputResult(const std::shared_ptr<Model> model, int startTime) {
     output << "Solution:" << VectorToString(model->GetSolution()) << std::endl;
@@ -26,8 +26,8 @@ void OutputResult(const std::shared_ptr<Model> model, int startTime) {
         output << std::string(3, ' ') << "CheckedConditions:" << CheckedConditions << std::endl;
         output << std::string(3, ' ') << "UncheckedConditions:" << UncheckedConditions << std::endl;
     }
-    if (IS_GENETIC_ALGORITHM == 1) {
-        output << std::string(3, ' ') << "GeneticAlgorithmIterations:" << GeneticAlgorithmIterations << std::endl;
+    if (IS_SIMULATED_ANNEALING_ALGORITHM == 1) {
+        output << std::string(3, ' ') << "SimulatedAnnealingAlgorithmIterations:" << SimulatedAnnealingAlgorithmIterations << std::endl;
     }
 }
 
