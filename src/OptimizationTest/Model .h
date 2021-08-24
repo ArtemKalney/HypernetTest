@@ -8,7 +8,6 @@ private:
     H _hypernet;
     std::vector<Branch> _solution;
     int _objFunctionValue{};
-    bool _isConditionsChecked{};
     double _reliability{};
 public:
     Model() = default;
@@ -46,7 +45,6 @@ public:
             throw std::runtime_error("Generated not valid hypernet in model");
         }
         _objFunctionValue = _solution.size();
-        _isConditionsChecked = CheckConditions();
     }
 
     double GetObjFunctionValue() const {
@@ -59,10 +57,6 @@ public:
 
     std::vector<Branch>& GetSolution() {
         return _solution;
-    }
-
-    bool GetIsConditionsChecked() const {
-        return _isConditionsChecked;
     }
 
     bool CheckConditions();

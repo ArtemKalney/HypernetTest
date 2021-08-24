@@ -1,12 +1,10 @@
 #include "Globals.h"
 #include "Funcs.h"
 #include "../HypernetModel/Helpers/DataHelper.h"
-#include "../HypernetModel/Hypernet.h"
 #include "../HypernetTest/ComputeAPC.h"
-#include "../HypernetTest/ComputeMENC.h"
 #include "Model .h"
 #include "FullEnumerationAlgorithm.h"
-#include "GeneticAlgorithm.h"
+#include "SimulatedAnnealingAlgorithm.h"
 
 std::ifstream input;
 std::ofstream output;
@@ -62,15 +60,15 @@ int main(int argc, char** argv) {
     std::shared_ptr<Model> minModel;
     int startTime = clock();
     try {
+        if (MAX_BRANCH_COUNT - 1 > initialHypernet.GetFN().size()) {
+            throw std::runtime_error("MAX_BRANCH_COUNT is too big.");
+        }
         if (IS_FULL_ENUMERATION_ALGORITHM == 1) {
             auto fullEnumerationAlgorithm = new FullEnumerationAlgorithm(initialHypernet);
             minModel = fullEnumerationAlgorithm->GetMinModel();
-        } else if (IS_GENETIC_ALGORITHM == 1) {
-            auto geneticAlgorithm = new GeneticAlgorithm(initialHypernet);
-            minModel = geneticAlgorithm->GetMinModel();
-        }
-        if (!minModel->GetIsConditionsChecked()) {
-            throw std::runtime_error("Solution does not satisfy conditions.");
+        } else if (IS_SIMULATED_ANNEALING_ALGORITHM == 1) {
+            auto simulatedAnnealingAlgorithm = new SimulatedAnnealingAlgorithm(initialHypernet);
+            minModel = simulatedAnnealingAlgorithm->GetMinModel();
         }
     }
     catch (std::exception const &e) {

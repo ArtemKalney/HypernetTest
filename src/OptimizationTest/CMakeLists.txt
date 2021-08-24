@@ -7,7 +7,7 @@ set(SOURCE_FILES Main.cpp ../HypernetModel/Branch.cpp ../HypernetModel/Hypernet.
         ../HypernetModel/Helpers/ReductionHelper.cpp ../HypernetTest/PairConnectivity.cpp RandomHypernet.cpp
         ../HypernetModel/Helpers/RandomHypernetHelper.cpp ../HypernetModel/Element.h ../HypernetModel/IIdentity.h
         ../HypernetModel/Node.h ../HypernetModel/Operators.h ../HypernetModel/Route.h ApplicationSettings.h
-        Funcs.h Globals.h Stdafx.h GeneticAlgorithm.h "Model .h" GeneticAlgorithm.cpp Model.cpp FullEnumerationAlgorithm.h FullEnumerationAlgorithm.cpp)
+        Funcs.h Globals.h Stdafx.h "Model .h" Model.cpp FullEnumerationAlgorithm.h FullEnumerationAlgorithm.cpp SimulatedAnnealingAlgorithm.h SimulatedAnnealingAlgorithm.cpp)
 add_executable(OptimizationTest ${SOURCE_FILES})
 #standard libraries
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
