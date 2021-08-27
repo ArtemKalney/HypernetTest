@@ -16,18 +16,6 @@ std::vector<int> KpNodesCombination;
 const double p = 0.9;
 int seed = time(0);
 int FirstRoot, SecondRoot;
-std::vector<double> LB, UB;
-
-void PrintBoundsResult(){
-    if (LB.size() != UB.size()) {
-        throw "ComputeCumulativePairConnectivity: LB and UB sizes are not equal";
-    }
-    FILE* fp = fopen("test.txt","w");
-    for(int i=0; i<LB.size(); i++){
-        fprintf(fp,"%f\t%f\n", LB[i], UB[i]);
-    }
-    fclose(fp);
-}
 
 template <class T>
 void ComputePairConnectivities(T& sum, H& initialHypernet) {
@@ -167,9 +155,6 @@ int main(int argc, char** argv) {
             PrintSolution(branchSum);
         } else {
             PrintSolution(nodeSum);
-        }
-        if (IS_DEBUG == 1 && IS_CUMULATIVE_MODE == 1) {
-            PrintBoundsResult();
         }
     }
     catch (std::exception const &e) {

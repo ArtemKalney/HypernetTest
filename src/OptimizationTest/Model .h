@@ -46,7 +46,7 @@ public:
             throw std::runtime_error("Generated not valid hypernet in model");
         }
         _objFunctionValue = _solution.size();
-        _reliabilityDelta = -newNodes.size() -1;
+        _reliabilityDelta = newNodes.size() + 1;
     }
 
     double GetObjFunctionValue() const {

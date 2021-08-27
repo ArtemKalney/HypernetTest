@@ -9,10 +9,6 @@ bool ComputeAPC(T& sum, H& initialHypernet, double requiredValue = 0) {
     if (IS_CUMULATIVE_MODE == 1) {
         prevLowerBound = 0;
         prevUpperBound = Bin[initialHypernet.GetNodes().size()][2];
-        if (IS_DEBUG == 1) {
-            LB.push_back(prevLowerBound);
-            UB.push_back(prevUpperBound);
-        }
     }
     for (int i = 0; i < initialHypernet.GetNodes().size(); i++) {
         for (int j = i + 1; j < initialHypernet.GetNodes().size(); j++) {
@@ -37,17 +33,9 @@ bool ComputeAPC(T& sum, H& initialHypernet, double requiredValue = 0) {
                         double value = IS_NUMBER_COMPUTATION == 1 ? result.GetValue() : result.GetPolynomialValue(p);
                         double lowerBound = prevLowerBound + value,
                                 upperBound = prevUpperBound + value - 1;
-                        if (IS_DEBUG == 1) {
-                            LB.push_back(lowerBound);
-                            UB.push_back(upperBound);
-                        }
                         if (lowerBound/Bin[initialHypernet.GetNodes().size()][2] > requiredValue ||
-                            upperBound/Bin[initialHypernet.GetNodes().size()][2] < requiredValue) {
-                            for(int k=0; k<LB.size(); k++){
-                                LB[k] = LB[k]/Bin[initialHypernet.GetNodes().size()][2];
-                                UB[k] = UB[k]/Bin[initialHypernet.GetNodes().size()][2];
-                            }
-
+                            upperBound/Bin[initialHypernet.GetNodes().size()][2] < requiredValue)
+                        {
                             return false;
                         }
 
@@ -75,12 +63,6 @@ bool ComputeAPC(T& sum, H& initialHypernet, double requiredValue = 0) {
             if (IS_DEBUG == 1) {
                 output << "+R" << i + 1 << "," << j + 1 << std::endl;
             }
-        }
-    }
-    if (IS_CUMULATIVE_MODE == 1) {
-        for(int i=0; i<LB.size(); i++){
-            LB[i] = LB[i]/Bin[initialHypernet.GetNodes().size()][2];
-            UB[i] = UB[i]/Bin[initialHypernet.GetNodes().size()][2];
         }
     }
     if (IS_NUMBER_COMPUTATION == 1) {
