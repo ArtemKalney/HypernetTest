@@ -16,6 +16,18 @@ std::vector<int> KpNodesCombination;
 const double p = 0.9;
 int seed = time(0);
 int FirstRoot, SecondRoot;
+std::vector<double> LB, UB;
+
+void PrintBoundsResult(){
+    if (LB.size() != UB.size()) {
+        throw "ComputeCumulativePairConnectivity: LB and UB sizes are not equal";
+    }
+    FILE* fp = fopen("test.txt","w");
+    for(int i=0; i<LB.size(); i++){
+        fprintf(fp,"%f\t%f\n", LB[i], UB[i]);
+    }
+    fclose(fp);
+}
 
 template <class T>
 void ComputePairConnectivities(T& sum, H& initialHypernet) {
@@ -108,16 +120,16 @@ int main(int argc, char** argv) {
         int startTime = clock();
         if (option == 1) {
             if (IS_NODES_RELIABLE == 1) {
-                ComputeAPC(branchSum, initialHypernet);
+                ComputeAPC(branchSum, initialHypernet, REQUIRED_VALUE);
             } else {
-                ComputeAPC(nodeSum, initialHypernet);
+                ComputeAPC(nodeSum, initialHypernet, REQUIRED_VALUE);
             }
         }
         if (option == 2) {
             if (IS_NODES_RELIABLE == 1) {
-                ComputeMENC(branchSum, initialHypernet);
+                ComputeMENC(branchSum, initialHypernet, REQUIRED_VALUE);
             } else {
-                ComputeMENC(nodeSum, initialHypernet);
+                ComputeMENC(nodeSum, initialHypernet, REQUIRED_VALUE);
             }
         }
         if (option == 3) {
@@ -155,6 +167,9 @@ int main(int argc, char** argv) {
             PrintSolution(branchSum);
         } else {
             PrintSolution(nodeSum);
+        }
+        if (IS_DEBUG == 1 && IS_CUMULATIVE_MODE == 1) {
+            PrintBoundsResult();
         }
     }
     catch (std::exception const &e) {

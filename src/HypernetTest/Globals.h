@@ -12,3 +12,4 @@ extern std::ifstream input;
 extern std::ofstream output;
 extern int seed;
 extern int FirstRoot, SecondRoot;
+extern std::vector<double> LB, UB;
