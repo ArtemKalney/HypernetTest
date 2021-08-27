@@ -69,3 +69,5 @@ template <class T>
 int GetUniqueId(const std::vector<T>& items) {
     return std::max_element(items.begin(), items.end(), IIdentity::IdentityCompare)->GetId() + 1;
 }
+
+bool DoubleEquals(double a, double b, double epsilon = 0.0000000000001);

@@ -20,7 +20,7 @@
 #define IS_GENERATE_NETWORK 0
 #define NETWORK_NODES_PROPORTION 5
 // параметры для модели
-#define MIN_MENC_VALUE 4
+#define MIN_MENC_VALUE 1.8
 #define MAX_BRANCH_COUNT 3
 // параметры для алгоритма полного перебора
 #define IS_FULL_ENUMERATION_ALGORITHM 0
@@ -28,5 +28,6 @@
 #define IS_SIMULATED_ANNEALING_ALGORITHM 1
 #define T_MAX 10
 #define T_MIN 0.00001
-#define MAX_ITERATION_COUNT 10
-#define SIMULATED_ANNEALING_LOCAL_DISTANCE 1
+#define MAX_ITERATION_COUNT 10 // в режиме дебага
+#define IS_LOCAL_CHANGE 0
+#define LOCAL_DISTANCE 1

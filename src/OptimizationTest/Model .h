@@ -9,6 +9,7 @@ private:
     std::vector<Branch> _solution;
     int _objFunctionValue{};
     double _reliability{};
+    int _reliabilityDelta{};
 public:
     Model() = default;
 
@@ -19,7 +20,7 @@ public:
         std::vector<Node> newNodes;
         // добавляем b-nodes
         for(auto &item : _solution) {
-            // находим нужную ветсь для нашей копии гиперсети
+            // находим нужную ветвь для нашей копии гиперсети
             newNodes.push_back(AddNode(*std::find(_hypernet.GetFN().begin(), _hypernet.GetFN().end(), item)));
         }
         // добавляем c-node
@@ -45,6 +46,7 @@ public:
             throw std::runtime_error("Generated not valid hypernet in model");
         }
         _objFunctionValue = _solution.size();
+        _reliabilityDelta = -newNodes.size() -1;
     }
 
     double GetObjFunctionValue() const {

@@ -12,8 +12,14 @@ std::shared_ptr<Model> SimulatedAnnealingAlgorithm::GetMinModel() {
         SimulatedAnnealingAlgorithmIterations++;
         count++;
         srand(_seed++);
-        auto neighborhood = GetNeighborhood(_currentMinModel);
-        auto newModel = GenerateStateCandidate(neighborhood);
+        Model newModel;
+        if (IS_LOCAL_CHANGE == 1) {
+            auto neighborhood = GetNeighborhood(_currentMinModel);
+            newModel = GenerateStateCandidate(neighborhood);
+        } else {
+            std::vector<std::vector<Branch>> checkedSolutions;
+            newModel = GenerateStateCandidate(_currentMinModel.GetSolution(), checkedSolutions);
+        }
         if (newModel.GetObjFunctionValue() < _currentMinModel.GetObjFunctionValue()) {
             _currentMinModel = newModel;
         } else {
@@ -41,14 +47,13 @@ void SimulatedAnnealingAlgorithm::SetInitialState() {
         vector.erase(it);
     }
     auto model = new Model(_hypernet, newSolution);
-    if (model->CheckConditions()) {
-        _currentMinModel = *model;
-    } else {
-        throw std::runtime_error("Wrong initial state.");
+    if (!model->CheckConditions()) {
+        std::cout << "Not valid initial state." << std::endl;
     }
+    _currentMinModel = *model;
 }
 
-// одноточеччное случайное изменение
+// изменение локального поиска
 Model SimulatedAnnealingAlgorithm::GenerateStateCandidate(std::vector<Model>& neighborhood) {
     srand(_seed++);
     auto index = rand() % neighborhood.size();
@@ -62,11 +67,53 @@ Model SimulatedAnnealingAlgorithm::GenerateStateCandidate(std::vector<Model>& ne
     }
 }
 
+// одноточечное изменение
+Model SimulatedAnnealingAlgorithm::GenerateStateCandidate(std::vector<Branch>& solution,
+                                                          std::vector<std::vector<Branch>>& checkedSolutions) {
+    srand(_seed++);
+    auto changeCandidate = _hypernet.GetFN()[rand() % _hypernet.GetFN().size()];
+    auto it = std::find(solution.begin(), solution.end(), changeCandidate);
+    if (it == solution.end()) {
+        // сразу проверяем максимальный размер
+        if (solution.size() + 1 > MAX_BRANCH_COUNT - 1) {
+            return GenerateStateCandidate(solution, checkedSolutions);
+        }
+
+        solution.push_back(changeCandidate);
+    } else {
+        // не допускаем пустое решение
+        if (solution.size() == 1) {
+            return GenerateStateCandidate(solution, checkedSolutions);
+        }
+
+        solution.erase(it);
+    }
+    // отбрасываем проверенные варианты
+    for(auto &item : checkedSolutions) {
+        if (solution.size() == item.size()) {
+            std::sort(solution.begin(), solution.end());
+            std::sort(item.begin(), item.end());
+            if (std::equal(solution.begin(), solution.end(), item.begin())) {
+                return GenerateStateCandidate(solution, checkedSolutions);
+            }
+        }
+    }
+
+    auto model = new Model(_hypernet, solution);
+    if (model->CheckConditions()) {
+        return *model;
+    } else {
+        checkedSolutions.push_back(model->GetSolution());
+
+        return GenerateStateCandidate(model->GetSolution(), checkedSolutions);
+    }
+}
+
 std::vector<Model> SimulatedAnnealingAlgorithm::GetNeighborhood(Model& model) {
     std::vector<Model> neighborhood;
     std::vector<std::vector<Branch>> combinations;
     std::vector<Branch> vector;
-    // та же окрестность
+    // окрестность той же длины
     ComputeCombinations(_hypernet.GetFN(), combinations, vector, 0, model.GetSolution().size());
     for(auto &item : combinations) {
         if (!std::equal(model.GetSolution().begin(), model.GetSolution().end(), item.begin())) {
@@ -74,7 +121,7 @@ std::vector<Model> SimulatedAnnealingAlgorithm::GetNeighborhood(Model& model) {
             neighborhood.push_back(*neighborModel);
         }
     }
-    for (int i = 1; i <= SIMULATED_ANNEALING_LOCAL_DISTANCE; ++i) {
+    for (int i = 1; i <= LOCAL_DISTANCE; ++i) {
         // окрестность поменьше
         vector.clear();
         combinations.clear();

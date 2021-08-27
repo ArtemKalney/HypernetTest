@@ -20,5 +20,7 @@ public:
 
     Model GenerateStateCandidate(std::vector<Model>& neighborhood);
 
+    Model GenerateStateCandidate(std::vector<Branch>& solution, std::vector<std::vector<Branch>>& checkedSolutions);
+
     std::vector<Model> GetNeighborhood(Model &model);
 };

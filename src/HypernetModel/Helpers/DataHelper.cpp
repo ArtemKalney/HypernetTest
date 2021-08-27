@@ -106,3 +106,8 @@ void HandleException(const std::exception &e) {
     std::cerr << e.what() << std::endl;
     output << e.what() << std::endl;
 }
+
+bool DoubleEquals(double a, double b, double epsilon)
+{
+    return std::abs(a - b) < epsilon;
+}

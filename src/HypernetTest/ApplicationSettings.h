@@ -1,7 +1,7 @@
 #pragma once
 
 // Тесты, на тестирование не влиияет IS_NODES_RELIABLE
-#define IS_TEST 1
+#define IS_TEST 0
 #define IS_TEST_CHECK_SPECIFICATIONS 1
 // Определяет какие элементы надёжны в сети (ветви или вершины)
 #define IS_NODES_RELIABLE 1

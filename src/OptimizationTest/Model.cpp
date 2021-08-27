@@ -64,20 +64,14 @@ bool Model::CheckConditions() {
     if (IS_NODES_RELIABLE == 1) {
         Branch branchSum = Branch::GetZero();
         ComputeMENC(branchSum, _hypernet);
-        _reliability = branchSum.GetPolynomialValue(p);
-        if (_reliability < MIN_MENC_VALUE) {
-            return false;
-        }
+        _reliability = branchSum.GetPolynomialValue(p) + _reliabilityDelta;
     } else {
         Node nodeSum = Node::GetZero();
         ComputeMENC(nodeSum, _hypernet);
-        _reliability = nodeSum.GetPolynomialValue(p);
-        if (_reliability < MIN_MENC_VALUE) {
-            return false;
-        }
+        _reliability = nodeSum.GetPolynomialValue(p) + _reliabilityDelta;
     }
 
-    return true;
+    return DoubleEquals(_reliability, MIN_MENC_VALUE) || _reliability > MIN_MENC_VALUE;
 }
 
 bool operator ==(Model &firstElement, Model &secondElement) {

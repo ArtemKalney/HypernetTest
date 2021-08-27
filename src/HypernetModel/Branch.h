@@ -115,3 +115,4 @@ public:
 };
 
 bool operator !=(Branch firstBranch, Branch secondBranch);
+bool operator <(Branch firstBranch, Branch secondBranch);
