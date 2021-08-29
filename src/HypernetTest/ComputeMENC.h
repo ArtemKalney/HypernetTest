@@ -20,7 +20,7 @@ bool ComputeMENC(T& sum, H& initialHypernet, double requiredValue = 1) {
                 auto result = PairConnectivity<T>(H);
                 sum = sum + result;
                 if (IS_CUMULATIVE_MODE == 1) {
-                    double value = IS_NUMBER_COMPUTATION == 1 ? result.GetValue() : result.GetPolynomialValue(p);
+                    double value = result.GetPolynomialValue(p);
                     double lowerBound = prevLowerBound + value,
                             upperBound = prevUpperBound + value - 1;
                     if (lowerBound > requiredValue) {
