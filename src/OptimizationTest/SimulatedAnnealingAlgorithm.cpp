@@ -17,18 +17,22 @@ std::shared_ptr<Model> SimulatedAnnealingAlgorithm::GetMinModel() {
             auto neighborhood = GetNeighborhood(_currentMinModel);
             newModel = GenerateStateCandidate(neighborhood);
         } else {
-            newModel = GenerateStateCandidate(_currentMinModel.GetSolution());
+            auto solution = _currentMinModel.GetSolution();
+            newModel = GenerateStateCandidate(solution);
         }
+        bool changed = false;
         if (newModel.GetObjFunctionValue() < _currentMinModel.GetObjFunctionValue()) {
+            changed = true;
             _currentMinModel = newModel;
         } else {
             double p = exp(-((newModel.GetObjFunctionValue() - _currentMinModel.GetObjFunctionValue()) / _t));
             if ((double) rand() / RAND_MAX <= p) {
+                changed = true;
                 _currentMinModel = newModel;
             }
         }
         _t = T_MAX * 0.1 / count;
-        if (IS_DEBUG == 1) {
+        if (IS_DEBUG == 1 && changed) {
             _currentMinModel.PrintModel("_currentMinModel");
         }
     }
@@ -46,9 +50,6 @@ void SimulatedAnnealingAlgorithm::SetInitialState() {
         vector.erase(it);
     }
     auto model = new Model(_hypernet, newSolution);
-    if (!model->CheckConditions()) {
-        std::cout << "Not valid initial state." << std::endl;
-    }
     _currentMinModel = *model;
 }
 

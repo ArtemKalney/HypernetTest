@@ -83,6 +83,8 @@ public:
 
     static bool IsIncident(const int &node, const Branch &branch);
 
+    static bool IsSlightlyIncident(const Branch &branch, const Route &route);
+
     bool IsSNconnected();
 
     template<class T>

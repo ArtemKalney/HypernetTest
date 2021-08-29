@@ -60,7 +60,10 @@ int main(int argc, char** argv) {
     std::shared_ptr<Model> minModel;
     int startTime = clock();
     try {
-        if (MAX_BRANCH_COUNT - 1 > initialHypernet.GetFN().size()) {
+        if (MAX_BRANCH_COUNT <= 2) {
+            throw std::runtime_error("MAX_BRANCH_COUNT is too small.");
+        }
+        else if (MAX_BRANCH_COUNT - 1 > initialHypernet.GetFN().size()) {
             throw std::runtime_error("MAX_BRANCH_COUNT is too big.");
         }
         if (IS_FULL_ENUMERATION_ALGORITHM == 1) {

@@ -8,17 +8,23 @@ Node Model::AddNode(Branch &branch) {
                                           _hypernet.GetFN().front().GetC().size());
     _hypernet.GetNodes().push_back(newNode);
     // добавляем маршруты
-    int firstNode = -1;
     std::vector<Route> newRoutes;
     for(auto &route : branch.GetRoutes()) {
         auto newVector = *route.Ptr;
         for (int i = 0; i < newVector.size() - 1; ++i) {
             if (H::IsIncident(newVector[i], branch) && H::IsIncident(newVector[i + 1], branch)) {
-                firstNode = newVector[i];
-                newVector.erase(newVector.begin() + i + 1, newVector.end());
-                newVector.push_back(newNode.GetId());
-                route.Ptr->erase(route.Ptr->begin(), route.Ptr->begin() + i + 1);
-                route.Ptr->insert(route.Ptr->begin(), newNode.GetId());
+                if (newVector[i] == branch.GetSecondNode()) {
+                    newVector.erase(newVector.begin() + i + 1, newVector.end());
+                    newVector.push_back(newNode.GetId());
+                    route.Ptr->erase(route.Ptr->begin(), route.Ptr->begin() + i + 1);
+                    route.Ptr->insert(route.Ptr->begin(), newNode.GetId());
+                } else {
+                    route.Ptr->erase(route.Ptr->begin() + i + 1, route.Ptr->end());
+                    route.Ptr->push_back(newNode.GetId());
+                    newVector.erase(newVector.begin(), newVector.begin() + i + 1);
+                    newVector.insert(newVector.begin(), newNode.GetId());
+                }
+
                 break;
             }
         }
@@ -27,29 +33,19 @@ Node Model::AddNode(Branch &branch) {
         // заменяем старый маршрут новым
         for(auto &item : _hypernet.GetFN()) {
             auto routeIt = std::find(item.GetRoutes().begin(), item.GetRoutes().end(), route);
-            if (routeIt != item.GetRoutes().end()) {
-                for (int i = 0; i < newVector.size() - 1; ++i) {
-                    if (H::IsIncident(newVector[i], item) && H::IsIncident(newVector[i + 1], item)) {
-                       *routeIt = newRoute;
-                        continue;
-                    }
-                }
+            if (routeIt != item.GetRoutes().end() && H::IsSlightlyIncident(item, newRoute)) {
+                *routeIt = newRoute;
+
+                continue;
             }
         }
         newRoutes.push_back(newRoute);
         _hypernet.GetF().emplace_back(newRoute);
     }
     // добавляем ветвь
-    if (firstNode < 0) {
-        throw std::runtime_error("First node for new branch not found for model.");
-    }
-    Branch newBranch = Branch::GetSimpleElement(GetUniqueId(_hypernet.GetFN()), firstNode, newNode.GetId(),
+    Branch newBranch = Branch::GetSimpleElement(GetUniqueId(_hypernet.GetFN()), newNode.GetId(), branch.GetSecondNode(),
                                                 _hypernet.GetFN().front().GetC().size());
-    if (branch.GetFirstNode() == firstNode) {
-        branch.SetFirstNode(newNode.GetId());
-    } else {
-        branch.SetSecondNode(newNode.GetId());
-    }
+    branch.SetSecondNode(newNode.GetId());
     newBranch.SetRoutes(newRoutes);
     _hypernet.GetFN().emplace_back(newBranch);
 
@@ -61,23 +57,18 @@ bool Model::CheckConditions() {
         return false;
     }
 
+    bool isReliable;
     if (IS_NODES_RELIABLE == 1) {
         Branch branchSum = Branch::GetZero();
-        if (!ComputeMENC(branchSum, _hypernet, MIN_MENC_VALUE + _reliabilityDelta)) {
-            return false;
-        }
-
+        isReliable = ComputeMENC(branchSum, _hypernet, MIN_MENC_VALUE + _reliabilityDelta);
         _reliability = branchSum.GetPolynomialValue(p) - _reliabilityDelta;
     } else {
         Node nodeSum = Node::GetZero();
-        if (!ComputeMENC(nodeSum, _hypernet, MIN_MENC_VALUE + _reliabilityDelta)) {
-            return false;
-        }
-
+        isReliable = ComputeMENC(nodeSum, _hypernet, MIN_MENC_VALUE + _reliabilityDelta);
         _reliability = nodeSum.GetPolynomialValue(p) - _reliabilityDelta;
     }
 
-    return DoubleEquals(_reliability, MIN_MENC_VALUE) || _reliability > MIN_MENC_VALUE;
+    return isReliable;
 }
 
 bool operator ==(Model &firstElement, Model &secondElement) {

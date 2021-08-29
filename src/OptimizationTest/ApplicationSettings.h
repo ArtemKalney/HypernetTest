@@ -17,7 +17,7 @@
 #define IS_FULL_SEARCH_CHAINS 0
 #define IS_REDUCE_RELIABLE_CHAINS 0
 // параметры для генерации гиперсети
-#define IS_GENERATE_NETWORK 0
+#define IS_GENERATE_NETWORK 1
 #define NETWORK_NODES_PROPORTION 5
 // параметры для модели
 #define MIN_MENC_VALUE 1.8

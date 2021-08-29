@@ -26,8 +26,10 @@ H GetRandomNetworkHypernet(std::vector<Branch>& primaryNetwork, std::vector<Node
             testNodes.push_back(node);
         }
     }
+    // создаём полный граф
     auto secondaryNetwork = GetRandomNetwork(testNodes.size(), testNodes.size() * (testNodes.size() - 1) / 2,
                                              primaryNetwork.size());
+    // восстанавливаем нумерацию из testNodes
     for (int i = 0; i < testNodes.size(); ++i) {
         RenumerateNodes(secondaryNetwork, i, testNodes[i]);
     }

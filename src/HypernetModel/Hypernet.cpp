@@ -479,6 +479,16 @@ bool H::IsIncident(const int &node, const Branch &branch) {
     return branch.GetFirstNode() == node || branch.GetSecondNode() == node;
 }
 
+bool H::IsSlightlyIncident(const Branch &branch, const Route &route) {
+    for (int i = 0; i < route.Ptr->size() - 1; ++i) {
+        if (IsIncident(route.Ptr->at(i), branch) && IsIncident(route.Ptr->at(i + 1), branch)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool H::IsPivotNode(const int &node) {
     return node == 0 || node == 1;
 }
@@ -543,13 +553,7 @@ void H::RenumerateNodesForGen(const int& firstNode, const int& secondNode) {
 bool H::IsValidHypernet() {
     for(auto &branch : _FN) {
         for(auto &item : branch.GetRoutes()) {
-            bool isIncidentRoute = false;
-            for (int i = 0; i < item.Ptr->size() - 1; ++i) {
-                if (H::IsIncident(item.Ptr->at(i), branch) && H::IsIncident(item.Ptr->at(i + 1), branch)) {
-                    isIncidentRoute = true;
-                }
-            }
-            if (!isIncidentRoute) {
+            if (!IsSlightlyIncident(branch, item)) {
                 return false;
             }
         }

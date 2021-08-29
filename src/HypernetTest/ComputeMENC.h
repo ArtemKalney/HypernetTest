@@ -23,7 +23,13 @@ bool ComputeMENC(T& sum, H& initialHypernet, double requiredValue = 1) {
                     double value = IS_NUMBER_COMPUTATION == 1 ? result.GetValue() : result.GetPolynomialValue(p);
                     double lowerBound = prevLowerBound + value,
                             upperBound = prevUpperBound + value - 1;
-                    if (lowerBound > requiredValue || upperBound < requiredValue) {
+                    if (lowerBound > requiredValue) {
+                        sum = sum + T::GetUnity();
+
+                        return true;
+                    } else if (upperBound < requiredValue) {
+                        sum = sum + T::GetUnity();
+
                         return false;
                     }
 
@@ -43,6 +49,11 @@ bool ComputeMENC(T& sum, H& initialHypernet, double requiredValue = 1) {
         }
     }
     sum = sum + T::GetUnity();
+    if (IS_CUMULATIVE_MODE == 1) {
+        auto value = sum.GetPolynomialValue(p);
+
+        return DoubleEquals(value, requiredValue) || value > requiredValue;
+    }
 
     return true;
 }
