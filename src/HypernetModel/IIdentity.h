@@ -29,7 +29,7 @@ bool operator >(const T& element, const int id) {
 }
 
 template <class T>
-std::string VectorToString(std::vector<T> &vector, std::string delimiter) {
+std::string VectorToString(std::vector<T>& vector, std::string delimiter = ",") {
     std::string str = "";
     for(auto &item : vector) {
         str += std::to_string(item.GetId());
@@ -44,6 +44,13 @@ std::string VectorToString(std::vector<T> &vector, std::string delimiter) {
 }
 
 template <class T>
-std::string VectorToString(std::vector<T> &vector) {
-    return VectorToString(vector, ",");
+bool VectorEqual(std::vector<T>& vector1, std::vector<T>& vector2) {
+    if (vector1.size() != vector2.size()) {
+        return false;
+    }
+
+    std::sort(vector1.begin(), vector1.end());
+    std::sort(vector2.begin(), vector2.end());
+
+    return std::equal(vector1.begin(), vector1.end(), vector2.begin());
 }

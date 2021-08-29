@@ -6,9 +6,11 @@
 class SimulatedAnnealingAlgorithm {
 private:
     H _hypernet;
-    double _t;
+    double _t{};
     int _seed = time(0);
     Model _currentMinModel;
+    std::vector<std::vector<Branch>> _acceptedSolutions;
+    std::vector<std::vector<Branch>> _unacceptedSolutions;
 public:
     SimulatedAnnealingAlgorithm() = default;
 
@@ -20,7 +22,7 @@ public:
 
     Model GenerateStateCandidate(std::vector<Model>& neighborhood);
 
-    Model GenerateStateCandidate(std::vector<Branch>& solution, std::vector<std::vector<Branch>>& checkedSolutions);
+    Model GenerateStateCandidate(std::vector<Branch>& solution);
 
     std::vector<Model> GetNeighborhood(Model &model);
 };

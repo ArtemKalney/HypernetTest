@@ -17,8 +17,7 @@ std::shared_ptr<Model> SimulatedAnnealingAlgorithm::GetMinModel() {
             auto neighborhood = GetNeighborhood(_currentMinModel);
             newModel = GenerateStateCandidate(neighborhood);
         } else {
-            std::vector<std::vector<Branch>> checkedSolutions;
-            newModel = GenerateStateCandidate(_currentMinModel.GetSolution(), checkedSolutions);
+            newModel = GenerateStateCandidate(_currentMinModel.GetSolution());
         }
         if (newModel.GetObjFunctionValue() < _currentMinModel.GetObjFunctionValue()) {
             _currentMinModel = newModel;
@@ -68,44 +67,49 @@ Model SimulatedAnnealingAlgorithm::GenerateStateCandidate(std::vector<Model>& ne
 }
 
 // одноточечное изменение
-Model SimulatedAnnealingAlgorithm::GenerateStateCandidate(std::vector<Branch>& solution,
-                                                          std::vector<std::vector<Branch>>& checkedSolutions) {
+Model SimulatedAnnealingAlgorithm::GenerateStateCandidate(std::vector<Branch>& solution) {
     srand(_seed++);
     auto changeCandidate = _hypernet.GetFN()[rand() % _hypernet.GetFN().size()];
     auto it = std::find(solution.begin(), solution.end(), changeCandidate);
     if (it == solution.end()) {
         // сразу проверяем максимальный размер
         if (solution.size() + 1 > MAX_BRANCH_COUNT - 1) {
-            return GenerateStateCandidate(solution, checkedSolutions);
+            return GenerateStateCandidate(solution);
         }
 
         solution.push_back(changeCandidate);
     } else {
         // не допускаем пустое решение
         if (solution.size() == 1) {
-            return GenerateStateCandidate(solution, checkedSolutions);
+            return GenerateStateCandidate(solution);
         }
 
         solution.erase(it);
     }
     // отбрасываем проверенные варианты
-    for(auto &item : checkedSolutions) {
-        if (solution.size() == item.size()) {
-            std::sort(solution.begin(), solution.end());
-            std::sort(item.begin(), item.end());
-            if (std::equal(solution.begin(), solution.end(), item.begin())) {
-                return GenerateStateCandidate(solution, checkedSolutions);
-            }
+    for(auto &item : _unacceptedSolutions) {
+        if (VectorEqual(solution, item)) {
+            return GenerateStateCandidate(solution);
+        }
+    }
+
+    for(auto &item : _acceptedSolutions) {
+        if (VectorEqual(solution, item)) {
+            auto model = new Model(_hypernet, solution);
+
+            return *model;
         }
     }
 
     auto model = new Model(_hypernet, solution);
     if (model->CheckConditions()) {
+        _acceptedSolutions.push_back(model->GetSolution());
+
         return *model;
     } else {
-        checkedSolutions.push_back(model->GetSolution());
+        _unacceptedSolutions.push_back(model->GetSolution());
 
-        return GenerateStateCandidate(model->GetSolution(), checkedSolutions);
+        return GenerateStateCandidate(model->GetSolution());
     }
 }
 
