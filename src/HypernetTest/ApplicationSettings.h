@@ -27,5 +27,5 @@
 #define IS_RANDOM_HYPERNET 0
 #define RANDOM_ADDITIONAL_EDGES 5
 // параметры для кумулятивных оценок
-#define IS_CUMULATIVE_MODE 1
+#define IS_CUMULATIVE_MODE 0
 #define REQUIRED_VALUE 12
