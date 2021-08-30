@@ -17,11 +17,11 @@
 #define IS_FULL_SEARCH_CHAINS 0
 #define IS_REDUCE_RELIABLE_CHAINS 0
 // параметры для генерации гиперсети
-#define IS_GENERATE_NETWORK 0
+#define IS_GENERATE_NETWORK 1
 #define NETWORK_NODES_PROPORTION 5
 // параметры для модели
-#define MIN_MENC_VALUE 3
-#define MAX_BRANCH_COUNT 5
+#define MIN_MENC_VALUE 7
+#define MAX_BRANCH_COUNT 7
 // параметры для алгоритма полного перебора
 #define IS_FULL_ENUMERATION_ALGORITHM 0
 // параметры для алгоритма имитации отжига

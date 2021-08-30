@@ -2,6 +2,7 @@
 
 #include "Globals.h"
 #include "Funcs.h"
+#include "../HypernetModel/Helpers/DataHelper.h"
 
 template <class T>
 bool ComputeMENC(T& sum, H& initialHypernet, double requiredValue = 1) {

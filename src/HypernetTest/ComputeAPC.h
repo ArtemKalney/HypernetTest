@@ -2,6 +2,20 @@
 
 #include "Globals.h"
 #include "Funcs.h"
+#include "../HypernetModel/Helpers/DataHelper.h"
+
+template <class T>
+void ProcessSum(T& sum, H& initialHypernet) {
+    if (IS_NUMBER_COMPUTATION == 1) {
+        sum.SetValue(sum.GetValue() / Bin[initialHypernet.GetNodes().size()][2]);
+    } else {
+        for (int i = 0; i < sum.GetC().size(); i++) {
+            auto sumVector = sum.GetC();
+            sumVector[i] = sumVector[i] / Bin[initialHypernet.GetNodes().size()][2];
+            sum.SetC(sumVector);
+        }
+    }
+}
 
 template <class T>
 bool ComputeAPC(T& sum, H& initialHypernet, double requiredValue = 0) {
@@ -33,9 +47,14 @@ bool ComputeAPC(T& sum, H& initialHypernet, double requiredValue = 0) {
                         double value = IS_NUMBER_COMPUTATION == 1 ? result.GetValue() : result.GetPolynomialValue(p);
                         double lowerBound = prevLowerBound + value,
                                 upperBound = prevUpperBound + value - 1;
-                        if (lowerBound/Bin[initialHypernet.GetNodes().size()][2] > requiredValue ||
-                            upperBound/Bin[initialHypernet.GetNodes().size()][2] < requiredValue)
+                        if (lowerBound/Bin[initialHypernet.GetNodes().size()][2] > requiredValue)
                         {
+                            ProcessSum(sum, initialHypernet);
+
+                            return true;
+                        } else if (upperBound/Bin[initialHypernet.GetNodes().size()][2] < requiredValue) {
+                            ProcessSum(sum, initialHypernet);
+
                             return false;
                         }
 
@@ -65,16 +84,11 @@ bool ComputeAPC(T& sum, H& initialHypernet, double requiredValue = 0) {
             }
         }
     }
-    if (IS_NUMBER_COMPUTATION == 1) {
-        sum.SetValue(sum.GetValue() / Bin[initialHypernet.GetNodes().size()][2]);
+    ProcessSum(sum, initialHypernet);
+    if (IS_CUMULATIVE_MODE == 1) {
+        auto value = sum.GetPolynomialValue(p);
 
-        return true;
-    }
-
-    for (int i = 0; i < sum.GetC().size(); i++) {
-        auto sumVector = sum.GetC();
-        sumVector[i] = sumVector[i] / Bin[initialHypernet.GetNodes().size()][2];
-        sum.SetC(sumVector);
+        return DoubleEquals(value, requiredValue) || value > requiredValue;
     }
 
     return true;
