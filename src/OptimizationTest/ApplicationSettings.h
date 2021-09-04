@@ -29,7 +29,5 @@
 #define T_MAX 10
 #define T_MIN 0.01
 #define MAX_ITERATION_COUNT 10 // в режиме дебага
-#define IS_LOCAL_CHANGE 0
-#define LOCAL_DISTANCE 1
 // параметры для кумулятивных оценок
 #define IS_CUMULATIVE_MODE 1

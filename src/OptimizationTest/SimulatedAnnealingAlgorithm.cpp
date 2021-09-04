@@ -13,13 +13,8 @@ std::shared_ptr<Model> SimulatedAnnealingAlgorithm::GetMinModel() {
         count++;
         srand(_seed++);
         Model newModel;
-        if (IS_LOCAL_CHANGE == 1) {
-            auto neighborhood = GetNeighborhood(_currentMinModel);
-            newModel = GenerateStateCandidate(neighborhood);
-        } else {
-            auto solution = _currentMinModel.GetSolution();
-            newModel = GenerateStateCandidate(solution);
-        }
+        auto solution = _currentMinModel.GetSolution();
+        newModel = GenerateStateCandidate(solution);
         bool changed = false;
         if (newModel.GetObjFunctionValue() < _currentMinModel.GetObjFunctionValue()) {
             changed = true;
@@ -51,20 +46,6 @@ void SimulatedAnnealingAlgorithm::SetInitialState() {
     }
     auto model = new Model(_hypernet, newSolution);
     _currentMinModel = *model;
-}
-
-// изменение локального поиска
-Model SimulatedAnnealingAlgorithm::GenerateStateCandidate(std::vector<Model>& neighborhood) {
-    srand(_seed++);
-    auto index = rand() % neighborhood.size();
-    auto changeCandidate = neighborhood[index];
-    if (changeCandidate.CheckConditions()) {
-        return changeCandidate;
-    } else {
-        neighborhood.erase(neighborhood.begin() + index);
-
-        return GenerateStateCandidate(neighborhood);
-    }
 }
 
 // одноточечное изменение
@@ -112,53 +93,4 @@ Model SimulatedAnnealingAlgorithm::GenerateStateCandidate(std::vector<Branch>& s
 
         return GenerateStateCandidate(model->GetSolution());
     }
-}
-
-std::vector<Model> SimulatedAnnealingAlgorithm::GetNeighborhood(Model& model) {
-    std::vector<Model> neighborhood;
-    std::vector<std::vector<Branch>> combinations;
-    std::vector<Branch> vector;
-    // окрестность той же длины
-    ComputeCombinations(_hypernet.GetFN(), combinations, vector, 0, model.GetSolution().size());
-    for(auto &item : combinations) {
-        if (!std::equal(model.GetSolution().begin(), model.GetSolution().end(), item.begin())) {
-            auto neighborModel = new Model(_hypernet, item);
-            neighborhood.push_back(*neighborModel);
-        }
-    }
-    for (int i = 1; i <= LOCAL_DISTANCE; ++i) {
-        // окрестность поменьше
-        vector.clear();
-        combinations.clear();
-        if (model.GetSolution().size() - i > 0) {
-            ComputeCombinations(model.GetSolution(), combinations, vector, 0, model.GetSolution().size() - i);
-            for(auto &item : combinations) {
-                auto neighborModel = new Model(_hypernet, item);
-                neighborhood.push_back(*neighborModel);
-            }
-        }
-        // окрестность побольше
-        vector.clear();
-        combinations.clear();
-        // сразу проверяем максимальный размер
-        if (model.GetSolution().size() + i > MAX_BRANCH_COUNT - 1) {
-            continue;
-        }
-
-        ComputeCombinations(_hypernet.GetFN(), combinations, vector, 0, i);
-        for(auto &combination : combinations) {
-            auto newSolution = model.GetSolution();
-            for(auto &item : combination) {
-                if (std::find(newSolution.begin(), newSolution.end(), item) == newSolution.end()) {
-                    newSolution.push_back(item);
-                }
-            }
-            if (newSolution.size() > model.GetSolution().size()) {
-                auto neighborModel = new Model(_hypernet, newSolution);
-                neighborhood.push_back(*neighborModel);
-            }
-        }
-    }
-
-    return neighborhood;
 }

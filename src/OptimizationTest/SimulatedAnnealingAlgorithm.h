@@ -20,9 +20,5 @@ public:
 
     void SetInitialState();
 
-    Model GenerateStateCandidate(std::vector<Model>& neighborhood);
-
     Model GenerateStateCandidate(std::vector<Branch>& solution);
-
-    std::vector<Model> GetNeighborhood(Model &model);
 };
