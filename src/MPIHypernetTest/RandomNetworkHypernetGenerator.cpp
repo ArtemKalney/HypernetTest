@@ -1,8 +1,7 @@
-#include "../HypernetModel/Hypernet.h"
-#include "../HypernetModel/Helpers/RandomHypernetHelper.h"
+#include "RandomKPHypernetGenerator.h"
 
 // получение случайного дерева заданного размера с запретами использования конкретных вершин
-std::vector<Branch> GetRandomTree(const int nodesRequired, std::vector<int>& nodes,
+std::vector<Branch> RandomKPHypernetGenerator::GetRandomTree(const int nodesRequired, std::vector<int>& nodes,
                                   const std::vector<int>& forbiddenNodes, const int nodeSize, const int vectorSize) {
     if (nodesRequired > nodeSize) {
         throw "GetRandomTree: nodesRequired > nodeSize";
@@ -32,26 +31,4 @@ std::vector<Branch> GetRandomTree(const int nodesRequired, std::vector<int>& nod
     }
 
     return tree;
-}
-
-H GetKpRandomHypernet(std::vector<Branch>& primaryNetwork, std::vector<Node>& nodes) {
-    srand(seed++);
-    std::vector<Route> routes;
-    std::vector<int> forbiddenNodes = KpNodesCombination;
-    for (auto &root : KpNodesCombination) {
-        std::vector<int> treeNodes{root};
-        int nodesCount = RANDOM_TREE_SIZE;
-        if (nodes.size() - forbiddenNodes.size() + 1 < RANDOM_TREE_SIZE) {
-            nodesCount = nodes.size() - forbiddenNodes.size() + 1;
-        }
-        auto randomTree = GetRandomTree(nodesCount, treeNodes, forbiddenNodes, nodes.size(), primaryNetwork.size());
-        for(auto &item : treeNodes) {
-            if (std::find(forbiddenNodes.begin(), forbiddenNodes.end(), item) == forbiddenNodes.end()) {
-                forbiddenNodes.push_back(item);
-            }
-        }
-        SetMapping(primaryNetwork, randomTree, routes, nodes.size());
-    }
-
-    return H(std::move(primaryNetwork), std::move(nodes), std::move(routes));
 }

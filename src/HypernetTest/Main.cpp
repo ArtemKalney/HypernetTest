@@ -4,7 +4,7 @@
 #include "ComputeMENC.h"
 #include "ComputeAPC.h"
 #include "../HypernetModel/Helpers/DataHelper.h"
-#include "../HypernetModel/Helpers/RandomHypernetHelper.h"
+#include "../HypernetModel/Helpers/RandomHypernetGenerator.h"
 
 std::ifstream input;
 std::ofstream output;
@@ -95,7 +95,9 @@ int main(int argc, char** argv) {
         H initialHypernet;
         ComputeBinomialCoefficients(branches.size());
         if (IS_RANDOM_HYPERNET == 1) {
-            initialHypernet = GetRandomHypernet(branches, nodes, initialHypernet.GetNodes().size() + RANDOM_ADDITIONAL_EDGES);
+            auto generator = new RandomHypernetGenerator(branches, nodes,
+                                                         initialHypernet.GetNodes().size() + RANDOM_ADDITIONAL_EDGES);
+            initialHypernet = generator->GenerateHypernet();
             initialHypernet.LogHypernet();
 
             return 0;

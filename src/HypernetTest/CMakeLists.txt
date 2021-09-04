@@ -5,7 +5,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 set(SOURCE_FILES Main.cpp PairConnectivity.cpp ../HypernetModel/Branch.cpp ../HypernetModel/Hypernet.cpp
         ../HypernetModel/Helpers/ReductionHelper.cpp Tests.cpp ../HypernetModel/Node.cpp
         ../HypernetModel/Helpers/FactorizationHelper.cpp FullEnumeration.cpp
-        ../HypernetModel/Helpers/RandomHypernetHelper.cpp ../HypernetModel/Helpers/DataHelper.cpp
+        ../HypernetModel/Helpers/RandomHypernetGenerator.cpp ../HypernetModel/Helpers/DataHelper.cpp
         ApplicationSettings.h ComputeAPC.h ComputeMENC.h Funcs.h Globals.h Stdafx.h ../HypernetModel/Branch.h
         ../HypernetModel/Element.h ../HypernetModel/IIdentity.h ../HypernetModel/Node.h ../HypernetModel/Operators.h
         ../HypernetModel/Route.h)

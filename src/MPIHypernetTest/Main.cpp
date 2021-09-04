@@ -3,7 +3,8 @@
 #include "DTO.h"
 #include "PairConnectivity.h"
 #include "../HypernetModel/Helpers/DataHelper.h"
-#include "../HypernetModel/Helpers/RandomHypernetHelper.h"
+#include "../HypernetModel/Helpers/RandomHypernetGenerator.h"
+#include "RandomKPHypernetGenerator.h"
 
 // инициализация глобальных переменных
 std::ifstream input;
@@ -379,7 +380,8 @@ void ComputeSolution(T& solution, const int size, const int option, std::vector<
     H initialHypernet;
     if (IS_TEST_TIME == 1) {
         for (int i = 0; i < TEST_HYPERNETS; i++) {
-            initialHypernet = GetRandomHypernet(TEST_HYPERNET_NODES, TEST_HYPERNET_BRANCHES, TEST_HYPERNET_EDGES);
+            auto randomHypernetGenerator = new RandomHypernetGenerator(TEST_HYPERNET_NODES, TEST_HYPERNET_BRANCHES, TEST_HYPERNET_EDGES);
+            initialHypernet = randomHypernetGenerator->GenerateHypernet();
             if (IS_DEBUG == 1) {
                 initialHypernet.LogHypernet();
             }
@@ -392,7 +394,8 @@ void ComputeSolution(T& solution, const int size, const int option, std::vector<
     } else {
         // выбор метода получения гиперстеи (случайно или из аргументов функции)
         if (IS_OPTIMIZATION == 1) {
-            initialHypernet = GetKpRandomHypernet(branches, nodes);
+            auto randomKPHypernetGenerator = new RandomKPHypernetGenerator(branches, nodes);
+            initialHypernet = randomKPHypernetGenerator->GenerateHypernet();
             if (IS_DEBUG == 1) {
                 initialHypernet.LogHypernet();
             }

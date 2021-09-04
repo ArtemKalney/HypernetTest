@@ -1,8 +1,8 @@
 #include "Funcs.h"
-#include "RandomHypernetHelper.h"
+#include "RandomHypernetGenerator.h"
 
 // генератор случайных сетей для построения случайной гиперсети
-std::vector<Branch> GetRandomNetwork(int nodesCount, int edgeCount, int vectorSize) {
+std::vector<Branch> RandomHypernetGenerator::GetRandomNetwork(int nodesCount, int edgeCount, int vectorSize) {
     std::vector<Branch> network;
     std::vector<int> nodes1; // набор вершин 1
     for (int i = 0; i < nodesCount; i++) {
@@ -32,7 +32,7 @@ std::vector<Branch> GetRandomNetwork(int nodesCount, int edgeCount, int vectorSi
 }
 
 // укладка ребра в первичную сеть
-void BFSWithRoutes(const std::vector<Branch>& primaryNetwork, std::vector<int>& nodeRote,
+void RandomHypernetGenerator::BFSWithRoutes(const std::vector<Branch>& primaryNetwork, std::vector<int>& nodeRote,
                    std::vector<Branch>& branchRoute, const int startNode, const int endNode, const int nodeSize) {
     std::vector<bool> isVisited(nodeSize, false);
     std::stack<int> queue;
@@ -67,7 +67,7 @@ void BFSWithRoutes(const std::vector<Branch>& primaryNetwork, std::vector<int>& 
 }
 
 // получение укладки ребра в первичную сеть
-void SetMapping(std::vector<Branch> &primaryNetwork, std::vector<Branch> &secondaryNetwork, std::vector<Route> &routes,
+void RandomHypernetGenerator::SetMapping(std::vector<Branch> &primaryNetwork, std::vector<Branch> &secondaryNetwork, std::vector<Route> &routes,
                 const int nodeSize) {
     for (auto &edge : secondaryNetwork) {
         int node = edge.GetFirstNode();
@@ -76,33 +76,14 @@ void SetMapping(std::vector<Branch> &primaryNetwork, std::vector<Branch> &second
         BFSWithRoutes(primaryNetwork, nodeRote, branchRoute, node, edge.GetSecondNode(), nodeSize);
         routes.emplace_back(routes.size(), std::make_shared<std::vector<int>>(nodeRote));
         for(auto &item : branchRoute) {
-            std::find(primaryNetwork.begin(), primaryNetwork.end(), item) -> GetRoutes().push_back(routes.back());
+            std::find(primaryNetwork.begin(), primaryNetwork.end(), item)->GetRoutes().push_back(routes.back());
         }
     }
 }
 
-// получение случайной гиперсети
-H GetRandomHypernet(std::vector<Branch>& primaryNetwork, std::vector<Node> &nodes, const int routeSize) {
-    srand(seed++);
-    auto secondaryNetwork = GetRandomNetwork(nodes.size(), routeSize, primaryNetwork.size());
+H RandomHypernetGenerator::GenerateHypernet() {
     std::vector<Route> routes;
-    SetMapping(primaryNetwork, secondaryNetwork, routes, nodes.size());
+    SetMapping(_primaryNetwork, _secondaryNetwork, routes, _nodes.size());
 
-    return H(std::move(primaryNetwork), std::move(nodes), std::move(routes));
-}
-
-// получение случайной гиперсети
-H GetRandomHypernet(const int nodeSize, const int branchSize, const int routeSize) {
-    srand(seed++);
-    auto primaryNetwork = GetRandomNetwork(nodeSize, branchSize, branchSize);
-    auto secondaryNetwork = GetRandomNetwork(nodeSize, routeSize, branchSize);
-    std::vector<Route> routes;
-    SetMapping(primaryNetwork, secondaryNetwork, routes, nodeSize);
-    std::vector<Node> nodes;
-    for (int i = 0; i < nodeSize; i++) {
-        Node node = Node::GetSimpleElement(i, p, false, branchSize);
-        nodes.push_back(node);
-    }
-
-    return H(std::move(primaryNetwork), std::move(nodes), std::move(routes));
+    return H(std::move(_primaryNetwork), std::move(_nodes), std::move(routes));
 }
