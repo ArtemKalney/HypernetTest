@@ -110,16 +110,16 @@ int main(int argc, char** argv) {
         int startTime = clock();
         if (option == 1) {
             if (IS_NODES_RELIABLE == 1) {
-                ComputeAPC(branchSum, initialHypernet, REQUIRED_VALUE);
+                ComputeAPC(branchSum, initialHypernet);
             } else {
-                ComputeAPC(nodeSum, initialHypernet, REQUIRED_VALUE);
+                ComputeAPC(nodeSum, initialHypernet);
             }
         }
         if (option == 2) {
             if (IS_NODES_RELIABLE == 1) {
-                ComputeMENC(branchSum, initialHypernet, REQUIRED_VALUE);
+                ComputeMENC(branchSum, initialHypernet);
             } else {
-                ComputeMENC(nodeSum, initialHypernet, REQUIRED_VALUE);
+                ComputeMENC(nodeSum, initialHypernet);
             }
         }
         if (option == 3) {
