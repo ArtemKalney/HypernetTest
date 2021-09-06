@@ -94,7 +94,7 @@ double Branch::GetPolynomialValue(double point) {
     return value;
 }
 
-int Branch::GetBranchSaturation() {
+int Branch::GetSaturation() {
     int count = 0;
     for(auto &item : _routes) {
         if (!item.Ptr->empty()) {

@@ -16,12 +16,9 @@
 // Экспериментальные показатели для CHAIN_REDUCTION
 #define IS_FULL_SEARCH_CHAINS 0
 #define IS_REDUCE_RELIABLE_CHAINS 0
-// параметры для генерации гиперсети
-#define IS_GENERATE_NETWORK 1
-#define NETWORK_NODES_PROPORTION 5
 // параметры для модели
-#define MIN_MENC_VALUE 7
-#define MAX_BRANCH_COUNT 7
+#define MIN_MENC_VALUE 1.8
+#define MAX_BRANCH_COUNT 3
 // параметры для алгоритма полного перебора
 #define IS_FULL_ENUMERATION_ALGORITHM 0
 // параметры для алгоритма имитации отжига
@@ -29,5 +26,3 @@
 #define T_MAX 10
 #define T_MIN 0.01
 #define MAX_ITERATION_COUNT 10 // в режиме дебага
-// параметры для кумулятивных оценок
-#define IS_CUMULATIVE_MODE 1

@@ -3,6 +3,7 @@
 
 // генератор случайных сетей для построения случайной гиперсети
 std::vector<Branch> RandomHypernetGenerator::GetRandomNetwork(int nodesCount, int edgeCount, int vectorSize) {
+    srand(_seed++);
     std::vector<Branch> network;
     std::vector<int> nodes1; // набор вершин 1
     for (int i = 0; i < nodesCount; i++) {
@@ -32,15 +33,15 @@ std::vector<Branch> RandomHypernetGenerator::GetRandomNetwork(int nodesCount, in
 }
 
 // укладка ребра в первичную сеть
-void RandomHypernetGenerator::BFSWithRoutes(const std::vector<Branch>& primaryNetwork, std::vector<int>& nodeRote,
-                   std::vector<Branch>& branchRoute, const int startNode, const int endNode, const int nodeSize) {
-    std::vector<bool> isVisited(nodeSize, false);
+void RandomHypernetGenerator::BFSWithRoute(std::vector<int> &nodeRote, std::vector<Branch> &branchRoute,
+                                           const int startNode, const int endNode) {
+    std::vector<bool> isVisited(_nodes.size(), false);
     std::stack<int> queue;
     queue.push(startNode);
     isVisited[startNode] = true;
-    std::vector<std::vector<int>> nodeRotes(nodeSize);
+    std::vector<std::vector<int>> nodeRotes(_nodes.size());
     nodeRotes[startNode].push_back(startNode);
-    std::vector<std::vector<Branch>> branchRoutes(nodeSize);
+    std::vector<std::vector<Branch>> branchRoutes(_nodes.size());
     while(!queue.empty()) {
         int node = queue.top();
         queue.pop();
@@ -50,8 +51,11 @@ void RandomHypernetGenerator::BFSWithRoutes(const std::vector<Branch>& primaryNe
 
             return;
         }
-        for(auto &branch : primaryNetwork) {
-            if (H::IsIncident(node, branch)) {
+
+        for(auto &branch : _primaryNetwork) {
+            // учитываем максимальную ёмкость ветви, что может приводить к тому что не все вершины будут посещены и
+            // путь может быть не найден
+            if (H::IsIncident(node, branch) && (branch.GetMaxSaturation() < 1 || branch.GetSaturation() <= branch.GetMaxSaturation())) {
                 int incidentNode = branch.GetFirstNode() != node ? branch.GetFirstNode() : branch.GetSecondNode();
                 if (!isVisited[incidentNode]) {
                     queue.push(incidentNode);
@@ -66,24 +70,29 @@ void RandomHypernetGenerator::BFSWithRoutes(const std::vector<Branch>& primaryNe
     }
 }
 
-// получение укладки ребра в первичную сеть
-void RandomHypernetGenerator::SetMapping(std::vector<Branch> &primaryNetwork, std::vector<Branch> &secondaryNetwork, std::vector<Route> &routes,
-                const int nodeSize) {
-    for (auto &edge : secondaryNetwork) {
+H RandomHypernetGenerator::GenerateHypernet() {
+    std::vector<Route> routes;
+    for (auto &edge : _secondaryNetwork) {
         int node = edge.GetFirstNode();
         std::vector<int> nodeRote{node};
         std::vector<Branch> branchRoute;
-        BFSWithRoutes(primaryNetwork, nodeRote, branchRoute, node, edge.GetSecondNode(), nodeSize);
+        BFSWithRoute(nodeRote, branchRoute, node, edge.GetSecondNode());
+        // если не нашли маршрут или нашли слишком длинный маршрут, то заново запускаем генерацию
+        if (branchRoute.empty() || (_maxDistance > 0 && branchRoute.size() > _maxDistance)) {
+            routes.clear();
+            for (auto &item : _primaryNetwork) {
+               item.GetRoutes().clear();
+            }
+            _secondaryNetwork = GetRandomNetwork(_nodes.size(), _secondaryNetwork.size(), _primaryNetwork.size());
+
+            return GenerateHypernet();
+        }
+
         routes.emplace_back(routes.size(), std::make_shared<std::vector<int>>(nodeRote));
         for(auto &item : branchRoute) {
-            std::find(primaryNetwork.begin(), primaryNetwork.end(), item)->GetRoutes().push_back(routes.back());
+            std::find(_primaryNetwork.begin(), _primaryNetwork.end(), item)->GetRoutes().push_back(routes.back());
         }
     }
-}
-
-H RandomHypernetGenerator::GenerateHypernet() {
-    std::vector<Route> routes;
-    SetMapping(_primaryNetwork, _secondaryNetwork, routes, _nodes.size());
 
     return H(std::move(_primaryNetwork), std::move(_nodes), std::move(routes));
 }

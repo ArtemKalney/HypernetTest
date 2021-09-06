@@ -8,7 +8,7 @@ Branch H::GetAllowingElement<Branch>() {
     int maxSaturation = 0;
     for (auto &branch : _FN) {
         if (!branch.GetIsReliable()) {
-            int saturation = branch.GetBranchSaturation();
+            int saturation = branch.GetSaturation();
             if (maxSaturation < saturation) {
                 allowingBranch = branch;
                 maxSaturation = saturation;

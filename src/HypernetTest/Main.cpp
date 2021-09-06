@@ -78,7 +78,7 @@ int main(int argc, char** argv) {
         std::vector<Route> routes;
         GetData(branches, nodes, routes);
         int option;
-        if (IS_RANDOM_HYPERNET != 1) {
+        if (IS_RANDOM_HYPERNET_GENERATION != 1) {
             std::cout << "Press 1 to get APC polynomial" << std::endl;
             std::cout << "Press 2 to get MENC polynomial" << std::endl;
             std::cout << "Press 3 to get pairwise connectivities" << std::endl;
@@ -94,9 +94,13 @@ int main(int argc, char** argv) {
         // Create an initialHypernet
         H initialHypernet;
         ComputeBinomialCoefficients(branches.size());
-        if (IS_RANDOM_HYPERNET == 1) {
+        if (IS_RANDOM_HYPERNET_GENERATION == 1) {
+            for(auto &item : branches) {
+                item.SetMaxSaturation(MAX_BRANCH_SATURATION);
+            }
             auto generator = new RandomHypernetGenerator(branches, nodes,
-                                                         initialHypernet.GetNodes().size() + RANDOM_ADDITIONAL_EDGES);
+                                                         nodes.size() - 1 + RANDOM_ADDITIONAL_EDGES);
+            generator->SetMaxDistance(MAX_DISTANCE);
             initialHypernet = generator->GenerateHypernet();
             initialHypernet.LogHypernet();
 

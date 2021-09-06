@@ -40,7 +40,8 @@ void SimulatedAnnealingAlgorithm::SetInitialState() {
     auto vector = _hypernet.GetFN();
     while (newSolution.size() < MAX_BRANCH_COUNT - 1) {
         auto it = std::max_element(vector.begin(), vector.end(),
-                                    [](Branch &a, Branch &b) -> bool { return a.GetBranchSaturation() < b.GetBranchSaturation(); });
+                                    [](Branch &a, Branch &b) -> bool { return a.GetSaturation() <
+                                            b.GetSaturation(); });
         newSolution.push_back(*it);
         vector.erase(it);
     }

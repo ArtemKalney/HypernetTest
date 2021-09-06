@@ -7,6 +7,8 @@ protected:
     std::vector<Branch> _primaryNetwork;
     std::vector<Branch> _secondaryNetwork;
     std::vector<Node> _nodes;
+    int _seed = time(0);
+    int _maxDistance{};
 public:
     RandomHypernetGenerator() = default;
 
@@ -14,12 +16,10 @@ public:
             _primaryNetwork(primaryNetwork),
             _nodes(nodes)
     {
-        srand(seed++);
         _secondaryNetwork = GetRandomNetwork(nodes.size(), routeSize, primaryNetwork.size());
     }
 
     RandomHypernetGenerator(const int nodeSize, const int branchSize, const int routeSize) {
-        srand(seed++);
         _primaryNetwork = GetRandomNetwork(nodeSize, branchSize, branchSize);
         _secondaryNetwork = GetRandomNetwork(nodeSize, routeSize, branchSize);
         for (int i = 0; i < nodeSize; i++) {
@@ -28,13 +28,18 @@ public:
         }
     }
 
+    void SetMaxDistance(const int maxDistance) {
+        _maxDistance = maxDistance;
+    }
+
+    int GetMaxDistance() const {
+        return _maxDistance;
+    }
+
     std::vector<Branch> GetRandomNetwork(int nodesCount, int edgeCount, int vectorSize);
 
-    void SetMapping(std::vector<Branch> &primaryNetwork, std::vector<Branch> &secondaryNetwork, std::vector<Route> &routes,
-                    int nodeSize);
-
-    void BFSWithRoutes(const std::vector<Branch>& primaryNetwork, std::vector<int>& nodeRote,
-                       std::vector<Branch>& branchRoute, const int startNode, const int endNode, const int nodeSize);
+    void BFSWithRoute(std::vector<int> &nodeRote,
+                      std::vector<Branch> &branchRoute, const int startNode, const int endNode);
 
     virtual H GenerateHypernet();
 };

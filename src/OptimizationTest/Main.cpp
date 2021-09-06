@@ -5,7 +5,6 @@
 #include "Model .h"
 #include "FullEnumerationAlgorithm.h"
 #include "SimulatedAnnealingAlgorithm.h"
-#include "RandomNetworkHypernetGenerator.h"
 
 std::ifstream input;
 std::ofstream output;
@@ -49,12 +48,7 @@ int main(int argc, char** argv) {
     }
     ComputeBinomialCoefficients(branches.size());
     H initialHypernet;
-    if (IS_GENERATE_NETWORK == 1) {
-        auto randomNetworkHypernetGenerator = new RandomNetworkHypernetGenerator(branches, nodes);
-        initialHypernet = randomNetworkHypernetGenerator->GenerateHypernet();
-    } else {
-        initialHypernet = H(std::move(branches), std::move(nodes), std::move(routes));
-    }
+    initialHypernet = H(std::move(branches), std::move(nodes), std::move(routes));
     initialHypernet.RemoveEmptyBranches();
     if (IS_DEBUG == 1) {
         initialHypernet.LogHypernet();

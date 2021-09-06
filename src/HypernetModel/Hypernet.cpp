@@ -227,7 +227,7 @@ bool IsSimpleChain(H &hypernet, std::vector<Branch> &chain, std::vector<int> &no
         auto nodePowersCopyH = copyH.GetNodePowers(copyH.GetSN(), copyH.GetNodes().size());
         RemovePenduntRoutesInChain(copyH, nodesInChain, nodePowersCopyH);
         for (auto &item : copyChain) {
-            if (item.GetBranchSaturation() != 0) {
+            if (item.GetSaturation() != 0) {
                 return false;
             }
         }
@@ -386,7 +386,7 @@ std::vector<int> H::GetNodePowers(const std::vector<Branch>& graph, const int& s
 
 void H::RemoveEmptyBranches() {
     for (int i=0; i<_FN.size(); i++) {
-        if (_FN[i].GetBranchSaturation() == 0) {
+        if (_FN[i].GetSaturation() == 0) {
             _FN.erase(_FN.begin() + i--);
         }
     }

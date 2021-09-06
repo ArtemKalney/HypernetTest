@@ -12,6 +12,7 @@ private:
     int _firstNode;
     int _secondNode;
     std::vector<double> _C;
+    int _maxSaturation{};
 
     friend class boost::serialization::access;
     template<typename Archive>
@@ -29,8 +30,7 @@ public:
     Branch() = default;
 
     Branch(const int &id, double& value, std::vector<double> C, std::vector<Route> &routes, const int &power,
-           const int &firstNode,
-           const int &secondNode, bool isReliable) :
+           const int &firstNode, const int &secondNode, bool isReliable) :
             Element(value, power, isReliable),
             _id(id),
             _routes(std::move(routes)),
@@ -44,7 +44,8 @@ public:
             _routes(branch._routes),
             _firstNode(branch._firstNode),
             _secondNode(branch._secondNode),
-            _C(branch._C) {}
+            _C(branch._C),
+            _maxSaturation(branch._maxSaturation) {}
 
     void SetId(const int &id) {
         _id = id;
@@ -86,6 +87,14 @@ public:
         return _C;
     }
 
+    void SetMaxSaturation(const int maxBranchSaturation) {
+        _maxSaturation = maxBranchSaturation;
+    }
+
+    int GetMaxSaturation() const {
+        return _maxSaturation;
+    }
+
     //todo уменьшить static функкций
     static Branch GetElement(const std::vector<double> &C, int power);
 
@@ -111,7 +120,7 @@ public:
 
     double GetPolynomialValue(double point);
 
-    int GetBranchSaturation();
+    int GetSaturation();
 };
 
 bool operator !=(Branch firstBranch, Branch secondBranch);
