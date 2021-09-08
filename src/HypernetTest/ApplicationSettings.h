@@ -25,6 +25,6 @@
 #define IS_REDUCE_RELIABLE_CHAINS 0
 // Генерация случайной гиперсети (без вычисления надёжности)
 #define IS_RANDOM_HYPERNET_GENERATION 1
-#define RANDOM_ADDITIONAL_EDGES 2
-#define MAX_BRANCH_SATURATION 2
-#define MAX_DISTANCE 10
+#define RANDOM_ADDITIONAL_EDGES 3
+#define MAX_BRANCH_SATURATION 3
+#define MAX_DISTANCE 12

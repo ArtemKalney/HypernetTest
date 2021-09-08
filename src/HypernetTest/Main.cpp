@@ -102,6 +102,7 @@ int main(int argc, char** argv) {
                                                          nodes.size() - 1 + RANDOM_ADDITIONAL_EDGES);
             generator->SetMaxDistance(MAX_DISTANCE);
             initialHypernet = generator->GenerateHypernet();
+            initialHypernet.RemoveEmptyBranches();
             initialHypernet.LogHypernet();
 
             return 0;
