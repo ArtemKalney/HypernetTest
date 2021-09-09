@@ -5,7 +5,7 @@
 // Определяет что считается (полином или число)
 #define IS_NUMBER_COMPUTATION 1
 // Режим дебага
-#define IS_DEBUG 1
+#define IS_DEBUG 0
 // Максимальная размерность гиперсети для факторизации
 #define MAX_DIMENSIONAL 3
 // Каждая редукция требует чтобы были включены предыдущие
@@ -17,8 +17,7 @@
 #define IS_FULL_SEARCH_CHAINS 0
 #define IS_REDUCE_RELIABLE_CHAINS 0
 // параметры для модели
-#define MIN_MENC_VALUE 1.8
-#define MAX_BRANCH_COUNT 3
+#define MIN_MENC_VALUE 12
 // параметры для алгоритма полного перебора
 #define IS_FULL_ENUMERATION_ALGORITHM 0
 // параметры для алгоритма имитации отжига
@@ -26,3 +25,4 @@
 #define T_MAX 10
 #define T_MIN 0.01
 #define MAX_ITERATION_COUNT 10 // в режиме дебага
+#define INITIAL_BRANCH_COUNT 2 // экспертная оценка для начального решения

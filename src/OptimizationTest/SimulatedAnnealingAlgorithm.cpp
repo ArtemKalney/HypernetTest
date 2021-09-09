@@ -9,12 +9,10 @@ std::shared_ptr<Model> SimulatedAnnealingAlgorithm::GetMinModel() {
             return std::make_shared<Model>(_currentMinModel);
         }
 
-        SimulatedAnnealingAlgorithmIterations++;
         count++;
         srand(_seed++);
-        Model newModel;
         auto solution = _currentMinModel.GetSolution();
-        newModel = GenerateStateCandidate(solution);
+        auto newModel = GenerateStateCandidate(solution);
         bool changed = false;
         if (newModel.GetObjFunctionValue() < _currentMinModel.GetObjFunctionValue()) {
             changed = true;
@@ -38,7 +36,7 @@ std::shared_ptr<Model> SimulatedAnnealingAlgorithm::GetMinModel() {
 void SimulatedAnnealingAlgorithm::SetInitialState() {
     std::vector<Branch> newSolution;
     auto vector = _hypernet.GetFN();
-    while (newSolution.size() < MAX_BRANCH_COUNT - 1) {
+    while (newSolution.size() < INITIAL_BRANCH_COUNT) {
         auto it = std::max_element(vector.begin(), vector.end(),
                                     [](Branch &a, Branch &b) -> bool { return a.GetSaturation() <
                                             b.GetSaturation(); });
@@ -55,11 +53,6 @@ Model SimulatedAnnealingAlgorithm::GenerateStateCandidate(std::vector<Branch>& s
     auto changeCandidate = _hypernet.GetFN()[rand() % _hypernet.GetFN().size()];
     auto it = std::find(solution.begin(), solution.end(), changeCandidate);
     if (it == solution.end()) {
-        // сразу проверяем максимальный размер
-        if (solution.size() + 1 > MAX_BRANCH_COUNT - 1) {
-            return GenerateStateCandidate(solution);
-        }
-
         solution.push_back(changeCandidate);
     } else {
         // не допускаем пустое решение
@@ -86,10 +79,12 @@ Model SimulatedAnnealingAlgorithm::GenerateStateCandidate(std::vector<Branch>& s
 
     auto model = new Model(_hypernet, solution);
     if (model->CheckConditions()) {
+        CheckedConditions++;
         _acceptedSolutions.push_back(model->GetSolution());
 
         return *model;
     } else {
+        UncheckedConditions++;
         _unacceptedSolutions.push_back(model->GetSolution());
 
         return GenerateStateCandidate(model->GetSolution());

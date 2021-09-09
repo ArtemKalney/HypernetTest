@@ -53,10 +53,6 @@ Node Model::AddNode(Branch &branch) {
 }
 
 bool Model::CheckConditions() {
-    if (_solution.size() >= MAX_BRANCH_COUNT) {
-        return false;
-    }
-
     bool isReliable;
     if (IS_NODES_RELIABLE == 1) {
         Branch branchSum = Branch::GetZero();

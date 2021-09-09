@@ -4,7 +4,7 @@
 std::shared_ptr<Model> FullEnumerationAlgorithm::GetMinModel() {
     std::vector<std::vector<Branch>> combinations;
     std::vector<Branch> vector;
-    for (int i = 1; i < MAX_BRANCH_COUNT; ++i) {
+    for (int i = 1; i < _hypernet.GetFN().size(); ++i) {
         vector.clear();
         ComputeCombinations(_hypernet.GetFN(), combinations, vector, 0, i);
     }

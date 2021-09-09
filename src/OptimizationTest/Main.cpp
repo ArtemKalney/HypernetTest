@@ -14,7 +14,7 @@ int ReliableHypernets = 0, UnconnectedHypernets = 0, TwoNodesHypernets = 0, Chai
         TreeNodeIntersections = 0, UnconnectedTreeNodes = 0;
 std::vector<std::vector<double>> Bin;
 int seed = time(0);
-int CheckedConditions, UncheckedConditions, SimulatedAnnealingAlgorithmIterations;
+int CheckedConditions, UncheckedConditions;
 
 void OutputResult(const std::shared_ptr<Model> model, int startTime) {
     output << "Solution:" << VectorToString(model->GetSolution()) << std::endl;
@@ -22,13 +22,8 @@ void OutputResult(const std::shared_ptr<Model> model, int startTime) {
     output << "ObjFunctionValue:" << model->GetObjFunctionValue() << std::endl;
     output << "Statistics:" << std::endl;
     output << std::string(3, ' ') << "Time:" << clock() - startTime << std::endl;
-    if (IS_FULL_ENUMERATION_ALGORITHM == 1) {
-        output << std::string(3, ' ') << "CheckedConditions:" << CheckedConditions << std::endl;
-        output << std::string(3, ' ') << "UncheckedConditions:" << UncheckedConditions << std::endl;
-    }
-    if (IS_SIMULATED_ANNEALING_ALGORITHM == 1) {
-        output << std::string(3, ' ') << "SimulatedAnnealingAlgorithmIterations:" << SimulatedAnnealingAlgorithmIterations << std::endl;
-    }
+    output << std::string(3, ' ') << "CheckedConditions:" << CheckedConditions << std::endl;
+    output << std::string(3, ' ') << "UncheckedConditions:" << UncheckedConditions << std::endl;
 }
 
 int main(int argc, char** argv) {
@@ -50,18 +45,9 @@ int main(int argc, char** argv) {
     H initialHypernet;
     initialHypernet = H(std::move(branches), std::move(nodes), std::move(routes));
     initialHypernet.RemoveEmptyBranches();
-    if (IS_DEBUG == 1) {
-        initialHypernet.LogHypernet();
-    }
     std::shared_ptr<Model> minModel;
     int startTime = clock();
     try {
-        if (MAX_BRANCH_COUNT <= 2) {
-            throw std::runtime_error("MAX_BRANCH_COUNT is too small.");
-        }
-        else if (MAX_BRANCH_COUNT - 1 > initialHypernet.GetFN().size()) {
-            throw std::runtime_error("MAX_BRANCH_COUNT is too big.");
-        }
         if (IS_FULL_ENUMERATION_ALGORITHM == 1) {
             auto fullEnumerationAlgorithm = new FullEnumerationAlgorithm(initialHypernet);
             minModel = fullEnumerationAlgorithm->GetMinModel();
