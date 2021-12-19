@@ -55,7 +55,7 @@ void RandomHypernetGenerator::BFSWithRoute(std::vector<int> &nodeRote, std::vect
         for(auto &branch : _primaryNetwork) {
             // учитываем максимальную ёмкость ветви, что может приводить к тому что не все вершины будут посещены и
             // путь может быть не найден
-            if (H::IsIncident(node, branch) && (branch.GetMaxSaturation() < 1 || branch.GetSaturation() <= branch.GetMaxSaturation())) {
+            if (H::IsIncident(node, branch) && (branch.GetMaxSaturation() < 1 || branch.GetSaturation() < branch.GetMaxSaturation())) {
                 int incidentNode = branch.GetFirstNode() != node ? branch.GetFirstNode() : branch.GetSecondNode();
                 if (!isVisited[incidentNode]) {
                     queue.push(incidentNode);
