@@ -512,14 +512,17 @@ void H::LogHypernet() {
     output << "Hypernet(" << _nodes.size() << ", " << _FN.size() << ", " << _F.size() << ")" << std::endl;
     output << _nodes.size() << " " << _FN.size() << " "  << _F.size() << std::endl;
     for(auto &node : _nodes) {
-        output << node.GetId() << std::endl;
+        int id = OUTPUT_SYNC_NODES == 1 ? node.GetId() + 1 : node.GetId();
+        output << id << std::endl;
         if (OUTPUT_NODE_VALUES == 1) {
             output << node.GetValue() << std::endl;
         }
     }
     for(auto &branch : _FN) {
         output << branch.GetId() << std::endl;
-        output << branch.GetFirstNode() << " " << branch.GetSecondNode() << std::endl;
+        int firstNode = OUTPUT_SYNC_NODES == 1 ? branch.GetFirstNode() + 1 : branch.GetFirstNode();
+        int secondNode = OUTPUT_SYNC_NODES == 1 ? branch.GetSecondNode() + 1 : branch.GetSecondNode();
+        output << firstNode << " " << secondNode << std::endl;
         output << VectorToString(branch.GetRoutes(), " ") << " " << 0 << std::endl;
         if (OUTPUT_BRANCH_VALUES == 1) {
             output << branch.GetValue() << std::endl;
@@ -534,7 +537,8 @@ void H::LogHypernet() {
     for(auto &route : _F) {
         output << route.GetId() << std::endl;
         for (auto &item : *route.Ptr) {
-            output << item << " ";
+            int node = OUTPUT_SYNC_NODES == 1 ? item + 1 : item;
+            output << node << " ";
         }
         output << 0 << std::endl;
     }

@@ -31,31 +31,38 @@ int main(int argc, char** argv) {
     input.open("input.txt");
     output.open("output.txt");
     setlocale(LC_ALL, "");
-    std::vector<Branch> branches;
-    std::vector<Node> nodes;
-    std::vector<Route> routes;
-    try {
-        GetData(branches, nodes, routes);
-    }
-    catch (std::exception const &e) {
-        HandleException(e);
 
-        return EXIT_FAILURE;
-    }
-    ComputeBinomialCoefficients(branches.size());
-    H initialHypernet;
-    initialHypernet = H(std::move(branches), std::move(nodes), std::move(routes));
-    initialHypernet.RemoveEmptyBranches();
-    std::shared_ptr<Model> minModel;
-    int startTime = clock();
     try {
+        std::vector<Branch> branches;
+        std::vector<Node> nodes;
+        std::vector<Route> routes;
+        GetData(branches, nodes, routes);
+        ComputeBinomialCoefficients(branches.size());
+        H initialHypernet;
+        initialHypernet = H(std::move(branches), std::move(nodes), std::move(routes));
+        initialHypernet.RemoveEmptyBranches();
+        std::shared_ptr<Model> minModel;
+        int startTime = clock();
         if (IS_FULL_ENUMERATION_ALGORITHM == 1) {
             auto fullEnumerationAlgorithm = new FullEnumerationAlgorithm(initialHypernet);
             minModel = fullEnumerationAlgorithm->GetMinModel();
         } else if (IS_SIMULATED_ANNEALING_ALGORITHM == 1) {
             auto simulatedAnnealingAlgorithm = new SimulatedAnnealingAlgorithm(initialHypernet);
             minModel = simulatedAnnealingAlgorithm->GetMinModel();
+        } else {
+            std::vector<Branch> solution;
+            auto it = std::find_if(initialHypernet.GetFN().begin(), initialHypernet.GetFN().end(), [](Branch &item) ->
+                    bool { return item == 8; });
+            solution.push_back(*it);
+            it = std::find_if(initialHypernet.GetFN().begin(), initialHypernet.GetFN().end(), [](Branch &item) ->
+                    bool { return item == 9; });
+            solution.push_back(*it);
+
+            auto model = new Model(initialHypernet, solution);
+            model->CheckConditions();
+            minModel = std::make_shared<Model>(*model);
         }
+        OutputResult(minModel, startTime);
     }
     catch (std::exception const &e) {
         HandleException(e);
@@ -67,7 +74,7 @@ int main(int argc, char** argv) {
 
         return EXIT_FAILURE;
     }
-    OutputResult(minModel, startTime);
+
     input.close();
     output.close();
     if (IS_DEBUG != 1) {

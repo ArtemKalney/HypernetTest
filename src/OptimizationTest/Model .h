@@ -7,7 +7,7 @@ class Model {
 private:
     H _hypernet;
     std::vector<Branch> _solution;
-    int _objFunctionValue{};
+    double _objFunctionValue{};
     double _reliability{};
     int _reliabilityDelta{};
 public:
@@ -18,8 +18,10 @@ public:
             _solution(std::move(solution))
     {
         std::vector<Node> newNodes;
+        double objFunctionValue = 0;
         // добавляем b-nodes
         for(auto &item : _solution) {
+            objFunctionValue += item.GetCost();
             // находим нужную ветвь для нашей копии гиперсети
             newNodes.push_back(AddNode(*std::find(_hypernet.GetFN().begin(), _hypernet.GetFN().end(), item)));
         }
@@ -45,7 +47,7 @@ public:
         if (!_hypernet.IsValidHypernet()) {
             throw std::runtime_error("Generated not valid hypernet in model");
         }
-        _objFunctionValue = _solution.size();
+        _objFunctionValue = objFunctionValue;
         _reliabilityDelta = newNodes.size() + 1;
     }
 
