@@ -9,6 +9,7 @@ extern int ReliableHypernets, UnconnectedHypernets, TwoNodesHypernets, ChainsRed
         PairConnectivityCalls, EdgesReduced, ComplexChains, HelpProcessors, TreeNodeIntersections, UnconnectedTreeNodes;
 extern int FirstRoot, SecondRoot;
 extern const double p;
+extern const int max_dimensional;
 extern unsigned long long int TotalBytesTransfer;
 extern int seed;
 extern std::ifstream input;

@@ -23,7 +23,7 @@ public:
         _primaryNetwork = GetRandomNetwork(nodeSize, branchSize, branchSize);
         _secondaryNetwork = GetRandomNetwork(nodeSize, routeSize, branchSize);
         for (int i = 0; i < nodeSize; i++) {
-            Node node = Node::GetSimpleElement(i, p, false, branchSize);
+            Node node = Node::GetSimpleElement(i, false, branchSize);
             _nodes.push_back(node);
         }
     }

@@ -4,7 +4,7 @@
 #include "ComputeMENC.h"
 #include "ComputeAPC.h"
 #include "../HypernetModel/Helpers/DataHelper.h"
-#include "../HypernetModel/Helpers/RandomHypernetGenerator.h"
+#include "../HypernetModel/Generators/RandomHypernetGenerator.h"
 
 std::ifstream input;
 std::ofstream output;
@@ -14,6 +14,7 @@ int ReliableHypernets = 0, UnconnectedHypernets = 0, TwoNodesHypernets = 0, Chai
 std::vector<std::vector<double>> Bin;
 std::vector<int> KpNodesCombination;
 const double p = 0.9;
+const int max_dimensional = 3;
 int seed = time(0);
 int FirstRoot, SecondRoot;
 

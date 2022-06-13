@@ -513,12 +513,23 @@ void H::LogHypernet() {
     output << _nodes.size() << " " << _FN.size() << " "  << _F.size() << std::endl;
     for(auto &node : _nodes) {
         output << node.GetId() << std::endl;
-        output << node.GetValue() << std::endl;
+        if (OUTPUT_NODE_VALUES == 1) {
+            output << node.GetValue() << std::endl;
+        }
     }
     for(auto &branch : _FN) {
         output << branch.GetId() << std::endl;
         output << branch.GetFirstNode() << " " << branch.GetSecondNode() << std::endl;
         output << VectorToString(branch.GetRoutes(), " ") << " " << 0 << std::endl;
+        if (OUTPUT_BRANCH_VALUES == 1) {
+            output << branch.GetValue() << std::endl;
+        }
+        if (OUTPUT_BRANCH_COSTS == 1) {
+            output << branch.GetCost() << std::endl;
+        }
+        if (OUTPUT_MAX_BRANCH_SATURATIONS == 1) {
+            output << branch.GetMaxSaturation() << std::endl;
+        }
     }
     for(auto &route : _F) {
         output << route.GetId() << std::endl;

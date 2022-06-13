@@ -4,7 +4,7 @@
 
 Node Model::AddNode(Branch &branch) {
     // добавляем вершину
-    Node newNode = Node::GetSimpleElement(GetUniqueId(_hypernet.GetNodes()), p, false,
+    Node newNode = Node::GetSimpleElement(GetUniqueId(_hypernet.GetNodes()), false,
                                           _hypernet.GetFN().front().GetC().size());
     _hypernet.GetNodes().push_back(newNode);
     // добавляем маршруты

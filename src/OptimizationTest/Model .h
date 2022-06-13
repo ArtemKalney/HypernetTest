@@ -24,7 +24,7 @@ public:
             newNodes.push_back(AddNode(*std::find(_hypernet.GetFN().begin(), _hypernet.GetFN().end(), item)));
         }
         // добавляем c-node
-        Node newNode = Node::GetSimpleElement(GetUniqueId(_hypernet.GetNodes()), p, false,
+        Node newNode = Node::GetSimpleElement(GetUniqueId(_hypernet.GetNodes()), false,
                                               _hypernet.GetFN().front().GetC().size());
         _hypernet.GetNodes().push_back(newNode);
         for(auto &item : newNodes) {

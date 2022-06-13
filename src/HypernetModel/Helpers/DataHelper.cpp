@@ -12,15 +12,18 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
     input.getline(str, 50);
     std::cout << "Input graph : " << str << std::endl;
     int buf, nodeSize, branchSize, routeSize;
+    double doubleBuf;
     input >> buf; nodeSize = buf;
     input >> buf; branchSize = buf;
     input >> buf; routeSize = buf;
     // Read all nodes from input.txt
     for (int i = 0; i < nodeSize; i++) {
         input >> buf; int nodeNumber = buf - 1;
-        double doubleBuf;
-        input >> doubleBuf; double value = doubleBuf;
-        Node node = Node::GetSimpleElement(nodeNumber, value, false, branchSize);
+        Node node = Node::GetSimpleElement(nodeNumber, false, branchSize);
+        if (INPUT_NODE_VALUES == 1) {
+            input >> doubleBuf;
+            node.SetValue(doubleBuf);
+        }
         nodes.push_back(node);
         if (!IsUniqueId(nodes, nodeNumber)) {
             throw "GetData: not unique branch id";
@@ -40,7 +43,20 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
             input >> buf;
         }
         branchRouteIds.push_back(vector);
-        branches.push_back(Branch::GetSimpleElement(id, firstNode, secondNode, branchSize));
+        Branch branch = Branch::GetSimpleElement(id, firstNode, secondNode, branchSize);
+        if (INPUT_BRANCH_VALUES == 1) {
+            input >> doubleBuf;
+            branch.SetValue(doubleBuf);
+        }
+        if (INPUT_BRANCH_COSTS == 1) {
+            input >> doubleBuf;
+            branch.SetCost(doubleBuf);
+        }
+        if (INPUT_MAX_BRANCH_SATURATIONS == 1) {
+            input >> buf;
+            branch.SetMaxSaturation(buf);
+        }
+        branches.push_back(branch);
         if (!IsUniqueId(branches, id)) {
             throw "GetData: not unique branch id";
         }

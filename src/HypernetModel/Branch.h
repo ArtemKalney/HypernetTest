@@ -12,7 +12,9 @@ private:
     int _firstNode;
     int _secondNode;
     std::vector<double> _C;
-    int _maxSaturation{};
+    // параметры для оптимизации
+    int _maxSaturation = 0;
+    double _cost = 1;
 
     friend class boost::serialization::access;
     template<typename Archive>
@@ -29,15 +31,6 @@ private:
 public:
     Branch() = default;
 
-    Branch(const int &id, double& value, std::vector<double> C, std::vector<Route> &routes, const int &power,
-           const int &firstNode, const int &secondNode, bool isReliable) :
-            Element(value, power, isReliable),
-            _id(id),
-            _routes(std::move(routes)),
-            _firstNode(firstNode),
-            _secondNode(secondNode),
-            _C(std::move(C)) {}
-
     Branch(const Branch &branch) :
             Element(branch.GetValue(), branch.GetPower(), branch.GetIsReliable()),
             _id(branch._id),
@@ -45,7 +38,8 @@ public:
             _firstNode(branch._firstNode),
             _secondNode(branch._secondNode),
             _C(branch._C),
-            _maxSaturation(branch._maxSaturation) {}
+            _maxSaturation(branch._maxSaturation),
+            _cost(branch._cost){}
 
     void SetId(const int &id) {
         _id = id;
@@ -93,6 +87,14 @@ public:
 
     int GetMaxSaturation() const {
         return _maxSaturation;
+    }
+
+    double SetCost(const double cost) {
+        _cost = cost;
+    }
+
+    double GetCost() const {
+        return _cost;
     }
 
     //todo уменьшить static функкций

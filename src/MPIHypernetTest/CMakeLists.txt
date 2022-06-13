@@ -6,7 +6,7 @@ set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 #other libraries
 set(CMAKE_EXE_LINKER_FLAGS "-static -lpthread")
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-set(SOURCE_FILES Main.cpp ../HypernetModel/Helpers/RandomHypernetGenerator.cpp ../HypernetModel/Branch.cpp
+set(SOURCE_FILES Main.cpp ../HypernetModel/Generators/RandomHypernetGenerator.cpp ../HypernetModel/Branch.cpp
         ../HypernetModel/Hypernet.cpp ../HypernetModel/Helpers/ReductionHelper.cpp
         ../HypernetModel/Helpers/FactorizationHelper.cpp ../HypernetModel/Node.cpp
         ../HypernetModel/Helpers/DataHelper.cpp RandomNetworkHypernetGenerator.cpp ../HypernetModel/Element.h
@@ -20,6 +20,6 @@ set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS} ${MPI_LINK_FLAGS})
 include_directories(${MPI_INCLUDE_PATH})
 target_link_libraries(MPIHypernetTest ${MPI_LIBRARIES})
 #Boost library
-#find_package(Boost COMPONENTS serialization REQUIRED)
-include_directories(${Boost_DIR}/include/)
+find_package(Boost COMPONENTS serialization REQUIRED)
+include_directories(${Boost_INCLUDE_DIR})
 target_link_libraries(MPIHypernetTest ${Boost_LIBRARIES})

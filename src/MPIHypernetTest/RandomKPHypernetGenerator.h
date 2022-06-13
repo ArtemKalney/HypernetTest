@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../HypernetModel/Helpers/RandomHypernetGenerator.h"
+#include "../HypernetModel/Generators/RandomHypernetGenerator.h"
 
 class RandomKPHypernetGenerator : public RandomHypernetGenerator {
 public:

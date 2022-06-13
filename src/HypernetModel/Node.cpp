@@ -2,38 +2,83 @@
 #include "Globals.h"
 
 Node Node::GetElement(const int power, const int vectorSize) {
+    Node node = Node();
+
     std::vector<double> C(vectorSize);
     C.front() = 1;
-    double value = std::pow(p, power);
-    return Node(-1, value, C, power, false, false);
+    node.SetC(C);
+
+    node.SetId(-1);
+    node.SetValue(std::pow(p, power));
+    node.SetPower(power);
+    node.SetIsVisited(false);
+    node.SetIsReliable(false);
+
+    return node;
 }
 
-Node Node::GetElement(const std::vector<double>& C, const int power) {
-    double value = std::pow(p, power);
-    return Node(-1, value, C, power, false, false);
+Node Node::GetElement(std::vector<double>& C, const int power) {
+    Node node = Node();
+
+    node.SetId(-1);
+    node.SetValue(std::pow(p, power));
+    node.SetC(C);
+    node.SetPower(power);
+    node.SetIsVisited(false);
+    node.SetIsReliable(false);
+
+    return node;
 }
 
-Node Node::GetSimpleElement(const int id, double value, bool isVisited, const int vectorSize) {
+Node Node::GetSimpleElement(const int id, bool isVisited, const int vectorSize) {
+    Node node = Node();
+
     std::vector<double> C(vectorSize);
     C.front() = 1;
-    return Node(id, value, C, 1, isVisited, false);
+    node.SetC(C);
+
+    node.SetId(id);
+    node.SetValue(p);
+    node.SetPower(1);
+    node.SetIsVisited(isVisited);
+    node.SetIsReliable(false);
+
+    return node;
 }
 
 Node Node::GetSimpleElement(const int vectorSize) {
-    return GetSimpleElement(-1, p, false, vectorSize);
+    return GetSimpleElement(-1, false, vectorSize);
 }
 
 Node Node::GetZero() {
+    Node node = Node();
+
     std::vector<double> C;
-    double value = 0;
-    return Node(-1, value, C, 0, false, false);
+    node.SetC(C);
+
+    node.SetId(-1);
+    node.SetValue(0);
+    node.SetPower(0);
+    node.SetIsVisited(false);
+    node.SetIsReliable(false);
+
+    return node;
 }
 
 Node Node::GetUnity() {
+    Node node = Node();
+
     std::vector<double> C;
     C.push_back(1);
-    double value = 1;
-    return Node(-1, value, C, 0, false, false);
+    node.SetC(C);
+
+    node.SetId(-1);
+    node.SetValue(1);
+    node.SetPower(0);
+    node.SetIsVisited(false);
+    node.SetIsReliable(false);
+
+    return node;
 }
 
 bool Node::IsUnity() {

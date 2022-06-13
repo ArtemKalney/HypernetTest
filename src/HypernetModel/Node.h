@@ -24,12 +24,6 @@ private:
 public:
     Node() = default;
 
-    Node(const int &id, double& value, std::vector<double> C, const int &power, bool isVisited, bool isReliable) :
-            Element(value, power, isReliable),
-            _id(id),
-            _isVisited(isVisited),
-            _C(std::move(C)) {}
-
     Node(const Node &node) :
             Element(node.GetValue(), node.GetPower(), node.GetIsReliable()),
             _id(node._id),
@@ -52,9 +46,9 @@ public:
         _id = id;
     }
 
-    void SetIsVisited(bool isReliable)
+    void SetIsVisited(bool isVisited)
     {
-        _isVisited = isReliable;
+        _isVisited = isVisited;
     }
 
     bool GetIsVisited() const
@@ -62,9 +56,9 @@ public:
         return _isVisited;
     }
 
-    static Node GetElement(const std::vector<double>& C, int power);
+    static Node GetElement(std::vector<double>& C, int power);
 
-    static Node GetSimpleElement(int id, double value, bool isVisited, int vectorSize);
+    static Node GetSimpleElement(int id, bool isVisited, int vectorSize);
 
     static Node GetSimpleElement(int vectorSize);
 

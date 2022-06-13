@@ -3,7 +3,7 @@
 #include "DTO.h"
 #include "PairConnectivity.h"
 #include "../HypernetModel/Helpers/DataHelper.h"
-#include "../HypernetModel/Helpers/RandomHypernetGenerator.h"
+#include "../HypernetModel/Generators/RandomHypernetGenerator.h"
 #include "RandomKPHypernetGenerator.h"
 
 // инициализация глобальных переменных
@@ -16,6 +16,7 @@ int FirstRoot, SecondRoot;
 std::vector<std::vector<double>> Bin;
 std::vector<int> KpNodesCombination;
 const double p = 0.9;
+const int max_dimensional = 3;
 unsigned long long int TotalBytesTransfer = 0;
 int seed = time(0);
 
@@ -35,9 +36,7 @@ void GetDataWithTestNodes(std::vector<Branch>& branches, std::vector<Node>& node
     // Read all nodes from input.txt
     for (int i = 0; i < nodeSize; i++) {
         input >> buf; int nodeNumber = buf - 1;
-        double doubleBuf;
-        input >> doubleBuf; double value = doubleBuf;
-        Node node = Node::GetSimpleElement(nodeNumber, value, false, branchSize);
+        Node node = Node::GetSimpleElement(nodeNumber, false, branchSize);
         nodes.push_back(node);
         if (!IsUniqueId(nodes, nodeNumber)) {
             throw "GetData: not unique branch id";

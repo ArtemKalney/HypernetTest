@@ -3,17 +3,40 @@
 
 //todo возможно надо заменить на GetUnity
 Branch Branch::GetElement(const int power, const int vectorSize) {
+    Branch branch = Branch();
+
     std::vector<double> C(vectorSize);
     C.front() = 1;
+    branch.SetC(C);
+
     std::vector<Route> routes;
-    double value = std::pow(p, power);
-    return Branch(-1, value, C, routes, power, 0, 0, false);
+    branch.SetRoutes(routes);
+
+    branch.SetId(-1);
+    branch.SetValue(std::pow(p, power));
+    branch.SetPower(power);
+    branch.SetFirstNode(0);
+    branch.SetSecondNode(0);
+    branch.SetIsReliable(false);
+
+    return branch;
 }
 
 Branch Branch::GetElement(const std::vector<double>& C, const int power) {
+    Branch branch = Branch();
+
     std::vector<Route> routes;
-    double value = std::pow(p, power);
-    return Branch(-1, value, C, routes, power, 0, 0, false);
+    branch.SetRoutes(routes);
+
+    branch.SetId(-1);
+    branch.SetValue(std::pow(p, power));
+    branch.SetC(C);
+    branch.SetPower(power);
+    branch.SetFirstNode(0);
+    branch.SetSecondNode(0);
+    branch.SetIsReliable(false);
+
+    return branch;
 }
 
 Branch Branch::GetSimpleElement(const int vectorSize) {
@@ -21,26 +44,62 @@ Branch Branch::GetSimpleElement(const int vectorSize) {
 }
 
 Branch Branch::GetSimpleElement(const int id, const int firstNode, const int secondNode, const int vectorSize) {
+    Branch branch = Branch();
+
     std::vector<double> C(vectorSize);
     C.front() = 1;
+    branch.SetC(C);
+
     std::vector<Route> routes;
-    double value = p;
-    return Branch(id, value, C, routes, 1, firstNode, secondNode, false);
+    branch.SetRoutes(routes);
+
+    branch.SetId(id);
+    branch.SetValue(p);
+    branch.SetPower(1);
+    branch.SetFirstNode(firstNode);
+    branch.SetSecondNode(secondNode);
+    branch.SetIsReliable(false);
+
+    return branch;
 }
 
 Branch Branch::GetZero() {
+    Branch branch = Branch();
+
     std::vector<double> C;
+    branch.SetC(C);
+
     std::vector<Route> routes;
-    double value = 0;
-    return Branch(-1, value, C, routes, 0, 0, 0, false);
+    branch.SetRoutes(routes);
+
+    branch.SetId(-1);
+    branch.SetValue(0);
+    branch.SetPower(0);
+    branch.SetFirstNode(0);
+    branch.SetSecondNode(0);
+    branch.SetIsReliable(false);
+
+    return branch;
 }
 
 Branch Branch::GetUnity() {
+    Branch branch = Branch();
+
     std::vector<double> C;
     C.push_back(1);
+    branch.SetC(C);
+
     std::vector<Route> routes;
-    double value = 1;
-    return Branch(-1, value, C, routes, 0, 0, 0, false);
+    branch.SetRoutes(routes);
+
+    branch.SetId(-1);
+    branch.SetValue(1);
+    branch.SetPower(0);
+    branch.SetFirstNode(0);
+    branch.SetSecondNode(0);
+    branch.SetIsReliable(false);
+
+    return branch;
 }
 
 bool Branch::EqualNodes(const Branch& firstBranch, const Branch& secondBranch) {

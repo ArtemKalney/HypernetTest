@@ -185,7 +185,7 @@ bool H::Reductions<Branch>(Branch &pseudoElement, Branch &returnValue) {
         returnValue = Branch::GetZero();
         return true;
     }
-    if (ENABLE_SIMPLE_CASE == 1 && _nodes.size() < MAX_DIMENSIONAL) {
+    if (ENABLE_SIMPLE_CASE == 1 && _nodes.size() < max_dimensional) {
         returnValue = SimpleCase(pseudoElement);
         return true;
     }
@@ -196,7 +196,7 @@ bool H::Reductions<Branch>(Branch &pseudoElement, Branch &returnValue) {
             returnValue = Branch::GetZero();
             return true;
         }
-        if (ENABLE_SIMPLE_CASE == 1 && _nodes.size() < MAX_DIMENSIONAL) {
+        if (ENABLE_SIMPLE_CASE == 1 && _nodes.size() < max_dimensional) {
             returnValue = SimpleCase(pseudoElement);
             return true;
         }
@@ -207,7 +207,7 @@ bool H::Reductions<Branch>(Branch &pseudoElement, Branch &returnValue) {
             returnValue = Branch::GetZero();
             return true;
         }
-        if (ENABLE_SIMPLE_CASE == 1 && _nodes.size() < MAX_DIMENSIONAL) {
+        if (ENABLE_SIMPLE_CASE == 1 && _nodes.size() < max_dimensional) {
             returnValue = SimpleCase(pseudoElement);
             return true;
         }
@@ -222,7 +222,7 @@ bool H::Reductions<Node>(Node &pseudoElement, Node &returnValue) {
         returnValue = Node::GetZero();
         return true;
     }
-    if (ENABLE_SIMPLE_CASE == 1 && _nodes.size() < MAX_DIMENSIONAL) {
+    if (ENABLE_SIMPLE_CASE == 1 && _nodes.size() < max_dimensional) {
         returnValue = SimpleCase(pseudoElement);
         return true;
     }
@@ -237,7 +237,7 @@ bool H::Reductions<Node>(Node &pseudoElement, Node &returnValue) {
             returnValue = Node::GetZero();
             return true;
         }
-        if (ENABLE_SIMPLE_CASE == 1 && _nodes.size() < MAX_DIMENSIONAL) {
+        if (ENABLE_SIMPLE_CASE == 1 && _nodes.size() < max_dimensional) {
             returnValue = SimpleCase(pseudoElement);
             return true;
         }

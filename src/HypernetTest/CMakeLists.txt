@@ -5,7 +5,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 set(SOURCE_FILES Main.cpp PairConnectivity.cpp ../HypernetModel/Branch.cpp ../HypernetModel/Hypernet.cpp
         ../HypernetModel/Helpers/ReductionHelper.cpp Tests.cpp ../HypernetModel/Node.cpp
         ../HypernetModel/Helpers/FactorizationHelper.cpp FullEnumeration.cpp
-        ../HypernetModel/Helpers/RandomHypernetGenerator.cpp ../HypernetModel/Helpers/DataHelper.cpp
+        ../HypernetModel/Generators/RandomHypernetGenerator.cpp ../HypernetModel/Helpers/DataHelper.cpp
         ApplicationSettings.h ComputeAPC.h ComputeMENC.h Funcs.h Globals.h Stdafx.h ../HypernetModel/Branch.h
         ../HypernetModel/Element.h ../HypernetModel/IIdentity.h ../HypernetModel/Node.h ../HypernetModel/Operators.h
         ../HypernetModel/Route.h)
@@ -19,6 +19,6 @@ add_subdirectory(libs/googletest)
 include_directories(libs/googletest/include)
 target_link_libraries(HypernetTest gtest gtest_main)
 #Boost library
-#find_package(Boost COMPONENTS serialization REQUIRED)
-include_directories(${Boost_DIR}/include/)
+find_package(Boost COMPONENTS serialization REQUIRED)
+include_directories(${Boost_INCLUDE_DIR})
 target_link_libraries(HypernetTest ${Boost_LIBRARIES})

@@ -35,7 +35,7 @@ T PairConnectivity(H &H, T &pseudoElement) {
         } else {
             // назначение исполняющих процессов (запрос помощи процессом)
             int value, helpProcessor = 0;
-            if (HwithReliableElement.GetNodes().size() >= MAX_DIMENSIONAL) {
+            if (HwithReliableElement.GetNodes().size() >= max_dimensional) {
                 MPI_Status status;
                 MPI_Send(&value, 0, MPI_INT, HOST_PROCESSOR, I_NEED_HELP_TAG, MPI_COMM_WORLD);
                 MPI_Recv(&helpProcessor, 1, MPI_INT, HOST_PROCESSOR, I_NEED_HELP_TAG, MPI_COMM_WORLD, &status);
