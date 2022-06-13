@@ -1,4 +1,4 @@
-Hypernet(25, 38, 27)
+OptimizationHypernet(25, 38, 27)
 25 38 27
 1
 0.9

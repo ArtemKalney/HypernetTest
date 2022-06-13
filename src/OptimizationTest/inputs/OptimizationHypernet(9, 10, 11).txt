@@ -1,4 +1,4 @@
-Hypernet(9, 10, 11)
+OptimizationHypernet(9, 10, 11)
 9 10 11
 0
 0.9
