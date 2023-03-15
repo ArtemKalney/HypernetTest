@@ -44,8 +44,13 @@ void PrintSolution(T& sum) {
             NormalizeSolution(sum);
         }
         std::cout << "Value at point " << p << ": " << std::setprecision(14) << sum.GetPolynomialValue(p) << std::endl;
-        for (auto &item : sum.GetC()) {
-            output << std::setprecision(14) << item << " ";
+        if (AppSettings.IsNumberComputation == 1) {
+            output << std::setprecision(14) << sum.GetPolynomialValue(p) << " ";
+        }
+        else {
+            for (auto &item : sum.GetC()) {
+                output << std::setprecision(14) << item << " ";
+            }
         }
         output << std::endl;
     } else {

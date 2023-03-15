@@ -13,13 +13,13 @@
 #define RANDOM_TREE_SIZE 11
 
 /// Режим дебага
-#define IS_DEBUG 1
+#define IS_DEBUG 0
 
 /// Определяет какие элементы надёжны в сети (ветви или вершины)
 #define IS_NODES_RELIABLE 1
 
 /// Определяет что считается (полином или число)
-#define IS_NUMBER_COMPUTATION 0
+#define IS_NUMBER_COMPUTATION 1
 
 /// Включение двухуровневой парраллелизации
 #define IS_TWO_LEVEL_PARALLELIZATION 1
@@ -34,7 +34,7 @@
 #define IS_REDUCE_RELIABLE_CHAINS 0
 
 /// Параметры ввода
-#define INPUT_NODE_VALUES 1
+#define INPUT_NODE_VALUES 0
 #define INPUT_BRANCH_VALUES 0
 #define INPUT_BRANCH_COSTS 0
 #define INPUT_MAX_BRANCH_SATURATIONS 0

@@ -123,9 +123,7 @@ int main(int argc, char** argv) {
             std::cin >> option;
             if (option != 1 && option != 2 && option != 3) {
                 std::cout << "Wrong number" << std::endl;
-                if (IS_DEBUG != 1) {
-                    system("pause>>void");
-                }
+
                 return 0;
             }
         }
@@ -215,8 +213,6 @@ int main(int argc, char** argv) {
 
     input.close();
     output.close();
-    if (IS_DEBUG != 1) {
-        system("pause>>void");
-    }
+
     return EXIT_SUCCESS;
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 /// Тесты, на тестирование не влиияет IS_NODES_RELIABLE
-#define IS_TEST 1
+#define IS_TEST 0
 #define IS_TEST_CHECK_SPECIFICATIONS 1
 
 /// Генерация случайной гиперсети (без вычисления надёжности)
@@ -14,7 +14,7 @@
 #define IS_FULL_ENUMERATION 0
 
 /// Режим дебага, нумерация вершин с 0
-#define IS_DEBUG 1
+#define IS_DEBUG 0
 #define DEBUG_FIRST_NODE 0
 #define DEBUG_SECOND_NODE 1
 
@@ -34,7 +34,7 @@
 #define IS_REDUCE_RELIABLE_CHAINS 0
 
 /// Параметры ввода
-#define INPUT_NODE_VALUES 1
+#define INPUT_NODE_VALUES 0
 #define INPUT_BRANCH_VALUES 0
 #define INPUT_BRANCH_COSTS 0
 #define INPUT_MAX_BRANCH_SATURATIONS 0

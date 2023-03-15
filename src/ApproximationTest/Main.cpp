@@ -165,7 +165,7 @@ int main() {
     setlocale(LC_ALL, "");
     if (!input.is_open()) {
         std::cout << "File can not be opened!\n";
-        system("pause>>void");
+
         return 0;
     }
     char str[50];
@@ -179,7 +179,7 @@ int main() {
     input >> str;
     if (strcmp(str, "$$$") != 0) {
         std::cout << "Incorrect entry" << std::endl;
-        system("pause>>void");
+
         return 0;
     }
     std::cout << "Press 1 to get APC polynomial" << std::endl;
@@ -189,7 +189,7 @@ int main() {
     std::cin >> option;
     if (option != 1 && option != 2 && option != 3) {
         std::cout << "Wrong number" << std::endl;
-        system("pause>>void");
+
         return 0;
     }
 
@@ -261,6 +261,6 @@ int main() {
     input.close();
     output.close();
 
-//    system("pause>>void");
+
     return 0;
 }

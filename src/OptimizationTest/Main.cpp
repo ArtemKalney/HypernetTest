@@ -19,13 +19,15 @@ int CheckedConditions, UncheckedConditions;
 Settings AppSettings;
 
 void OutputResult(const std::shared_ptr<Model> model, int startTime) {
-    output << "Solution:" << VectorToString(model->GetSolution()) << std::endl;
-    output << "Reliability:" << model->GetReliability() << std::endl;
-    output << "ObjFunctionValue:" << model->GetObjFunctionValue() << std::endl;
-    output << "Statistics:" << std::endl;
-    output << std::string(3, ' ') << "Time:" << clock() - startTime << std::endl;
-    output << std::string(3, ' ') << "CheckedConditions:" << CheckedConditions << std::endl;
-    output << std::string(3, ' ') << "UncheckedConditions:" << UncheckedConditions << std::endl;
+    std::cout << "Solution:" << VectorToString(model->GetSolution()) << std::endl;
+    std::cout << "Reliability:" << model->GetReliability() << std::endl;
+    std::cout << "ObjFunctionValue:" << model->GetObjFunctionValue() << std::endl;
+    std::cout << "Statistics:" << std::endl;
+    std::cout << std::string(3, ' ') << "Time:" << clock() - startTime << std::endl;
+    std::cout << std::string(3, ' ') << "CheckedConditions:" << CheckedConditions << std::endl;
+    std::cout << std::string(3, ' ') << "UncheckedConditions:" << UncheckedConditions << std::endl;
+
+    output << VectorToString(model->GetSolution()) << std::endl;
 }
 
 void SetGlobals(int argc, char** argv) {
@@ -118,9 +120,6 @@ int main(int argc, char** argv) {
 
     input.close();
     output.close();
-    if (IS_DEBUG != 1) {
-        system("pause>>void");
-    }
     
     return EXIT_SUCCESS;
 }
