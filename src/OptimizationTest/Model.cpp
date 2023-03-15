@@ -54,7 +54,7 @@ Node Model::AddNode(Branch &branch) {
 
 bool Model::CheckConditions() {
     bool isReliable;
-    if (IS_NODES_RELIABLE == 1) {
+    if (AppSettings.IsNodesReliable == 1) {
         Branch branchSum = Branch::GetZero();
         isReliable = ComputeMENC(branchSum, _hypernet, MIN_MENC_VALUE + _reliabilityDelta);
         _reliability = branchSum.GetPolynomialValue(p) - _reliabilityDelta;

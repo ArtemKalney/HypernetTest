@@ -82,11 +82,11 @@ Node Node::GetUnity() {
 }
 
 bool Node::IsUnity() {
-    return IS_NUMBER_COMPUTATION == 1 ? GetValue() == 1 : GetC().size() == 1 && GetC().front() == 1;
+    return AppSettings.IsNumberComputation == 1 ? GetValue() == 1 : GetC().size() == 1 && GetC().front() == 1;
 }
 
 bool Node::IsZero() const {
-    return IS_NUMBER_COMPUTATION == 1 ? GetValue() == 0 : _C.empty();
+    return AppSettings.IsNumberComputation == 1 ? GetValue() == 0 : _C.empty();
 }
 
 bool Node::IsPivotNode() {
@@ -94,7 +94,7 @@ bool Node::IsPivotNode() {
 }
 
 double Node::GetPolynomialValue(double point) {
-    if (IS_NUMBER_COMPUTATION == 1) {
+    if (AppSettings.IsNumberComputation == 1) {
         return GetValue();
     }
 

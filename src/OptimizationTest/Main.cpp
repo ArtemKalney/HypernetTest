@@ -5,17 +5,18 @@
 #include "Model .h"
 #include "FullEnumerationAlgorithm.h"
 #include "SimulatedAnnealingAlgorithm.h"
+#include "../HypernetModel/Helpers/InputParser.h"
 
 std::ifstream input;
 std::ofstream output;
 const double p = 0.9;
 const int max_dimensional = 3;
-int ReliableHypernets = 0, UnconnectedHypernets = 0, TwoNodesHypernets = 0, ChainsReduced = 0,
-        UnconnectedNodesReduced = 0, PairConnectivityCalls = 0, EdgesReduced = 0, ComplexChains = 0,
-        TreeNodeIntersections = 0, UnconnectedTreeNodes = 0;
+int ReliableHypernets, UnconnectedHypernets, TwoNodesHypernets, ChainsReduced,
+        UnconnectedNodesReduced, PairConnectivityCalls, EdgesReduced, ComplexChains,
+        TreeNodeIntersections, UnconnectedTreeNodes;
 std::vector<std::vector<double>> Bin;
-int seed = time(0);
 int CheckedConditions, UncheckedConditions;
+Settings AppSettings;
 
 void OutputResult(const std::shared_ptr<Model> model, int startTime) {
     output << "Solution:" << VectorToString(model->GetSolution()) << std::endl;
@@ -27,9 +28,49 @@ void OutputResult(const std::shared_ptr<Model> model, int startTime) {
     output << std::string(3, ' ') << "UncheckedConditions:" << UncheckedConditions << std::endl;
 }
 
+void SetGlobals(int argc, char** argv) {
+    ReliableHypernets = 0;
+    UnconnectedHypernets = 0;
+    TwoNodesHypernets = 0;
+    ChainsReduced = 0;
+    UnconnectedNodesReduced = 0;
+    PairConnectivityCalls = 0;
+    EdgesReduced = 0;
+    ComplexChains = 0,
+    TreeNodeIntersections = 0;
+    UnconnectedTreeNodes = 0;
+
+    InputParser inputParser(argc, argv);
+    std::string str;
+    str = inputParser.getCmdOption("-nodes");
+    AppSettings.IsNodesReliable = !str.empty() ? std::stoi(str) : IS_NODES_RELIABLE;
+    str = inputParser.getCmdOption("-number");
+    AppSettings.IsNumberComputation = !str.empty() ? std::stoi(str) : IS_NUMBER_COMPUTATION;
+    str = inputParser.getCmdOption("-iBranchCosts");
+    AppSettings.InputBranchCosts = !str.empty() ? std::stoi(str) : INPUT_BRANCH_COSTS;
+    str = inputParser.getCmdOption("-iBranchValues");
+    AppSettings.InputBranchValues = !str.empty() ? std::stoi(str) : INPUT_BRANCH_VALUES;
+    str = inputParser.getCmdOption("-iMaxBranchSaturations");
+    AppSettings.InputMaxBranchSaturations = !str.empty() ? std::stoi(str) : INPUT_MAX_BRANCH_SATURATIONS;
+    str = inputParser.getCmdOption("-iNodesValues");
+    AppSettings.InputNodesValues = !str.empty() ? std::stoi(str) : INPUT_NODE_VALUES;
+    str = inputParser.getCmdOption("-r");
+    AppSettings.MinMENCValue = !str.empty() ? std::stoi(str) : MIN_MENC_VALUE;
+    str = inputParser.getCmdOption("-max");
+    AppSettings.TMax = !str.empty() ? std::stoi(str) : T_MAX;
+    str = inputParser.getCmdOption("-min");
+    AppSettings.TMin = !str.empty() ? std::stoi(str) : T_MIN;
+    str = inputParser.getCmdOption("-n");
+    AppSettings.InitialBranchCount = !str.empty() ? std::stoi(str) : INITIAL_BRANCH_COUNT;
+
+    str = inputParser.getCmdOption("-input");
+    input.open(!str.empty() ? str : "input.txt");
+    str = inputParser.getCmdOption("-output");
+    output.open(!str.empty() ? str : "output.txt");
+}
+
 int main(int argc, char** argv) {
-    input.open("input.txt");
-    output.open("output.txt");
+    SetGlobals(argc, argv);
     setlocale(LC_ALL, "");
 
     try {

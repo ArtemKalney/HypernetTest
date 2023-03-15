@@ -20,7 +20,7 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
     for (int i = 0; i < nodeSize; i++) {
         input >> buf; int nodeNumber = buf - 1;
         Node node = Node::GetSimpleElement(nodeNumber, false, branchSize);
-        if (INPUT_NODE_VALUES == 1) {
+        if (AppSettings.InputNodesValues == 1) {
             input >> doubleBuf;
             node.SetValue(doubleBuf);
         }
@@ -44,15 +44,15 @@ void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vecto
         }
         branchRouteIds.push_back(vector);
         Branch branch = Branch::GetSimpleElement(id, firstNode, secondNode, branchSize);
-        if (INPUT_BRANCH_VALUES == 1) {
+        if (AppSettings.InputBranchValues == 1) {
             input >> doubleBuf;
             branch.SetValue(doubleBuf);
         }
-        if (INPUT_BRANCH_COSTS == 1) {
+        if (AppSettings.InputBranchCosts == 1) {
             input >> doubleBuf;
             branch.SetCost(doubleBuf);
         }
-        if (INPUT_MAX_BRANCH_SATURATIONS == 1) {
+        if (AppSettings.InputMaxBranchSaturations == 1) {
             input >> buf;
             branch.SetMaxSaturation(buf);
         }

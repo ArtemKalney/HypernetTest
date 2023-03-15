@@ -40,7 +40,7 @@ void NormalizeSolution(T &element){
 template <class T>
 void PrintSolution(T& sum) {
     if (!sum.IsZero()) {
-        if (IS_NUMBER_COMPUTATION == 0) {
+        if (AppSettings.IsNumberComputation == 0) {
             NormalizeSolution(sum);
         }
         std::cout << "Value at point " << p << ": " << std::setprecision(14) << sum.GetPolynomialValue(p) << std::endl;

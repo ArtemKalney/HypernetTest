@@ -5,7 +5,7 @@
 template <class T>
 T operator *(T firstElement, T secondElement) {
     T result = T::GetZero();
-    if (IS_NUMBER_COMPUTATION == 1) {
+    if (AppSettings.IsNumberComputation == 1) {
         result.SetValue(firstElement.GetValue() * secondElement.GetValue());
         return result;
     }
@@ -38,7 +38,7 @@ T operator *(T firstElement, T secondElement) {
 template <class T>
 T operator +(T firstElement, T secondElement) {
     T result = T::GetZero();
-    if (IS_NUMBER_COMPUTATION == 1) {
+    if (AppSettings.IsNumberComputation == 1) {
         result.SetValue(firstElement.GetValue() + secondElement.GetValue());
         return result;
     }
@@ -78,7 +78,7 @@ T operator +(T firstElement, T secondElement) {
 template <class T>
 T operator -(T firstElement, T secondElement) {
     T result = T::GetZero();
-    if (IS_NUMBER_COMPUTATION == 1) {
+    if (AppSettings.IsNumberComputation == 1) {
         result.SetValue(firstElement.GetValue() - secondElement.GetValue());
         return result;
     }
@@ -119,7 +119,7 @@ T operator -(T firstElement, T secondElement) {
 template <class T>
 T operator ~(T element) {
     T result = T::GetZero();
-    if (IS_NUMBER_COMPUTATION == 1) {
+    if (AppSettings.IsNumberComputation == 1) {
         result.SetValue(1 - element.GetValue());
         return result;
     }

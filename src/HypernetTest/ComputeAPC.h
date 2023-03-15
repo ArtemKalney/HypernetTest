@@ -6,7 +6,7 @@
 
 template <class T>
 void ProcessSum(T& sum, H& initialHypernet) {
-    if (IS_NUMBER_COMPUTATION == 1) {
+    if (AppSettings.IsNumberComputation == 1) {
         sum.SetValue(sum.GetValue() / Bin[initialHypernet.GetNodes().size()][2]);
     } else {
         for (int i = 0; i < sum.GetC().size(); i++) {
@@ -87,7 +87,7 @@ bool ComputeAPC(T& sum, H& initialHypernet, double requiredValue) {
             if (H.IsSNconnected()) {
                 auto result = PairConnectivity<T>(H);
                 sum = sum + result;
-                double value = IS_NUMBER_COMPUTATION == 1 ? result.GetValue() : result.GetPolynomialValue(p);
+                double value = AppSettings.IsNumberComputation == 1 ? result.GetValue() : result.GetPolynomialValue(p);
                 double lowerBound = prevLowerBound + value,
                         upperBound = prevUpperBound + value - 1;
                 if (lowerBound/Bin[initialHypernet.GetNodes().size()][2] > requiredValue)

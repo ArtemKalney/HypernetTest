@@ -5,18 +5,19 @@
 #include "ComputeAPC.h"
 #include "../HypernetModel/Helpers/DataHelper.h"
 #include "../HypernetModel/Generators/RandomHypernetGenerator.h"
+#include "../HypernetModel/Helpers/InputParser.h"
 
 std::ifstream input;
 std::ofstream output;
-int ReliableHypernets = 0, UnconnectedHypernets = 0, TwoNodesHypernets = 0, ChainsReduced = 0,
-        UnconnectedNodesReduced = 0, PairConnectivityCalls = 0, EdgesReduced = 0, ComplexChains = 0,
-        TreeNodeIntersections = 0, UnconnectedTreeNodes = 0;
+int ReliableHypernets, UnconnectedHypernets, TwoNodesHypernets, ChainsReduced,
+        UnconnectedNodesReduced, PairConnectivityCalls, EdgesReduced, ComplexChains,
+        TreeNodeIntersections, UnconnectedTreeNodes;
 std::vector<std::vector<double>> Bin;
 std::vector<int> KpNodesCombination;
 const double p = 0.9;
 const int max_dimensional = 3;
-int seed = time(0);
 int FirstRoot, SecondRoot;
+Settings AppSettings;
 
 template <class T>
 void ComputePairConnectivities(T& sum, H& initialHypernet) {
@@ -64,15 +65,51 @@ void ComputePairConnectivities(T& sum, H& initialHypernet) {
     }
 }
 
+void SetGlobals(int argc, char** argv) {
+    ReliableHypernets = 0;
+    UnconnectedHypernets = 0;
+    TwoNodesHypernets = 0;
+    ChainsReduced = 0;
+    UnconnectedNodesReduced = 0;
+    PairConnectivityCalls = 0;
+    EdgesReduced = 0;
+    ComplexChains = 0,
+    TreeNodeIntersections = 0;
+    UnconnectedTreeNodes = 0;
+
+    InputParser inputParser(argc, argv);
+    std::string str;
+    str = inputParser.getCmdOption("-nodes");
+    AppSettings.IsNodesReliable = !str.empty() ? std::stoi(str) : IS_NODES_RELIABLE;
+    str = inputParser.getCmdOption("-number");
+    AppSettings.IsNumberComputation = !str.empty() ? std::stoi(str) : IS_NUMBER_COMPUTATION;
+    str = inputParser.getCmdOption("-iBranchCosts");
+    AppSettings.InputBranchCosts = !str.empty() ? std::stoi(str) : INPUT_BRANCH_COSTS;
+    str = inputParser.getCmdOption("-iBranchValues");
+    AppSettings.InputBranchValues = !str.empty() ? std::stoi(str) : INPUT_BRANCH_VALUES;
+    str = inputParser.getCmdOption("-iMaxBranchSaturations");
+    AppSettings.InputMaxBranchSaturations = !str.empty() ? std::stoi(str) : INPUT_MAX_BRANCH_SATURATIONS;
+    str = inputParser.getCmdOption("-iNodesValues");
+    AppSettings.InputNodesValues = !str.empty() ? std::stoi(str) : INPUT_NODE_VALUES;
+
+    if (IS_TEST != 1) {
+        str = inputParser.getCmdOption("-input");
+        input.open(!str.empty() ? str : "input.txt");
+        str = inputParser.getCmdOption("-output");
+        output.open(!str.empty() ? str : "output.txt");
+    }
+}
+
 int main(int argc, char** argv) {
+    SetGlobals(argc, argv);
+
     if (IS_TEST == 1) {
         testing::InitGoogleTest(&argc, argv);
         return RUN_ALL_TESTS();
     }
 
-    input.open("input.txt");
-    output.open("output.txt");
     setlocale(LC_ALL, "");
+
     try {
         std::vector<Branch> branches;
         std::vector<Node> nodes;
@@ -115,21 +152,21 @@ int main(int argc, char** argv) {
         Node nodeSum = Node::GetZero();
         int startTime = clock();
         if (option == 1) {
-            if (IS_NODES_RELIABLE == 1) {
+            if (AppSettings.IsNodesReliable == 1) {
                 ComputeAPC(branchSum, initialHypernet);
             } else {
                 ComputeAPC(nodeSum, initialHypernet);
             }
         }
         if (option == 2) {
-            if (IS_NODES_RELIABLE == 1) {
+            if (AppSettings.IsNodesReliable == 1) {
                 ComputeMENC(branchSum, initialHypernet);
             } else {
                 ComputeMENC(nodeSum, initialHypernet);
             }
         }
         if (option == 3) {
-            if (IS_NODES_RELIABLE == 1) {
+            if (AppSettings.IsNodesReliable == 1) {
                 ComputePairConnectivities(branchSum, initialHypernet);
             } else {
                 ComputePairConnectivities(nodeSum, initialHypernet);
@@ -145,7 +182,7 @@ int main(int argc, char** argv) {
             std::cout << "Reductions : " << std::endl;
             std::cout << " UnconnectedNodesReduced " << UnconnectedNodesReduced << std::endl;
             std::cout << " EdgesReduced " << EdgesReduced << std::endl;
-            if (IS_NODES_RELIABLE == 1) {
+            if (AppSettings.IsNodesReliable == 1) {
                 std::cout << " ChainsReduced " << ChainsReduced << std::endl;
                 if (IS_DEBUG == 1) {
                     std::cout << " ComplexChains " << ComplexChains << std::endl;
@@ -159,7 +196,7 @@ int main(int argc, char** argv) {
         if (IS_FULL_ENUMERATION != 1) {
             std::cout << " TwoNodesHypernets " << TwoNodesHypernets << std::endl;
         }
-        if (IS_NODES_RELIABLE == 1) {
+        if (AppSettings.IsNodesReliable == 1) {
             PrintSolution(branchSum);
         } else {
             PrintSolution(nodeSum);

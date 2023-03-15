@@ -111,11 +111,11 @@ bool Branch::EqualNodes(const Branch& firstBranch, const Branch& secondBranch) {
 }
 
 bool Branch::IsZero() {
-    return IS_NUMBER_COMPUTATION == 1 ? GetValue() == 0 : GetC().empty();
+    return AppSettings.IsNumberComputation == 1 ? GetValue() == 0 : GetC().empty();
 }
 
 bool Branch::IsUnity() {
-    return IS_NUMBER_COMPUTATION == 1 ? GetValue() == 1 : GetC().size() == 1 && GetC().front() == 1;
+    return AppSettings.IsNumberComputation == 1 ? GetValue() == 1 : GetC().size() == 1 && GetC().front() == 1;
 }
 
 bool Branch::IsSimpleBranch() {
@@ -123,7 +123,7 @@ bool Branch::IsSimpleBranch() {
 }
 
 void Branch::PrintBranch() {
-    if (IS_NUMBER_COMPUTATION == 1) {
+    if (AppSettings.IsNumberComputation == 1) {
         return;
     }
     if (!IsZero()) {
@@ -138,7 +138,7 @@ void Branch::PrintBranch() {
 }
 
 double Branch::GetPolynomialValue(double point) {
-    if (IS_NUMBER_COMPUTATION == 1) {
+    if (AppSettings.IsNumberComputation == 1) {
         return GetValue();
     }
 

@@ -5,20 +5,21 @@
 #include "../HypernetModel/Helpers/DataHelper.h"
 #include "../HypernetModel/Generators/RandomHypernetGenerator.h"
 #include "RandomKPHypernetGenerator.h"
+#include "../HypernetModel/Helpers/InputParser.h"
 
 // инициализация глобальных переменных
 std::ifstream input;
 std::ofstream output;
-int ReliableHypernets = 0, UnconnectedHypernets = 0, TwoNodesHypernets = 0, ChainsReduced = 0,
-        UnconnectedNodesReduced = 0, PairConnectivityCalls = 0, EdgesReduced = 0, ComplexChains = 0, HelpProcessors = 0,
-        TreeNodeIntersections = 0, UnconnectedTreeNodes = 0;
+int ReliableHypernets, UnconnectedHypernets, TwoNodesHypernets, ChainsReduced,
+        UnconnectedNodesReduced, PairConnectivityCalls, EdgesReduced, ComplexChains, HelpProcessors,
+        TreeNodeIntersections, UnconnectedTreeNodes;
 int FirstRoot, SecondRoot;
 std::vector<std::vector<double>> Bin;
 std::vector<int> KpNodesCombination;
 const double p = 0.9;
 const int max_dimensional = 3;
-unsigned long long int TotalBytesTransfer = 0;
-int seed = time(0);
+unsigned long long int TotalBytesTransfer;
+Settings AppSettings;
 
 void GetDataWithTestNodes(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vector<Route>& routes,
                           std::vector<int>& testNodes) {
@@ -208,7 +209,7 @@ void PrepareSendHypernet(T& sum, std::vector<H>& hypernetList, H& H, T& pseudoEl
         return;
     }
 
-    if (IS_NODES_RELIABLE == 1) {
+    if (AppSettings.IsNodesReliable == 1) {
         pseudoElement = T::GetElement(0, H.GetFN().front().GetC().size());
     } else {
         pseudoElement = T::GetSimpleElement(H.GetFN().front().GetC().size()) *
@@ -332,7 +333,7 @@ void PrintSolution(T &solution, double &time) {
     std::cout << "Reductions : " << std::endl;
     std::cout << " UnconnectedNodesReduced " << UnconnectedNodesReduced << std::endl;
     std::cout << " EdgesReduced " << EdgesReduced << std::endl;
-    if (IS_NODES_RELIABLE == 1) {
+    if (AppSettings.IsNodesReliable == 1) {
         std::cout << " ChainsReduced " << ChainsReduced << std::endl;
         if (IS_DEBUG == 1) {
             std::cout << " ComplexChains " << ComplexChains << std::endl;
@@ -445,7 +446,7 @@ void ComputeSolution(T& solution, const int size, const int option, std::vector<
     }
     // обработка полченного значения в завсимости от выбранного критериия 
     if (option == 1) {
-        if (IS_NUMBER_COMPUTATION == 1) {
+        if (AppSettings.IsNumberComputation == 1) {
             sum.SetValue(sum.GetValue() / Bin[initialHypernet.GetNodes().size()][2]);
         } else {
             for (int i = 0; i < sum.GetC().size(); i++) {
@@ -461,12 +462,48 @@ void ComputeSolution(T& solution, const int size, const int option, std::vector<
     solution = solution + sum;
 }
 
+void SetGlobals(int argc, char** argv, int rank) {
+    ReliableHypernets = 0;
+    UnconnectedHypernets = 0;
+    TwoNodesHypernets = 0;
+    ChainsReduced = 0;
+    UnconnectedNodesReduced = 0;
+    PairConnectivityCalls = 0;
+    EdgesReduced = 0;
+    ComplexChains = 0,
+            TreeNodeIntersections = 0;
+    UnconnectedTreeNodes = 0;
+
+    TotalBytesTransfer = 0;
+
+    InputParser inputParser(argc, argv);
+    std::string str;
+    str = inputParser.getCmdOption("-nodes");
+    AppSettings.IsNodesReliable = !str.empty() ? std::stoi(str) : IS_NODES_RELIABLE;
+    str = inputParser.getCmdOption("-number");
+    AppSettings.IsNumberComputation = !str.empty() ? std::stoi(str) : IS_NUMBER_COMPUTATION;
+    str = inputParser.getCmdOption("-iBranchCosts");
+    AppSettings.InputBranchCosts = !str.empty() ? std::stoi(str) : INPUT_BRANCH_COSTS;
+    str = inputParser.getCmdOption("-iBranchValues");
+    AppSettings.InputBranchValues = !str.empty() ? std::stoi(str) : INPUT_BRANCH_VALUES;
+    str = inputParser.getCmdOption("-iMaxBranchSaturations");
+    AppSettings.InputMaxBranchSaturations = !str.empty() ? std::stoi(str) : INPUT_MAX_BRANCH_SATURATIONS;
+    str = inputParser.getCmdOption("-iNodesValues");
+    AppSettings.InputNodesValues = !str.empty() ? std::stoi(str) : INPUT_NODE_VALUES;
+
+    if (rank == 0) {
+        str = inputParser.getCmdOption("-input");
+        input.open(!str.empty() ? str : "input.txt");
+        str = inputParser.getCmdOption("-output");
+        output.open(!str.empty() ? str : "output.txt");
+    }
+}
+
 // инициализация работы процесса мастера
 template <class T>
 void Master(int size) {
-    input.open("input.txt");
-    output.open("output.txt");
     setlocale(LC_ALL, "");
+
     std::vector<Branch> branches;
     std::vector<Node> nodes;
     std::vector<Route> routes;
@@ -583,14 +620,16 @@ int main(int argc, char **argv) {
     }
     // обработчик ошибок
     try {
+        SetGlobals(argc, argv, rank);
+
         if (rank == 0) {
-            if (IS_NODES_RELIABLE == 1) {
+            if (AppSettings.IsNodesReliable == 1) {
                 Master<Branch>(size);
             } else {
                 Master<Node>(size);
             }
         } else {
-            if (IS_NODES_RELIABLE == 1) {
+            if (AppSettings.IsNodesReliable == 1) {
                 Slaves<Branch>();
             } else {
                 Slaves<Node>();
