@@ -9,7 +9,7 @@ Node Node::GetElement(const int power, const int vectorSize) {
     node.SetC(C);
 
     node.SetId(-1);
-    node.SetValue(std::pow(p, power));
+    node.SetValue(std::pow(AppSettings.ReliabilityValue, power));
     node.SetPower(power);
     node.SetIsVisited(false);
     node.SetIsReliable(false);
@@ -21,7 +21,7 @@ Node Node::GetElement(std::vector<double>& C, const int power) {
     Node node = Node();
 
     node.SetId(-1);
-    node.SetValue(std::pow(p, power));
+    node.SetValue(std::pow(AppSettings.ReliabilityValue, power));
     node.SetC(C);
     node.SetPower(power);
     node.SetIsVisited(false);
@@ -38,7 +38,7 @@ Node Node::GetSimpleElement(const int id, bool isVisited, const int vectorSize) 
     node.SetC(C);
 
     node.SetId(id);
-    node.SetValue(p);
+    node.SetValue(AppSettings.ReliabilityValue);
     node.SetPower(1);
     node.SetIsVisited(isVisited);
     node.SetIsReliable(false);

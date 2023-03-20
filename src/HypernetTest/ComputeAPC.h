@@ -87,7 +87,7 @@ bool ComputeAPC(T& sum, H& initialHypernet, double requiredValue) {
             if (H.IsSNconnected()) {
                 auto result = PairConnectivity<T>(H);
                 sum = sum + result;
-                double value = AppSettings.IsNumberComputation == 1 ? result.GetValue() : result.GetPolynomialValue(p);
+                double value = AppSettings.IsNumberComputation == 1 ? result.GetValue() : result.GetPolynomialValue(AppSettings.ReliabilityValue);
                 double lowerBound = prevLowerBound + value,
                         upperBound = prevUpperBound + value - 1;
                 if (lowerBound/Bin[initialHypernet.GetNodes().size()][2] > requiredValue)
@@ -107,7 +107,7 @@ bool ComputeAPC(T& sum, H& initialHypernet, double requiredValue) {
         }
     }
     ProcessSum(sum, initialHypernet);
-    auto value = sum.GetPolynomialValue(p);
+    auto value = sum.GetPolynomialValue(AppSettings.ReliabilityValue);
 
     return DoubleEquals(value, requiredValue) || value > requiredValue;
 }

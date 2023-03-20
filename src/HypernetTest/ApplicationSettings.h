@@ -1,9 +1,11 @@
 #pragma once
 
+// todo вынести в отдельный проект
 /// Тесты, на тестирование не влиияет IS_NODES_RELIABLE
 #define IS_TEST 0
 #define IS_TEST_CHECK_SPECIFICATIONS 1
 
+// todo вынести в отдельный проект
 /// Генерация случайной гиперсети (без вычисления надёжности)
 #define IS_RANDOM_HYPERNET_GENERATION 0
 #define RANDOM_ADDITIONAL_EDGES 0
@@ -23,6 +25,9 @@
 
 /// Определяет что считается (полином или число)
 #define IS_NUMBER_COMPUTATION 1
+
+/// Определяет дефолтное значение надёжности
+#define RELIABILITY_VALUE 0.9
 
 /// Каждая редукция требует чтобы были включены предыдущие
 #define ENABLE_SIMPLE_CASE 1

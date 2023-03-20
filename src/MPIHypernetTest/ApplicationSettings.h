@@ -1,5 +1,6 @@
 #pragma once
 
+// todo вынести в отдельный проект
 /// Работа с тестированием на время, имеет приоритет перед оптимизацией
 #define IS_TEST_TIME 0
 #define TEST_HYPERNETS 10
@@ -7,6 +8,7 @@
 #define TEST_HYPERNET_BRANCHES 30
 #define TEST_HYPERNET_EDGES 30
 
+// todo вынести в отдельный проект
 /// Работа с оптимизацией
 #define IS_OPTIMIZATION 0
 #define OPTIMIZATION_KP_COUNT 7
@@ -20,6 +22,9 @@
 
 /// Определяет что считается (полином или число)
 #define IS_NUMBER_COMPUTATION 1
+
+/// Определяет дефолтное значение надёжности
+#define RELIABILITY_VALUE 0.9
 
 /// Включение двухуровневой парраллелизации
 #define IS_TWO_LEVEL_PARALLELIZATION 1

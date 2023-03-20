@@ -9,7 +9,6 @@
 
 std::ifstream input;
 std::ofstream output;
-const double p = 0.9;
 const int max_dimensional = 3;
 int ReliableHypernets, UnconnectedHypernets, TwoNodesHypernets, ChainsReduced,
         UnconnectedNodesReduced, PairConnectivityCalls, EdgesReduced, ComplexChains,
@@ -42,28 +41,33 @@ void SetGlobals(int argc, char** argv) {
     TreeNodeIntersections = 0;
     UnconnectedTreeNodes = 0;
 
+    AppSettings.IsNodesReliable = IS_NODES_RELIABLE;
+    AppSettings.IsNumberComputation = IS_NUMBER_COMPUTATION;
+    AppSettings.InputNodesValues = INPUT_NODE_VALUES;
+    AppSettings.InputMaxBranchSaturations = INPUT_MAX_BRANCH_SATURATIONS;
+
     InputParser inputParser(argc, argv);
     std::string str;
-    str = inputParser.getCmdOption("-nodes");
-    AppSettings.IsNodesReliable = !str.empty() ? std::stoi(str) : IS_NODES_RELIABLE;
-    str = inputParser.getCmdOption("-number");
-    AppSettings.IsNumberComputation = !str.empty() ? std::stoi(str) : IS_NUMBER_COMPUTATION;
     str = inputParser.getCmdOption("-iBranchCosts");
     AppSettings.InputBranchCosts = !str.empty() ? std::stoi(str) : INPUT_BRANCH_COSTS;
+
     str = inputParser.getCmdOption("-iBranchValues");
     AppSettings.InputBranchValues = !str.empty() ? std::stoi(str) : INPUT_BRANCH_VALUES;
-    str = inputParser.getCmdOption("-iMaxBranchSaturations");
-    AppSettings.InputMaxBranchSaturations = !str.empty() ? std::stoi(str) : INPUT_MAX_BRANCH_SATURATIONS;
-    str = inputParser.getCmdOption("-iNodesValues");
-    AppSettings.InputNodesValues = !str.empty() ? std::stoi(str) : INPUT_NODE_VALUES;
+
     str = inputParser.getCmdOption("-r");
-    AppSettings.MinMENCValue = !str.empty() ? std::stoi(str) : MIN_MENC_VALUE;
+    AppSettings.MinMENCValue = !str.empty() ? std::stod(str) : MIN_MENC_VALUE;
+
     str = inputParser.getCmdOption("-max");
-    AppSettings.TMax = !str.empty() ? std::stoi(str) : T_MAX;
+    AppSettings.TMax = !str.empty() ? std::stod(str) : T_MAX;
+
     str = inputParser.getCmdOption("-min");
-    AppSettings.TMin = !str.empty() ? std::stoi(str) : T_MIN;
+    AppSettings.TMin = !str.empty() ? std::stod(str) : T_MIN;
+
     str = inputParser.getCmdOption("-n");
     AppSettings.InitialBranchCount = !str.empty() ? std::stoi(str) : INITIAL_BRANCH_COUNT;
+
+    str = inputParser.getCmdOption("-p");
+    AppSettings.ReliabilityValue = !str.empty() ? std::stod(str) : RELIABILITY_VALUE;
 
     str = inputParser.getCmdOption("-input");
     input.open(!str.empty() ? str : "input.txt");
@@ -89,21 +93,9 @@ int main(int argc, char** argv) {
         if (IS_FULL_ENUMERATION_ALGORITHM == 1) {
             auto fullEnumerationAlgorithm = new FullEnumerationAlgorithm(initialHypernet);
             minModel = fullEnumerationAlgorithm->GetMinModel();
-        } else if (IS_SIMULATED_ANNEALING_ALGORITHM == 1) {
+        } else {
             auto simulatedAnnealingAlgorithm = new SimulatedAnnealingAlgorithm(initialHypernet);
             minModel = simulatedAnnealingAlgorithm->GetMinModel();
-        } else {
-            std::vector<Branch> solution;
-            auto it = std::find_if(initialHypernet.GetFN().begin(), initialHypernet.GetFN().end(), [](Branch &item) ->
-                    bool { return item == 8; });
-            solution.push_back(*it);
-            it = std::find_if(initialHypernet.GetFN().begin(), initialHypernet.GetFN().end(), [](Branch &item) ->
-                    bool { return item == 9; });
-            solution.push_back(*it);
-
-            auto model = new Model(initialHypernet, solution);
-            model->CheckConditions();
-            minModel = std::make_shared<Model>(*model);
         }
         OutputResult(minModel, startTime);
     }

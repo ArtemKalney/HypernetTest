@@ -13,7 +13,7 @@ Branch Branch::GetElement(const int power, const int vectorSize) {
     branch.SetRoutes(routes);
 
     branch.SetId(-1);
-    branch.SetValue(std::pow(p, power));
+    branch.SetValue(std::pow(AppSettings.ReliabilityValue, power));
     branch.SetPower(power);
     branch.SetFirstNode(0);
     branch.SetSecondNode(0);
@@ -29,7 +29,7 @@ Branch Branch::GetElement(const std::vector<double>& C, const int power) {
     branch.SetRoutes(routes);
 
     branch.SetId(-1);
-    branch.SetValue(std::pow(p, power));
+    branch.SetValue(std::pow(AppSettings.ReliabilityValue, power));
     branch.SetC(C);
     branch.SetPower(power);
     branch.SetFirstNode(0);
@@ -54,7 +54,7 @@ Branch Branch::GetSimpleElement(const int id, const int firstNode, const int sec
     branch.SetRoutes(routes);
 
     branch.SetId(id);
-    branch.SetValue(p);
+    branch.SetValue(AppSettings.ReliabilityValue);
     branch.SetPower(1);
     branch.SetFirstNode(firstNode);
     branch.SetSecondNode(secondNode);

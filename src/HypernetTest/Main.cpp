@@ -14,7 +14,6 @@ int ReliableHypernets, UnconnectedHypernets, TwoNodesHypernets, ChainsReduced,
         TreeNodeIntersections, UnconnectedTreeNodes;
 std::vector<std::vector<double>> Bin;
 std::vector<int> KpNodesCombination;
-const double p = 0.9;
 const int max_dimensional = 3;
 int FirstRoot, SecondRoot;
 Settings AppSettings;
@@ -77,20 +76,25 @@ void SetGlobals(int argc, char** argv) {
     TreeNodeIntersections = 0;
     UnconnectedTreeNodes = 0;
 
+    AppSettings.InputBranchCosts = INPUT_BRANCH_COSTS;
+    AppSettings.InputMaxBranchSaturations = INPUT_MAX_BRANCH_SATURATIONS;
+
     InputParser inputParser(argc, argv);
     std::string str;
     str = inputParser.getCmdOption("-nodes");
     AppSettings.IsNodesReliable = !str.empty() ? std::stoi(str) : IS_NODES_RELIABLE;
+
     str = inputParser.getCmdOption("-number");
     AppSettings.IsNumberComputation = !str.empty() ? std::stoi(str) : IS_NUMBER_COMPUTATION;
-    str = inputParser.getCmdOption("-iBranchCosts");
-    AppSettings.InputBranchCosts = !str.empty() ? std::stoi(str) : INPUT_BRANCH_COSTS;
+
     str = inputParser.getCmdOption("-iBranchValues");
     AppSettings.InputBranchValues = !str.empty() ? std::stoi(str) : INPUT_BRANCH_VALUES;
-    str = inputParser.getCmdOption("-iMaxBranchSaturations");
-    AppSettings.InputMaxBranchSaturations = !str.empty() ? std::stoi(str) : INPUT_MAX_BRANCH_SATURATIONS;
+
     str = inputParser.getCmdOption("-iNodesValues");
     AppSettings.InputNodesValues = !str.empty() ? std::stoi(str) : INPUT_NODE_VALUES;
+
+    str = inputParser.getCmdOption("-p");
+    AppSettings.ReliabilityValue = !str.empty() ? std::stod(str) : RELIABILITY_VALUE;
 
     if (IS_TEST != 1) {
         str = inputParser.getCmdOption("-input");

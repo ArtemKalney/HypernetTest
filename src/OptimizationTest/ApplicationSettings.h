@@ -6,11 +6,10 @@
 /// параметры для модели
 #define MIN_MENC_VALUE 7.8
 
-/// параметры для алгоритма полного перебора
+/// Режим полного перебора
 #define IS_FULL_ENUMERATION_ALGORITHM 0
 
 /// параметры для алгоритма имитации отжига
-#define IS_SIMULATED_ANNEALING_ALGORITHM 1
 #define T_MAX 10
 #define T_MIN 0.01
 #define MAX_ITERATION_COUNT 10 // в режиме дебага
@@ -21,6 +20,9 @@
 
 /// Определяет что считается (полином или число)
 #define IS_NUMBER_COMPUTATION 1
+
+/// Определяет дефолтное значение надёжности
+#define RELIABILITY_VALUE 0.9
 
 /// Каждая редукция требует чтобы были включены предыдущие
 #define ENABLE_SIMPLE_CASE 1

@@ -56,10 +56,10 @@ double GetAPCValueForTest (bool isNodeReliable) {
     try {
         if (isNodeReliable) {
             ComputeAPC(branchSum, hypernet);
-            tmp << std::setprecision(14) << std::fixed << branchSum.GetPolynomialValue(p);
+            tmp << std::setprecision(14) << std::fixed << branchSum.GetPolynomialValue(AppSettings.ReliabilityValue);
         } else {
             ComputeAPC(nodeSum, hypernet);
-            tmp << std::setprecision(14) << std::fixed << nodeSum.GetPolynomialValue(p);
+            tmp << std::setprecision(14) << std::fixed << nodeSum.GetPolynomialValue(AppSettings.ReliabilityValue);
         }
     } catch (const char *str) {
         std::cout << str << std::endl;
@@ -76,10 +76,10 @@ double GetMENCValueForTest (bool isNodeReliable) {
     try {
         if (isNodeReliable) {
             ComputeMENC(branchSum, hypernet);
-            tmp << std::setprecision(14) << std::fixed << branchSum.GetPolynomialValue(p);
+            tmp << std::setprecision(14) << std::fixed << branchSum.GetPolynomialValue(AppSettings.ReliabilityValue);
         } else {
             ComputeMENC(nodeSum, hypernet);
-            tmp << std::setprecision(14) << std::fixed << nodeSum.GetPolynomialValue(p);
+            tmp << std::setprecision(14) << std::fixed << nodeSum.GetPolynomialValue(AppSettings.ReliabilityValue);
         }
     } catch (const char *str) {
         std::cout << str << std::endl;

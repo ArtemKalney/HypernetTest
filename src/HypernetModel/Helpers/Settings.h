@@ -18,4 +18,7 @@ struct Settings{
     double TMax;
     double TMin;
     int InitialBranchCount;
+
+    /// Определяет дефолтное значение надёжности
+    double ReliabilityValue;
 };
