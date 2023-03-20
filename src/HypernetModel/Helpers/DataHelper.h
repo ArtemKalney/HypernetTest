@@ -42,8 +42,8 @@ void PrintSolution(T& sum) {
     if (!sum.IsZero()) {
         if (AppSettings.IsNumberComputation == 0) {
             NormalizeSolution(sum);
+            std::cout << "Value at point " << AppSettings.ReliabilityValue << ": " << std::setprecision(14) << sum.GetPolynomialValue(AppSettings.ReliabilityValue) << std::endl;
         }
-        std::cout << "Value at point " << AppSettings.ReliabilityValue << ": " << std::setprecision(14) << sum.GetPolynomialValue(AppSettings.ReliabilityValue) << std::endl;
         if (AppSettings.IsNumberComputation == 1) {
             output << std::setprecision(14) << sum.GetPolynomialValue(AppSettings.ReliabilityValue) << " ";
         }

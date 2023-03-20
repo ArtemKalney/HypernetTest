@@ -2,6 +2,7 @@
 
 /// Режим дебага
 #define IS_DEBUG 0
+#define MAX_ITERATION_COUNT 10
 
 /// параметры для модели
 #define MIN_MENC_VALUE 7.8
@@ -12,8 +13,8 @@
 /// параметры для алгоритма имитации отжига
 #define T_MAX 10
 #define T_MIN 0.01
-#define MAX_ITERATION_COUNT 10 // в режиме дебага
-#define INITIAL_BRANCH_COUNT 2 // экспертная оценка для начального решения
+/// экспертная оценка для начального решения
+#define INITIAL_BRANCH_COUNT 2
 
 /// Определяет какие элементы надёжны в сети (ветви или вершины)
 #define IS_NODES_RELIABLE 1
@@ -36,7 +37,7 @@
 /// Параметры ввода
 #define INPUT_NODE_VALUES 0
 #define INPUT_BRANCH_VALUES 0
-#define INPUT_BRANCH_COSTS 0
+#define INPUT_BRANCH_COSTS 1
 #define INPUT_MAX_BRANCH_SATURATIONS 0
 
 /// Параметры вывода
