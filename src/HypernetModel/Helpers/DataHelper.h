@@ -42,10 +42,18 @@ void PrintSolution(T& sum) {
     if (!sum.IsZero()) {
         if (AppSettings.IsNumberComputation == 0) {
             NormalizeSolution(sum);
-            std::cout << "Value at point " << AppSettings.ReliabilityValue << ": " << std::setprecision(14) << sum.GetPolynomialValue(AppSettings.ReliabilityValue) << std::endl;
         }
+
+        double value = sum.GetPolynomialValue(AppSettings.ReliabilityValue);
+        if (AppSettings.IsNumberComputation == 0) {
+            std::cout << "Value at point " << AppSettings.ReliabilityValue << ": " << std::setprecision(14) << value << std::endl;
+        }
+        else {
+            std::cout << "Value: " << std::setprecision(14) << value << std::endl;
+        }
+
         if (AppSettings.IsNumberComputation == 1) {
-            output << std::setprecision(14) << sum.GetPolynomialValue(AppSettings.ReliabilityValue) << " ";
+            output << std::setprecision(14) << value << " ";
         }
         else {
             for (auto &item : sum.GetC()) {
