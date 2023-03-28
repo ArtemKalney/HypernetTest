@@ -6,10 +6,10 @@
 template<class T>
 struct DTO {
     DTO(H &H, const T &branch) :
-            H(H),
+            Hypernet(H),
             Element(branch) {}
 
-    H H;
+    H Hypernet;
     T Element;
 
     DTO() = default;
@@ -17,7 +17,7 @@ struct DTO {
     friend class boost::serialization::access;
     template<typename Archive>
     void serialize(Archive &ar, const unsigned version) {
-        ar & H;
+        ar & Hypernet;
         ar & Element;
     }
 };

@@ -7,4 +7,4 @@
 template <class T>
 void Send(const T& object, int processorNumber);
 template <class T>
-T Recv();
+T Recv(MPI_Status &status);

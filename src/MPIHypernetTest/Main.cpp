@@ -114,13 +114,11 @@ void Send(const T &object, const int processorNumber){
 
 // получение объекта ядру для расчёта
 template <class T>
-T Recv() {
-    MPI_Status status;
-    MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+T Recv(MPI_Status &status) {
     int length;
-    MPI_Get_count(&status, MPI_PACKED, &length);
+    MPI_Get_count(&status, MPI_BYTE, &length);
     char data[length + 1];
-    MPI_Recv(data, length, MPI_PACKED, MPI_ANY_SOURCE, SEND_RECV_TAG, MPI_COMM_WORLD, &status);
+    MPI_Recv(data, length, MPI_BYTE, status.MPI_SOURCE, SEND_RECV_TAG, MPI_COMM_WORLD, &status);
     data[length] = '\0';
     std::stringstream ss;
     ss.write((const char *) data, length);
@@ -418,7 +416,8 @@ void ComputeSolution(T& solution, const int size, const int option, std::vector<
 
     MPI_Status status;
     for (int i = 1; i < size; i++) {
-        T branch = Recv<T>(); // получение значения от процесса исполнителя
+        MPI_Probe(MPI_ANY_SOURCE, SEND_RECV_TAG, MPI_COMM_WORLD, &status);
+        T branch = Recv<T>(status); // получение значения от процесса исполнителя
         sum = sum + branch;
         int buff;
         MPI_Recv(&buff, 1, MPI_INT, MPI_ANY_SOURCE, RELIABLE_HYPERNETS_COUNT_TAG, MPI_COMM_WORLD, &status);
@@ -578,8 +577,8 @@ void Slaves() {
     do {
         MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
         if (status.MPI_TAG == SEND_RECV_TAG) {
-            auto data = Recv<DTO<T>>();
-            sum = sum + PairConnectivity(data.H, data.Element);
+            auto data = Recv<DTO<T>>(status);
+            sum = sum + PairConnectivity(data.Hypernet, data.Element);
             MPI_Send(&value, 0, MPI_INT, HOST_PROCESSOR, I_AM_FREE_TAG, MPI_COMM_WORLD);
         }
         if (status.MPI_TAG == SEND_SOLUTION_TAG) {

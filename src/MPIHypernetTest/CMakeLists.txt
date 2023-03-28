@@ -1,10 +1,7 @@
 cmake_minimum_required(VERSION 3.9)
 project(MPIHypernetTest)
 set(CMAKE_CXX_STANDARD 11)
-#standard libraries
-set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
-#other libraries
-set(CMAKE_EXE_LINKER_FLAGS "-static -lpthread")
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 set(SOURCE_FILES Main.cpp ../HypernetModel/Generators/RandomHypernetGenerator.cpp ../HypernetModel/Branch.cpp
         ../HypernetModel/Hypernet.cpp ../HypernetModel/Helpers/ReductionHelper.cpp
@@ -14,12 +11,24 @@ set(SOURCE_FILES Main.cpp ../HypernetModel/Generators/RandomHypernetGenerator.cp
         ApplicationSettings.h DTO.h Funcs.h Globals.h PairConnectivity.h Stdafx.h RandomKPHypernetGenerator.h
         ../HypernetModel/Helpers/InputParser.h ../HypernetModel/Helpers/Settings.h)
 add_executable(MPIHypernetTest ${SOURCE_FILES})
+
+#standard libraries
+if (WIN32)
+    set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+endif()
+
+#other libraries
+if (WIN32)
+    set(CMAKE_EXE_LINKER_FLAGS "-static -lpthread")
+endif()
+
 # Require MPI for this project:
 find_package(MPI REQUIRED)
 set(CMAKE_CXX_COMPILE_FLAGS ${CMAKE_CXX_COMPILE_FLAGS} ${MPI_COMPILE_FLAGS})
 set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS} ${MPI_LINK_FLAGS})
 include_directories(${MPI_INCLUDE_PATH})
 target_link_libraries(MPIHypernetTest ${MPI_LIBRARIES})
+
 #Boost library
 find_package(Boost COMPONENTS serialization REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
