@@ -56,11 +56,11 @@ bool Model::CheckConditions() {
     bool isReliable;
     if (AppSettings.IsNodesReliable == 1) {
         Branch branchSum = Branch::GetZero();
-        isReliable = ComputeMENC(branchSum, _hypernet, MIN_MENC_VALUE + _reliabilityDelta);
+        isReliable = ComputeMENC(branchSum, _hypernet, AppSettings.MinMENCValue + _reliabilityDelta);
         _reliability = branchSum.GetPolynomialValue(AppSettings.ReliabilityValue) - _reliabilityDelta;
     } else {
         Node nodeSum = Node::GetZero();
-        isReliable = ComputeMENC(nodeSum, _hypernet, MIN_MENC_VALUE + _reliabilityDelta);
+        isReliable = ComputeMENC(nodeSum, _hypernet, AppSettings.MinMENCValue + _reliabilityDelta);
         _reliability = nodeSum.GetPolynomialValue(AppSettings.ReliabilityValue) - _reliabilityDelta;
     }
 

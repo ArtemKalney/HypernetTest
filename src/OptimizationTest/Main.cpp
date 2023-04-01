@@ -54,9 +54,6 @@ void SetGlobals(int argc, char** argv) {
     str = inputParser.getCmdOption("-iBranchValues");
     AppSettings.InputBranchValues = !str.empty() ? std::stoi(str) : INPUT_BRANCH_VALUES;
 
-    str = inputParser.getCmdOption("-r");
-    AppSettings.MinMENCValue = !str.empty() ? std::stod(str) : MIN_MENC_VALUE;
-
     str = inputParser.getCmdOption("-max");
     AppSettings.TMax = !str.empty() ? std::stod(str) : T_MAX;
 
@@ -84,6 +81,19 @@ int main(int argc, char** argv) {
         std::vector<Node> nodes;
         std::vector<Route> routes;
         GetData(branches, nodes, routes);
+
+        double minMENCValue = 0;
+        std::cout << "Enter required MENC value" << std::endl;
+        std::cin >> minMENCValue;
+        if (minMENCValue < 1 || minMENCValue > nodes.size()) {
+            std::cout << "Wrong number" << std::endl;
+
+            return EXIT_FAILURE;
+        }
+        else {
+            AppSettings.MinMENCValue = minMENCValue;
+        }
+
         ComputeBinomialCoefficients(branches.size());
         H initialHypernet;
         initialHypernet = H(std::move(branches), std::move(nodes), std::move(routes));

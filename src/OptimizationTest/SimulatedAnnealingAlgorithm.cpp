@@ -1,10 +1,10 @@
 #include "SimulatedAnnealingAlgorithm.h"
 
 std::shared_ptr<Model> SimulatedAnnealingAlgorithm::GetMinModel() {
-    _t = T_MAX;
+    _t = AppSettings.TMax;
     SetInitialState();
     int count = 0;
-    while (_t > T_MIN) {
+    while (_t > AppSettings.TMin) {
         if (IS_DEBUG == 1 && count == MAX_ITERATION_COUNT) {
             return std::make_shared<Model>(_currentMinModel);
         }
@@ -24,7 +24,7 @@ std::shared_ptr<Model> SimulatedAnnealingAlgorithm::GetMinModel() {
                 _currentMinModel = newModel;
             }
         }
-        _t = T_MAX * 0.1 / count;
+        _t = AppSettings.TMax * 0.1 / count;
         if (IS_DEBUG == 1 && changed) {
             _currentMinModel.PrintModel("_currentMinModel");
         }
@@ -36,7 +36,7 @@ std::shared_ptr<Model> SimulatedAnnealingAlgorithm::GetMinModel() {
 void SimulatedAnnealingAlgorithm::SetInitialState() {
     std::vector<Branch> newSolution;
     auto vector = _hypernet.GetFN();
-    while (newSolution.size() < INITIAL_BRANCH_COUNT) {
+    while (newSolution.size() < AppSettings.InitialBranchCount) {
         auto it = std::max_element(vector.begin(), vector.end(),
                                     [](Branch &a, Branch &b) -> bool { return a.GetSaturation() <
                                             b.GetSaturation(); });
