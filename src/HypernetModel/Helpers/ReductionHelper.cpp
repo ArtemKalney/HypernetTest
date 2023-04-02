@@ -230,9 +230,6 @@ bool H::Reductions<Node>(Node &pseudoElement, Node &returnValue) {
     if (ENABLE_EDGE_REDUCTION == 1) {
         EdgeReduction();
 
-        auto routesFn = GetRoutesFN();
-        auto routesF = GetRoutesF();
-
         if (ENABLE_BRIDGE_REDUCTION == 1 && BridgeReduction()) {
             returnValue = Node::GetZero();
             return true;
