@@ -92,9 +92,9 @@ public:
 
     std::vector<Branch> GetSimpleChain(std::vector<int> &forbiddenNodes);
 
-    void RemoveElement(const Branch &branch);
+    void RemoveElement(const Branch &branch, bool reduct = true);
 
-    void RemoveElement(const Node &branch);
+    void RemoveElement(const Node &branch, bool reduct = true);
 
     void RemoveNode(const int &node);
 

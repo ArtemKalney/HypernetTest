@@ -9,7 +9,8 @@ set(SOURCE_FILES Main.cpp PairConnectivity.cpp ../HypernetModel/Branch.cpp ../Hy
         ../HypernetModel/Generators/RandomHypernetGenerator.cpp ../HypernetModel/Helpers/DataHelper.cpp
         ApplicationSettings.h ComputeAPC.h ComputeMENC.h Funcs.h Globals.h Stdafx.h ../HypernetModel/Branch.h
         ../HypernetModel/Element.h ../HypernetModel/IIdentity.h ../HypernetModel/Node.h ../HypernetModel/Operators.h
-        ../HypernetModel/Route.h ../HypernetModel/Helpers/InputParser.h ../HypernetModel/Helpers/Settings.h)
+        ../HypernetModel/Route.h ../HypernetModel/Helpers/InputParser.h ../HypernetModel/Helpers/Settings.h
+        ApproximationAlgorithm.cpp)
 add_executable(HypernetTest ${SOURCE_FILES})
 
 #standard libraries

@@ -16,7 +16,7 @@ bool H::IsSNconnected() {
     return it->GetIsVisited();
 }
 
-void H::RemoveElement(const Branch &branch) {
+void H::RemoveElement(const Branch &branch, bool reduct) {
 //    преобразования F
     for(auto &item : _FN) {
         if (item == branch) {
@@ -33,16 +33,23 @@ void H::RemoveElement(const Branch &branch) {
     _FN.erase(std::remove_if(_FN.begin(), _FN.end(), [branch](Branch &item) ->
             bool { return branch == item; }), _FN.end());
 
-    RemoveEmptyBranches();
+    if (reduct) {
+        RemoveEmptyBranches();
+    }
 }
+
 // второй способ разрушения вершины
-void H::RemoveElement(const Node &node) {
+void H::RemoveElement(const Node &node, bool reduct) {
     int id = node.GetId();
     //удаление инцедентных рёбер
     _F.erase(std::remove_if(_F.begin(), _F.end(), [id](Route &item) ->
             bool { return IsIncident(id, item); }), _F.end());
-    RemoveEmptyBranches();
+
+    if (reduct) {
+        RemoveEmptyBranches();
+    }
 }
+
 // перый способ разрушения вершины
 void H::RemoveNode(const int& node) {
 //    преобразования FN
@@ -62,6 +69,7 @@ void H::MakeReliableElement(const Node &node) {
             bool { return node == item; });
     _nodes[it - _nodes.begin()].SetIsReliable(true);
 }
+
 //todo переделать через IsSNconnected
 template <>
 bool H::HasReliablePath<Branch>() {
@@ -78,6 +86,7 @@ bool H::HasReliablePath<Branch>() {
 
     return _nodes[1].GetIsVisited();
 }
+
 //todo убрать лишнее удаляение вершин которые уже удалили
 template <>
 bool H::HasReliablePath<Node>() {
@@ -90,6 +99,7 @@ bool H::HasReliablePath<Node>() {
 
     return HwithRemovedElements.IsSNconnected();
 }
+
 //todo переделать через рекурсию
 std::vector<bool> H::GetCanDeleteMask(const std::vector<Branch> &SN) {
     std::vector<bool> edgeMask(SN.size(), false);
@@ -336,6 +346,7 @@ std::vector<Branch> H::GetSimpleChain(std::vector<int> &forbiddenNodes) {
     }
     return chain;
 }
+
 //todo сделать отдельную модель для ребра (не использовать Branch)
 std::vector<Branch> H::GetSN() {
     std::vector<Branch> graph;
@@ -492,7 +503,7 @@ bool H::IsSlightlyIncident(const Branch &branch, const Route &route) {
 bool H::IsPivotNode(const int &node) {
     return node == 0 || node == 1;
 }
-//print
+
 void H::PrintHypernet() {
     std::cout << "FN:" << std::endl;
     for(auto &item : _FN) {
@@ -577,7 +588,8 @@ bool H::IsValidHypernet() {
     return true;
 }
 
-// to debug
+// методы для отладки
+
 std::vector<std::vector<int>> H::GetRoutesF(){
     std::vector<std::vector<int>> edges;
     for(auto &item : _F) {

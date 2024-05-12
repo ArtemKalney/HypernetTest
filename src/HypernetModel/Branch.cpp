@@ -1,5 +1,6 @@
 #include "Branch.h"
 #include "Globals.h"
+#include "Helpers/DataHelper.h"
 
 //todo возможно надо заменить на GetUnity
 Branch Branch::GetElement(const int power, const int vectorSize) {
@@ -29,7 +30,7 @@ Branch Branch::GetElement(const std::vector<double>& C, const int power) {
     branch.SetRoutes(routes);
 
     branch.SetId(-1);
-    branch.SetValue(std::pow(AppSettings.ReliabilityValue, power));
+    branch.SetValue(::GetPolynomialValue(C, power, AppSettings.ReliabilityValue));
     branch.SetC(C);
     branch.SetPower(power);
     branch.SetFirstNode(0);
@@ -138,19 +139,11 @@ void Branch::PrintBranch() {
 }
 
 double Branch::GetPolynomialValue(double point) {
-    if (AppSettings.IsNumberComputation == 1) {
-        return GetValue();
-    }
-
-    double value = 0;
     if (IsZero()) {
-        return value;
-    }
-    for (int i = 0; i <= GetPower(); i++) {
-        value += GetC()[i] * pow(point, GetPower() - i) * pow(1 - point, i);
+        return 0;
     }
 
-    return value;
+    return ::GetPolynomialValue(GetC(), GetPower(), point);
 }
 
 int Branch::GetSaturation() {

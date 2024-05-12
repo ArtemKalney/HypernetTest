@@ -50,16 +50,22 @@ H GetHypernetForTest() {
 
 double GetAPCValueForTest (bool isNodeReliable) {
     H hypernet = GetHypernetForTest();
-    Branch branchSum;
-    Node nodeSum;
     std::stringstream tmp;
     try {
         if (isNodeReliable) {
+            Branch branchSum;
             ComputeAPC(branchSum, hypernet);
-            tmp << std::setprecision(14) << std::fixed << branchSum.GetPolynomialValue(AppSettings.ReliabilityValue);
+            double value = AppSettings.IsNumberComputation == 1 ?
+                    branchSum.GetValue() :
+                    branchSum.GetPolynomialValue(AppSettings.ReliabilityValue);
+            tmp << std::setprecision(14) << std::fixed << value;
         } else {
+            Node nodeSum;
             ComputeAPC(nodeSum, hypernet);
-            tmp << std::setprecision(14) << std::fixed << nodeSum.GetPolynomialValue(AppSettings.ReliabilityValue);
+            double value = AppSettings.IsNumberComputation == 1 ?
+                           nodeSum.GetValue() :
+                           nodeSum.GetPolynomialValue(AppSettings.ReliabilityValue);
+            tmp << std::setprecision(14) << std::fixed << value;
         }
     } catch (const char *str) {
         std::cout << str << std::endl;
@@ -70,16 +76,22 @@ double GetAPCValueForTest (bool isNodeReliable) {
 
 double GetMENCValueForTest (bool isNodeReliable) {
     H hypernet = GetHypernetForTest();
-    Branch branchSum;
-    Node nodeSum;
     std::stringstream tmp;
     try {
         if (isNodeReliable) {
+            Branch branchSum;
             ComputeMENC(branchSum, hypernet);
-            tmp << std::setprecision(14) << std::fixed << branchSum.GetPolynomialValue(AppSettings.ReliabilityValue);
+            double value = AppSettings.IsNumberComputation == 1 ?
+                           branchSum.GetValue() :
+                           branchSum.GetPolynomialValue(AppSettings.ReliabilityValue);
+            tmp << std::setprecision(14) << std::fixed << value;
         } else {
+            Node nodeSum;
             ComputeMENC(nodeSum, hypernet);
-            tmp << std::setprecision(14) << std::fixed << nodeSum.GetPolynomialValue(AppSettings.ReliabilityValue);
+            double value = AppSettings.IsNumberComputation == 1 ?
+                           nodeSum.GetValue() :
+                           nodeSum.GetPolynomialValue(AppSettings.ReliabilityValue);
+            tmp << std::setprecision(14) << std::fixed << value;
         }
     } catch (const char *str) {
         std::cout << str << std::endl;

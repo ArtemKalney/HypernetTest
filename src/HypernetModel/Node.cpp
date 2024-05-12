@@ -1,5 +1,6 @@
 #include "Node.h"
 #include "Globals.h"
+#include "Helpers/DataHelper.h"
 
 Node Node::GetElement(const int power, const int vectorSize) {
     Node node = Node();
@@ -21,7 +22,7 @@ Node Node::GetElement(std::vector<double>& C, const int power) {
     Node node = Node();
 
     node.SetId(-1);
-    node.SetValue(std::pow(AppSettings.ReliabilityValue, power));
+    node.SetValue(::GetPolynomialValue(C, power, AppSettings.ReliabilityValue));
     node.SetC(C);
     node.SetPower(power);
     node.SetIsVisited(false);
@@ -94,17 +95,9 @@ bool Node::IsPivotNode() {
 }
 
 double Node::GetPolynomialValue(double point) {
-    if (AppSettings.IsNumberComputation == 1) {
-        return GetValue();
-    }
-
-    double value = 0;
     if (IsZero()) {
-        return value;
-    }
-    for (int i = 0; i <= GetPower(); i++) {
-        value += GetC()[i] * pow(point, GetPower() - i) * pow(1 - point, i);
+        return 0;
     }
 
-    return value;
+    return ::GetPolynomialValue(GetC(), GetPower(), point);
 }

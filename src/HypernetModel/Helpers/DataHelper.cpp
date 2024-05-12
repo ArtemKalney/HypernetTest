@@ -111,6 +111,16 @@ void ComputeBinomialCoefficients(const int vectorSize) {
     }
 }
 
+double Factorial(int n) {
+    return (n == 1 || n == 0) ? 1 : Factorial(n - 1) * n;
+}
+
+void ComputeFactorials(const int vectorSize) {
+    for(int i=0; i<vectorSize; i++) {
+        Factorials.push_back(Factorial(i));
+    }
+}
+
 void ErrorHandler(const char *str) {
     std::cout << "--------------------------------" << std::endl;
     std::cout << "Occurred next error:" << std::endl;
@@ -126,4 +136,13 @@ void HandleException(const std::exception &e) {
 bool DoubleEquals(double a, double b, double epsilon)
 {
     return std::abs(a - b) < epsilon;
+}
+
+double GetPolynomialValue(const std::vector<double> &vector, int power, double point) {
+    double value = 0;
+    for (int i = 0; i <= power; i++) {
+        value += vector[i] * pow(point, power - i) * pow(1 - point, i);
+    }
+
+    return value;
 }

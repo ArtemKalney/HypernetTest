@@ -20,6 +20,10 @@
 #define DEBUG_FIRST_NODE 0
 #define DEBUG_SECOND_NODE 1
 
+/// Режим приближенного решения
+#define IS_APPROXIMATION 0
+#define MAX_APPROXIMATION_DIMENSIONAL 10
+
 /// Определяет какие элементы надёжны в сети (ветви или вершины)
 #define IS_NODES_RELIABLE 1
 

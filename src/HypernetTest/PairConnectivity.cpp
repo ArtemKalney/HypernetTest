@@ -3,7 +3,12 @@
 
 template <class T>
 T RecursivePairConnectivity(H &H, T &pseudoElement) {
+    if (IS_APPROXIMATION == 1 && H.GetNodes().size() < MAX_APPROXIMATION_DIMENSIONAL) {
+        return pseudoElement*ApproximationAlgorithm<T>(H);
+    }
+
     PairConnectivityCalls++;
+
     T returnValue;
     bool hasReturnValue = H.Reductions<T>(pseudoElement, returnValue);
     if (hasReturnValue) {
@@ -11,16 +16,21 @@ T RecursivePairConnectivity(H &H, T &pseudoElement) {
     }
 
     T allowingElement = H.GetAllowingElement<T>();
+
     T pseudoElement1, pseudoElement2;
     pseudoElement1 = pseudoElement * allowingElement;
     pseudoElement2 = pseudoElement * ~allowingElement;
+
     auto HwithReliableElement = H, HwithRemovedElement = H;
     HwithReliableElement.MakeReliableElement(allowingElement);
     HwithRemovedElement.RemoveElement(allowingElement);
+
     if (!HwithRemovedElement.IsSNconnected()) {
         UnconnectedHypernets++;
+
         if (HwithReliableElement.HasReliablePath<T>()) {
             ReliableHypernets++;
+
             return pseudoElement1 * T::GetUnity();
         } else {
             return RecursivePairConnectivity(HwithReliableElement, pseudoElement1);
@@ -28,6 +38,7 @@ T RecursivePairConnectivity(H &H, T &pseudoElement) {
     } else {
         if (HwithReliableElement.HasReliablePath<T>()) {
             ReliableHypernets++;
+
             return pseudoElement1 * T::GetUnity() + RecursivePairConnectivity(HwithRemovedElement, pseudoElement2);
         } else {
             return RecursivePairConnectivity(HwithReliableElement, pseudoElement1) +

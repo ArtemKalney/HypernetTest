@@ -89,7 +89,7 @@ public:
         return _maxSaturation;
     }
 
-    double SetCost(const double cost) {
+    void SetCost(const double cost) {
         _cost = cost;
     }
 

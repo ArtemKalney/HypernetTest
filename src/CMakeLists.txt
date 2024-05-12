@@ -8,5 +8,4 @@ set(Boost_LIBRARY_DIR ${Boost_DIR}/lib/)
 
 add_subdirectory(HypernetTest)
 add_subdirectory(MPIHypernetTest)
-#add_subdirectory(ApproximationTest)
 add_subdirectory(OptimizationTest)

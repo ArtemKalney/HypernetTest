@@ -43,7 +43,9 @@ bool ComputeMENC(T& sum, H& initialHypernet, double requiredValue) {
         if (H.IsSNconnected()) {
             auto result = PairConnectivity<T>(H);
             sum = sum + result;
-            double value = result.GetPolynomialValue(AppSettings.ReliabilityValue);
+            double value = AppSettings.IsNumberComputation == 1 ?
+                           result.GetValue() :
+                           result.GetPolynomialValue(AppSettings.ReliabilityValue);
             double lowerBound = prevLowerBound + value,
                     upperBound = prevUpperBound + value - 1;
             if (lowerBound > requiredValue) {
@@ -61,7 +63,9 @@ bool ComputeMENC(T& sum, H& initialHypernet, double requiredValue) {
         }
     }
     sum = sum + T::GetUnity();
-    auto value = sum.GetPolynomialValue(AppSettings.ReliabilityValue);
+    double value = AppSettings.IsNumberComputation == 1 ?
+                   sum.GetValue() :
+                   sum.GetPolynomialValue(AppSettings.ReliabilityValue);
 
     return DoubleEquals(value, requiredValue) || value > requiredValue;
 }

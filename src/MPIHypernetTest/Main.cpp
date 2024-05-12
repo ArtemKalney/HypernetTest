@@ -359,8 +359,14 @@ void PrintSolutionOptimization(T &solution, double &time) {
     }
     output << FirstRoot + 1 << " " << SecondRoot + 1 << " " << TreeNodeIntersections << " "
            << UnconnectedTreeNodes << " ";
-    output << std::setprecision(14) << solution.GetPolynomialValue(AppSettings.ReliabilityValue) << " ";
-    output << std::setprecision(14) << solution.GetPolynomialValue(0.99) << " ";
+    double value1 = AppSettings.IsNumberComputation == 1 ?
+                   solution.GetValue() :
+                   solution.GetPolynomialValue(AppSettings.ReliabilityValue);
+    double value2 = AppSettings.IsNumberComputation == 1 ?
+                    solution.GetValue() :
+                    solution.GetPolynomialValue(0.99);
+    output << std::setprecision(14) << value1 << " ";
+    output << std::setprecision(14) << value2 << " ";
     output << time << std::endl;
     TreeNodeIntersections = 0;
     UnconnectedTreeNodes = 0;

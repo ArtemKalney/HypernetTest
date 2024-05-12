@@ -9,13 +9,20 @@
 
 std::ifstream input;
 std::ofstream output;
+
 int ReliableHypernets, UnconnectedHypernets, TwoNodesHypernets, ChainsReduced,
         UnconnectedNodesReduced, PairConnectivityCalls, EdgesReduced, ComplexChains,
         TreeNodeIntersections, UnconnectedTreeNodes;
+
 std::vector<std::vector<double>> Bin;
+std::vector<double> Factorials;
+
 std::vector<int> KpNodesCombination;
+
 const int max_dimensional = 3;
+
 int FirstRoot, SecondRoot;
+
 Settings AppSettings;
 
 template <class T>
@@ -134,6 +141,9 @@ int main(int argc, char** argv) {
         // Create an initialHypernet
         H initialHypernet;
         ComputeBinomialCoefficients(branches.size());
+        if (IS_APPROXIMATION == 1) {
+            ComputeFactorials(branches.size());
+        }
         if (IS_RANDOM_HYPERNET_GENERATION == 1) {
             for(auto &item : branches) {
                 item.SetMaxSaturation(MAX_BRANCH_SATURATION);

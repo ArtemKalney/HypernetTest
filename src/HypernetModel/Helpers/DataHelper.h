@@ -7,8 +7,13 @@
 #include "../Hypernet.h"
 
 void ComputeBinomialCoefficients(int vectorSize);
+
+void ComputeFactorials(int vectorSize);
+
 void ErrorHandler(const char *str);
+
 void GetData(std::vector<Branch>& branches, std::vector<Node>& nodes, std::vector<Route>& routes);
+
 void HandleException(const std::exception &e);
 
 template <class T>
@@ -44,7 +49,9 @@ void PrintSolution(T& sum) {
             NormalizeSolution(sum);
         }
 
-        double value = sum.GetPolynomialValue(AppSettings.ReliabilityValue);
+        double value = AppSettings.IsNumberComputation == 1 ?
+                       sum.GetValue() :
+                       sum.GetPolynomialValue(AppSettings.ReliabilityValue);
         if (AppSettings.IsNumberComputation == 0) {
             std::cout << "Value at point " << AppSettings.ReliabilityValue << ": " << std::setprecision(14) << value << std::endl;
         }
@@ -84,3 +91,5 @@ int GetUniqueId(const std::vector<T>& items) {
 }
 
 bool DoubleEquals(double a, double b, double epsilon = 0.0000000000001);
+
+double GetPolynomialValue(const std::vector<double> &vector, int power, double point);
