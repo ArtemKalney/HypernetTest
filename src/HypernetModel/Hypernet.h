@@ -16,6 +16,21 @@ private:
         ar & _nodes;
         ar & _F;
     }
+
+    // region методы распознования
+
+    bool IsSimpleChain(std::vector<Branch> &chain, std::vector<int> &nodesInChain);
+
+    static bool IsExtensionBranch(Branch &item, const std::vector<Branch> &chain, const int &firstNode,
+                                  const Branch &firstBranch, const int &secondNode, bool isReliableChain);
+
+    // endregion
+
+    // region методы изменения
+
+    void RemovePenduntRoutesInChain(std::vector<int> &nodesInChain, std::vector<int> &nodePowers);
+
+    // endregion
 public:
     H() = default;
 
@@ -67,13 +82,9 @@ public:
         return _F;
     }
 
-    //todo уменьшить static функкций
-    //todo DFS отдельно
-    //todo метод ISFNConnected для BridgeReduction
-    template <class T>
-    void DFS(const int& node, std::vector<Node>& nodes, const std::vector<T>& graph);
+    //todo уменьшить количество static функкций
 
-    static std::vector<int> GetNodePowers(const std::vector<Branch> &graph, const int &size);
+    // region методы распознования
 
     static bool IsPivotNode(const int &node);
 
@@ -90,7 +101,23 @@ public:
     template<class T>
     bool HasReliablePath();
 
+    bool IsValidHypernet();
+
+    // endregion
+
+    // region методы получения
+
+    static std::vector<int> GetNodePowers(const std::vector<Branch> &graph, const int &size);
+
     std::vector<Branch> GetSimpleChain(std::vector<int> &forbiddenNodes);
+
+    std::vector<Branch> GetSN();
+
+    std::vector<bool> GetCanDeleteMask(const std::vector<Branch> &SN);
+
+    // endregion
+
+    // region методы изменения
 
     void RemoveElement(const Branch &branch, bool reduct = true);
 
@@ -110,11 +137,12 @@ public:
 
     void RenumerateNodes(const int &firstNode, const int &secondNode);
 
-    std::vector<Branch> GetSN();
+    void RenumerateNodesForGen(const int &firstNode, const int &secondNode);
 
-    std::vector<bool> GetCanDeleteMask(const std::vector<Branch> &SN);
+    // endregion
 
-    //factorization helper
+    // region методы хэлперы для факторизации
+
     Branch SimpleCase(const Branch& pseudoBranch);
 
     Node SimpleCase(const Node& pseudoBranch);
@@ -122,7 +150,10 @@ public:
     template<class T>
     T GetAllowingElement();
 
-    //reductions
+    // endregion
+
+    // region методы хэлперы для редукции
+
     void ChainReduction();
 
     bool BridgeReduction();
@@ -134,23 +165,29 @@ public:
 
     Branch ParallelReduction();
 
-    bool IsValidHypernet();
+    // endregion
 
-    //print
+    // region методы для вывода
+
     void PrintHypernet();
 
     void LogHypernet();
 
-    // debug
-    void RenumerateNodesForGen(const int &firstNode, const int &secondNode);
+    // endregion
+
+    // region методы для отладки
 
     std::vector<std::vector<int>> GetRoutesF();
 
     std::vector<std::vector<std::vector<int>>> GetRoutesFN();
+
+    // endregion
 };
-//todo разобраться
+
+// region вспомогательные методы
+
+void DFS(const int& node, std::vector<Node>& nodes, const std::vector<Branch>& graph);
+
 std::vector<int> GetNodesInChain(const std::vector<Branch>& chain);
-bool IsSimpleChain(H &hypernet, std::vector<Branch> &chain, std::vector<int> &nodesInChain);
-void RemovePenduntRoutesInChain(H &hypernet, std::vector<int> &nodesInChain, std::vector<int> &nodePowers);
-bool IsExtensionBranch(Branch &item, H &H, const std::vector<Branch> &chain, const int &firstNode,
-                       const Branch &firstBranch, const int &secondNode, bool isReliableChain);
+
+// endregion

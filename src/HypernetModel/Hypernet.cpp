@@ -1,6 +1,8 @@
 #include "Hypernet.h"
 #include "Globals.h"
 
+// region методы распознования
+
 //потребовалось для вершин не иметь привязку к индксу массива вершин
 bool H::IsSNconnected() {
     auto it = std::find_if(_nodes.begin(), _nodes.end(), [](Node &item) -> bool { return item == 1; });
@@ -11,63 +13,44 @@ bool H::IsSNconnected() {
     for(auto &item : _nodes) {
         item.SetIsVisited(false);
     }
-    H::DFS(0, _nodes, GetSN());
+    DFS(0, _nodes, GetSN());
 
     return it->GetIsVisited();
 }
 
-void H::RemoveElement(const Branch &branch, bool reduct) {
-//    преобразования F
-    for(auto &item : _FN) {
-        if (item == branch) {
-            for(auto &route : item.GetRoutes()) {
-                if (!route.Ptr->empty()) {
-                    route.Ptr->clear();
-                    _F.erase(std::remove_if(_F.begin(), _F.end(), [](Route &route) ->
-                            bool { return route.Ptr->empty(); }), _F.end());
-                }
-            }
+bool H::IsSlightlyIncident(const int &node, const Route &route) {
+    bool containNode = std::find(route.Ptr->begin(), route.Ptr->end(), node) != route.Ptr->end();
+    return route.Ptr->front() != node && route.Ptr->back() != node && containNode;
+}
+
+bool H::IsIncident(const int &node, const Route &route) {
+    return route.Ptr->front() == node || route.Ptr->back() == node;
+}
+
+bool H::IsIncident(const int &node, const Branch &branch) {
+    return branch.GetFirstNode() == node || branch.GetSecondNode() == node;
+}
+
+bool H::IsSlightlyIncident(const Branch &branch, const Route &route) {
+    for (int i = 0; i < route.Ptr->size() - 1; ++i) {
+        if (IsIncident(route.Ptr->at(i), branch) && IsIncident(route.Ptr->at(i + 1), branch)) {
+            return true;
         }
     }
-//    преобразования FN
-    _FN.erase(std::remove_if(_FN.begin(), _FN.end(), [branch](Branch &item) ->
-            bool { return branch == item; }), _FN.end());
 
-    if (reduct) {
-        RemoveEmptyBranches();
-    }
+    return false;
 }
 
-// второй способ разрушения вершины
-void H::RemoveElement(const Node &node, bool reduct) {
-    int id = node.GetId();
-    //удаление инцедентных рёбер
-    _F.erase(std::remove_if(_F.begin(), _F.end(), [id](Route &item) ->
-            bool { return IsIncident(id, item); }), _F.end());
-
-    if (reduct) {
-        RemoveEmptyBranches();
-    }
+bool H::IsPivotNode(const int &node) {
+    return node == 0 || node == 1;
 }
 
-// перый способ разрушения вершины
-void H::RemoveNode(const int& node) {
-//    преобразования FN
-    RemoveNodeFN(node);
-//    преобразования F
-    RemoveNodeSN(node);
-}
-
-void H::MakeReliableElement(const Branch &branch) {
-    auto it = std::find_if(_FN.begin(), _FN.end(), [branch](Branch &item) ->
-            bool { return branch == item; });
-   _FN[it - _FN.begin()].SetIsReliable(true);
-}
-
-void H::MakeReliableElement(const Node &node) {
-    auto it = std::find_if(_nodes.begin(), _nodes.end(), [node](Node &item) ->
-            bool { return node == item; });
-    _nodes[it - _nodes.begin()].SetIsReliable(true);
+bool H::IsExtensionBranch(Branch &item, const std::vector<Branch> &chain, const int &firstNode,
+                          const Branch &firstBranch, const int &secondNode, bool isReliableChain) {
+    bool isHomogeneousChain = isReliableChain == item.GetIsReliable();
+    bool isIncidentBranch = item != firstBranch && IsIncident(firstNode, item);
+    int incidentNode = item.GetFirstNode() == firstNode ? item.GetSecondNode() : item.GetFirstNode();
+    return isIncidentBranch && incidentNode != secondNode && isHomogeneousChain;
 }
 
 //todo переделать через IsSNconnected
@@ -82,7 +65,7 @@ bool H::HasReliablePath<Branch>() {
     for (auto &item : _nodes) {
         item.SetIsVisited(false);
     }
-    H::DFS(0, _nodes, HwithRemovedElements.GetSN());
+    DFS(0, _nodes, HwithRemovedElements.GetSN());
 
     return _nodes[1].GetIsVisited();
 }
@@ -99,6 +82,59 @@ bool H::HasReliablePath<Node>() {
 
     return HwithRemovedElements.IsSNconnected();
 }
+
+bool H::IsValidHypernet() {
+    for(auto &branch : _FN) {
+        for(auto &item : branch.GetRoutes()) {
+            if (!IsSlightlyIncident(branch, item)) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool H::IsSimpleChain(std::vector<Branch> &chain, std::vector<int> &nodesInChain) {
+    auto nodePowers = GetNodePowers(GetSN(), _nodes.size());
+    for (int i = 1; i < nodesInChain.size() - 1; i++) {
+        int nodeNumber = nodesInChain[i];
+        if (nodePowers[nodeNumber] != 2 && nodePowers[nodeNumber] != 0) {
+            return false;
+        }
+    }
+    for (auto &branch : chain) {
+        auto copyChain = chain;
+        auto copyF = _F;
+        for (auto &route : copyF) {
+            auto vec = *route.Ptr;
+            auto ptr = std::make_shared<std::vector<int>>(vec);
+            route.Ptr = ptr;
+            for (auto &copyBranch : copyChain) {
+                for (auto &item : copyBranch.GetRoutes()) {
+                    if (item == route) {
+                        item.Ptr = ptr;
+                    }
+                }
+            }
+        }
+        H copyH = H(copyChain, _nodes, copyF);
+        copyH.RemoveElement(branch);
+        auto nodePowersCopyH = GetNodePowers(copyH.GetSN(), copyH.GetNodes().size());
+        copyH.RemovePenduntRoutesInChain(nodesInChain, nodePowersCopyH);
+        for (auto &item : copyChain) {
+            if (item.GetSaturation() != 0) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+// endregion
+
+// region методы получения
 
 //todo переделать через рекурсию
 std::vector<bool> H::GetCanDeleteMask(const std::vector<Branch> &SN) {
@@ -154,106 +190,6 @@ std::vector<bool> H::GetCanDeleteMask(const std::vector<Branch> &SN) {
     return edgeMask;
 }
 
-std::vector<int> GetNodesInChain(const std::vector<Branch>& chain) {
-    std::vector<int> nodesInChain;
-    for(int i=0; i<chain.size() - 1; i++) {
-        Branch currentBranch = chain[i], nextBranch = chain[i + 1];
-        int commonNode;
-        if (currentBranch.GetFirstNode() == nextBranch.GetFirstNode()) {
-            commonNode = currentBranch.GetFirstNode();
-        } else if (currentBranch.GetFirstNode() == nextBranch.GetSecondNode()) {
-            commonNode = currentBranch.GetFirstNode();
-        } else if (currentBranch.GetSecondNode() == nextBranch.GetFirstNode()) {
-            commonNode = currentBranch.GetSecondNode();
-        } else if (currentBranch.GetSecondNode() == nextBranch.GetSecondNode()) {
-            commonNode = currentBranch.GetSecondNode();
-        } else {
-            throw "GetNodesInChain: no commonNode ";
-        }
-        if (currentBranch == chain.front()) {
-            int firstNode = commonNode == currentBranch.GetFirstNode() ? currentBranch.GetSecondNode() :
-                            currentBranch.GetFirstNode();
-            nodesInChain.push_back(firstNode);
-        }
-        nodesInChain.push_back(commonNode);
-        if (nextBranch == chain.back()) {
-            int lastNode = commonNode == nextBranch.GetFirstNode() ? nextBranch.GetSecondNode() :
-                           nextBranch.GetFirstNode();
-            nodesInChain.push_back(lastNode);
-        }
-    }
-
-    return nodesInChain;
-}
-
-void RemovePenduntRoutesInChain(H &hypernet, std::vector<int> &nodesInChain, std::vector<int> &nodePowers) {
-    auto nodesIt = std::find_if(nodesInChain.begin() + 1, nodesInChain.end() - 1, [nodePowers](int &item) -> bool {
-        return nodePowers[item] == 1;
-    });
-    if (nodesIt != nodesInChain.end() - 1) {
-        auto it = std::find_if(hypernet.GetF().begin(), hypernet.GetF().end(), [nodesIt](Route &item) -> bool {
-            return H::IsIncident(*nodesIt, item);
-        });
-        if (it == hypernet.GetF().end()) {
-            throw "RemovePenduntRoutesInChain: no incident route";
-        }
-
-        auto ptr = it->Ptr;
-        int firstNode = ptr->front(), secondNode = ptr->back();
-        nodePowers[firstNode]--;
-        nodePowers[secondNode]--;
-        ptr->clear();
-        hypernet.GetF().erase(it);
-
-        RemovePenduntRoutesInChain(hypernet, nodesInChain, nodePowers);
-    }
-}
-
-bool IsSimpleChain(H &hypernet, std::vector<Branch> &chain, std::vector<int> &nodesInChain) {
-    auto nodePowers = hypernet.GetNodePowers(hypernet.GetSN(), hypernet.GetNodes().size());
-    for (int i = 1; i < nodesInChain.size() - 1; i++) {
-        int nodeNumber = nodesInChain[i];
-        if (nodePowers[nodeNumber] != 2 && nodePowers[nodeNumber] != 0) {
-            return false;
-        }
-    }
-    for (auto &branch : chain) {
-        auto copyChain = chain;
-        auto copyF = hypernet.GetF();
-        for (auto &route : copyF) {
-            auto vec = *route.Ptr;
-            auto ptr = std::make_shared<std::vector<int>>(vec);
-            route.Ptr = ptr;
-            for (auto &copyBranch : copyChain) {
-                for (auto &item : copyBranch.GetRoutes()) {
-                    if (item == route) {
-                        item.Ptr = ptr;
-                    }
-                }
-            }
-        }
-        H copyH = H(copyChain, hypernet.GetNodes(), copyF);
-        copyH.RemoveElement(branch);
-        auto nodePowersCopyH = copyH.GetNodePowers(copyH.GetSN(), copyH.GetNodes().size());
-        RemovePenduntRoutesInChain(copyH, nodesInChain, nodePowersCopyH);
-        for (auto &item : copyChain) {
-            if (item.GetSaturation() != 0) {
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
-
-bool IsExtensionBranch(Branch &item, H &H, const std::vector<Branch> &chain, const int &firstNode,
-                       const Branch &firstBranch, const int &secondNode, bool isReliableChain) {
-    bool isHomogeneousChain = isReliableChain == item.GetIsReliable();
-    bool isIncidentBranch = item != firstBranch && H::IsIncident(firstNode, item);
-    int incidentNode = item.GetFirstNode() == firstNode ? item.GetSecondNode() : item.GetFirstNode();
-    return isIncidentBranch && incidentNode != secondNode && isHomogeneousChain;
-}
-
 std::vector<Branch> H::GetSimpleChain(std::vector<int> &forbiddenNodes) {
     auto nodePowers = H::GetNodePowers(_FN, _nodes.size());
     // Initializing chain by branch
@@ -266,7 +202,7 @@ std::vector<Branch> H::GetSimpleChain(std::vector<int> &forbiddenNodes) {
                 std::find(forbiddenNodes.begin(), forbiddenNodes.end(), firstNode) != forbiddenNodes.end() &&
                 std::find(forbiddenNodes.begin(), forbiddenNodes.end(), secondNode) != forbiddenNodes.end();
         bool isBaseBranch = !isForbiddenNodes && !isParallelBranch && (nodePowers[firstNode] == 2 ||
-                nodePowers[secondNode] == 2);
+                                                                       nodePowers[secondNode] == 2);
         return IS_REDUCE_RELIABLE_CHAINS == 1 ? isBaseBranch : isBaseBranch && !branch.GetIsReliable();
     });
     std::vector<Branch> chain;
@@ -283,7 +219,7 @@ std::vector<Branch> H::GetSimpleChain(std::vector<int> &forbiddenNodes) {
     while (nodePowers[leftNode] == 2 && !IsPivotNode(leftNode)) {
         it = std::find_if(_FN.begin(), _FN.end(), [this, chain, leftNode, leftBranch, rightNode, isReliableChain]
                 (Branch &item) {
-            return IsExtensionBranch(item, *this, chain, leftNode, leftBranch, rightNode, isReliableChain);
+            return IsExtensionBranch(item, chain, leftNode, leftBranch, rightNode, isReliableChain);
         });
         if (it == _FN.end()) {
             break;
@@ -292,7 +228,7 @@ std::vector<Branch> H::GetSimpleChain(std::vector<int> &forbiddenNodes) {
             auto newChain = chain;
             newChain.insert(newChain.begin(), *it);
             auto nodesInChain = GetNodesInChain(newChain);
-            if (!IsSimpleChain(*this, newChain, nodesInChain)) {
+            if (!IsSimpleChain(newChain, nodesInChain)) {
                 break;
             }
         }
@@ -304,7 +240,7 @@ std::vector<Branch> H::GetSimpleChain(std::vector<int> &forbiddenNodes) {
     while (nodePowers[rightNode] == 2 && !IsPivotNode(rightNode)) {
         it = std::find_if(_FN.begin(), _FN.end(), [this, chain, rightNode, rightBranch, leftNode, isReliableChain]
                 (Branch &item) {
-            return IsExtensionBranch(item, *this, chain, rightNode, rightBranch, leftNode, isReliableChain);
+            return IsExtensionBranch(item, chain, rightNode, rightBranch, leftNode, isReliableChain);
         });
         if (it == _FN.end()) {
             break;
@@ -313,7 +249,7 @@ std::vector<Branch> H::GetSimpleChain(std::vector<int> &forbiddenNodes) {
             auto newChain = chain;
             newChain.push_back(*it);
             auto nodesInChain = GetNodesInChain(newChain);
-            if (!IsSimpleChain(*this, newChain, nodesInChain)) {
+            if (!IsSimpleChain(newChain, nodesInChain)) {
                 break;
             }
         }
@@ -334,7 +270,7 @@ std::vector<Branch> H::GetSimpleChain(std::vector<int> &forbiddenNodes) {
     }
     if (IS_FULL_SEARCH_CHAINS == 0) {
         auto nodesInChain = GetNodesInChain(chain);
-        if (!IsSimpleChain(*this, chain, nodesInChain)) {
+        if (!IsSimpleChain(chain, nodesInChain)) {
             ComplexChains++;
             for (auto &item : nodesInChain) {
                 if (std::find(forbiddenNodes.begin(), forbiddenNodes.end(), item) == forbiddenNodes.end()) {
@@ -361,27 +297,6 @@ std::vector<Branch> H::GetSN() {
     return graph;
 }
 
-template <class T>
-void H::DFS(const int& node, std::vector<Node>& nodes, const std::vector<T>& graph) {
-    auto it = std::find_if(nodes.begin(), nodes.end(), [node](Node &item) -> bool { return item == node; });
-    nodes[it - nodes.begin()].SetIsVisited(true);
-    for(auto &item : graph) {
-        if (item.GetFirstNode() == node || item.GetSecondNode() == node) {
-            int incidentNode = item.GetFirstNode();
-            if (item.GetFirstNode() == node) {
-                incidentNode = item.GetSecondNode();
-            }
-
-            it = std::find_if(nodes.begin(), nodes.end(), [incidentNode](Node &node) ->
-                    bool { return node == incidentNode; });
-            bool visitedNode = nodes[it - nodes.begin()].GetIsVisited();
-            if (!visitedNode) {
-                DFS(incidentNode, nodes, graph);
-            }
-        }
-    }
-}
-
 std::vector<int> H::GetNodePowers(const std::vector<Branch>& graph, const int& size) {
     std::vector<int> nodePowers(size);
     for (int i = 0; i < nodePowers.size(); i++) {
@@ -393,6 +308,64 @@ std::vector<int> H::GetNodePowers(const std::vector<Branch>& graph, const int& s
     }
 
     return nodePowers;
+}
+
+// endregion
+
+// region методы изменения
+
+void H::RemoveElement(const Branch &branch, bool reduct) {
+//    преобразования F
+    for(auto &item : _FN) {
+        if (item == branch) {
+            for(auto &route : item.GetRoutes()) {
+                if (!route.Ptr->empty()) {
+                    route.Ptr->clear();
+                    _F.erase(std::remove_if(_F.begin(), _F.end(), [](Route &route) ->
+                            bool { return route.Ptr->empty(); }), _F.end());
+                }
+            }
+        }
+    }
+//    преобразования FN
+    _FN.erase(std::remove_if(_FN.begin(), _FN.end(), [branch](Branch &item) ->
+            bool { return branch == item; }), _FN.end());
+
+    if (reduct) {
+        RemoveEmptyBranches();
+    }
+}
+
+// второй способ разрушения вершины
+void H::RemoveElement(const Node &node, bool reduct) {
+    int id = node.GetId();
+    //удаление инцедентных рёбер
+    _F.erase(std::remove_if(_F.begin(), _F.end(), [id](Route &item) ->
+            bool { return IsIncident(id, item); }), _F.end());
+
+    if (reduct) {
+        RemoveEmptyBranches();
+    }
+}
+
+// перый способ разрушения вершины
+void H::RemoveNode(const int& node) {
+//    преобразования FN
+    RemoveNodeFN(node);
+//    преобразования F
+    RemoveNodeSN(node);
+}
+
+void H::MakeReliableElement(const Branch &branch) {
+    auto it = std::find_if(_FN.begin(), _FN.end(), [branch](Branch &item) ->
+            bool { return branch == item; });
+    _FN[it - _FN.begin()].SetIsReliable(true);
+}
+
+void H::MakeReliableElement(const Node &node) {
+    auto it = std::find_if(_nodes.begin(), _nodes.end(), [node](Node &item) ->
+            bool { return node == item; });
+    _nodes[it - _nodes.begin()].SetIsReliable(true);
 }
 
 void H::RemoveEmptyBranches() {
@@ -477,32 +450,108 @@ void H::RemoveNodeSN(const int& node) {
     RemoveEmptyBranches();
 }
 
-bool H::IsSlightlyIncident(const int &node, const Route &route) {
-    bool containNode = std::find(route.Ptr->begin(), route.Ptr->end(), node) != route.Ptr->end();
-    return route.Ptr->front() != node && route.Ptr->back() != node && containNode;
+void H::RenumerateNodesForGen(const int& firstNode, const int& secondNode) {
+    if (firstNode == secondNode) {
+        return;
+    }
+    RenumerateNodes(firstNode, secondNode);
+    for(auto &item : _FN) {
+        int node1 = item.GetFirstNode(), node2 = item.GetSecondNode();
+        if (node1 == firstNode) {
+            item.SetFirstNode(secondNode);
+        } else if (node1 == secondNode) {
+            item.SetFirstNode(firstNode);
+        }
+        if (node2 == firstNode) {
+            item.SetSecondNode(secondNode);
+        } else if (node2 == secondNode) {
+            item.SetSecondNode(firstNode);
+        }
+    }
 }
 
-bool H::IsIncident(const int &node, const Route &route) {
-    return route.Ptr->front() == node || route.Ptr->back() == node;
+void H::RemovePenduntRoutesInChain(std::vector<int> &nodesInChain, std::vector<int> &nodePowers) {
+    auto nodesIt = std::find_if(nodesInChain.begin() + 1, nodesInChain.end() - 1, [nodePowers](int &item) -> bool {
+        return nodePowers[item] == 1;
+    });
+    if (nodesIt != nodesInChain.end() - 1) {
+        auto it = std::find_if(_F.begin(), _F.end(), [nodesIt](Route &item) -> bool {
+            return H::IsIncident(*nodesIt, item);
+        });
+        if (it == _F.end()) {
+            throw "RemovePenduntRoutesInChain: no incident route";
+        }
+
+        auto ptr = it->Ptr;
+        int firstNode = ptr->front(), secondNode = ptr->back();
+        nodePowers[firstNode]--;
+        nodePowers[secondNode]--;
+        ptr->clear();
+        _F.erase(it);
+
+        RemovePenduntRoutesInChain(nodesInChain, nodePowers);
+    }
 }
 
-bool H::IsIncident(const int &node, const Branch &branch) {
-    return branch.GetFirstNode() == node || branch.GetSecondNode() == node;
+// endregion
+
+// region вспомогательные методы
+
+void DFS(const int& node, std::vector<Node>& nodes, const std::vector<Branch>& graph) {
+    auto it = std::find_if(nodes.begin(), nodes.end(), [node](Node &item) -> bool { return item == node; });
+    nodes[it - nodes.begin()].SetIsVisited(true);
+    for(auto &item : graph) {
+        if (item.GetFirstNode() == node || item.GetSecondNode() == node) {
+            int incidentNode = item.GetFirstNode();
+            if (item.GetFirstNode() == node) {
+                incidentNode = item.GetSecondNode();
+            }
+
+            it = std::find_if(nodes.begin(), nodes.end(), [incidentNode](Node &node) ->
+                    bool { return node == incidentNode; });
+            bool visitedNode = nodes[it - nodes.begin()].GetIsVisited();
+            if (!visitedNode) {
+                DFS(incidentNode, nodes, graph);
+            }
+        }
+    }
 }
 
-bool H::IsSlightlyIncident(const Branch &branch, const Route &route) {
-    for (int i = 0; i < route.Ptr->size() - 1; ++i) {
-        if (IsIncident(route.Ptr->at(i), branch) && IsIncident(route.Ptr->at(i + 1), branch)) {
-            return true;
+std::vector<int> GetNodesInChain(const std::vector<Branch>& chain) {
+    std::vector<int> nodesInChain;
+    for(int i=0; i<chain.size() - 1; i++) {
+        Branch currentBranch = chain[i], nextBranch = chain[i + 1];
+        int commonNode;
+        if (currentBranch.GetFirstNode() == nextBranch.GetFirstNode()) {
+            commonNode = currentBranch.GetFirstNode();
+        } else if (currentBranch.GetFirstNode() == nextBranch.GetSecondNode()) {
+            commonNode = currentBranch.GetFirstNode();
+        } else if (currentBranch.GetSecondNode() == nextBranch.GetFirstNode()) {
+            commonNode = currentBranch.GetSecondNode();
+        } else if (currentBranch.GetSecondNode() == nextBranch.GetSecondNode()) {
+            commonNode = currentBranch.GetSecondNode();
+        } else {
+            throw "GetNodesInChain: no commonNode ";
+        }
+        if (currentBranch == chain.front()) {
+            int firstNode = commonNode == currentBranch.GetFirstNode() ? currentBranch.GetSecondNode() :
+                            currentBranch.GetFirstNode();
+            nodesInChain.push_back(firstNode);
+        }
+        nodesInChain.push_back(commonNode);
+        if (nextBranch == chain.back()) {
+            int lastNode = commonNode == nextBranch.GetFirstNode() ? nextBranch.GetSecondNode() :
+                           nextBranch.GetFirstNode();
+            nodesInChain.push_back(lastNode);
         }
     }
 
-    return false;
+    return nodesInChain;
 }
 
-bool H::IsPivotNode(const int &node) {
-    return node == 0 || node == 1;
-}
+// endregion
+
+// region методы для вывода
 
 void H::PrintHypernet() {
     std::cout << "FN:" << std::endl;
@@ -556,39 +605,9 @@ void H::LogHypernet() {
     output << "$$$" << std::endl;
 }
 
-void H::RenumerateNodesForGen(const int& firstNode, const int& secondNode) {
-    if (firstNode == secondNode) {
-        return;
-    }
-    RenumerateNodes(firstNode, secondNode);
-    for(auto &item : _FN) {
-        int node1 = item.GetFirstNode(), node2 = item.GetSecondNode();
-        if (node1 == firstNode) {
-            item.SetFirstNode(secondNode);
-        } else if (node1 == secondNode) {
-            item.SetFirstNode(firstNode);
-        }
-        if (node2 == firstNode) {
-            item.SetSecondNode(secondNode);
-        } else if (node2 == secondNode) {
-            item.SetSecondNode(firstNode);
-        }
-    }
-}
+// endregion
 
-bool H::IsValidHypernet() {
-    for(auto &branch : _FN) {
-        for(auto &item : branch.GetRoutes()) {
-            if (!IsSlightlyIncident(branch, item)) {
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
-
-// методы для отладки
+// region методы для отладки
 
 std::vector<std::vector<int>> H::GetRoutesF(){
     std::vector<std::vector<int>> edges;
@@ -613,3 +632,5 @@ std::vector<std::vector<std::vector<int>>> H::GetRoutesFN(){
     }
     return edgesByBranches;
 }
+
+// endregion
