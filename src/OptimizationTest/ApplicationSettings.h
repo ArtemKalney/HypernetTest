@@ -22,7 +22,7 @@
 /// Определяет дефолтное значение надёжности
 #define RELIABILITY_VALUE 0.9
 
-/// Каждая редукция требует чтобы были включены предыдущие
+/// Определяет какие редцкции будут проводиться (каждая редукция требует чтобы были включены предыдущие)
 #define ENABLE_SIMPLE_CASE 1
 #define ENABLE_BRIDGE_REDUCTION 1
 #define ENABLE_EDGE_REDUCTION 1

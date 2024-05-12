@@ -1,19 +1,5 @@
 #pragma once
 
-// todo вынести в отдельный проект
-/// Работа с тестированием на время, имеет приоритет перед оптимизацией
-#define IS_TEST_TIME 0
-#define TEST_HYPERNETS 10
-#define TEST_HYPERNET_NODES 25
-#define TEST_HYPERNET_BRANCHES 30
-#define TEST_HYPERNET_EDGES 30
-
-// todo вынести в отдельный проект
-/// Работа с оптимизацией
-#define IS_OPTIMIZATION 0
-#define OPTIMIZATION_KP_COUNT 7
-#define RANDOM_TREE_SIZE 11
-
 /// Режим дебага
 #define IS_DEBUG 0
 
@@ -29,7 +15,7 @@
 /// Включение двухуровневой парраллелизации
 #define IS_TWO_LEVEL_PARALLELIZATION 1
 
-/// Каждая редукция требует чтобы были включены предыдущие
+/// Определяет какие редцкции будут проводиться (каждая редукция требует чтобы были включены предыдущие)
 #define ENABLE_SIMPLE_CASE 1
 #define ENABLE_BRIDGE_REDUCTION 1
 #define ENABLE_EDGE_REDUCTION 1
@@ -68,3 +54,17 @@
 #define UNSIMPLE_CHAINS_TAG 12
 #define HELP_PROCESSORS_TAG 13
 #define TOTAL_BYTES_TRANSFER_TAG 14
+
+// todo вынести в отдельный проект
+/// Работа с тестированием на время, имеет приоритет перед оптимизацией
+#define IS_TEST_TIME 0
+#define TEST_HYPERNETS 10
+#define TEST_HYPERNET_NODES 25
+#define TEST_HYPERNET_BRANCHES 30
+#define TEST_HYPERNET_EDGES 30
+
+// todo вынести в отдельный проект
+/// Работа с оптимизацией
+#define IS_OPTIMIZATION 0
+#define OPTIMIZATION_KP_COUNT 7
+#define RANDOM_TREE_SIZE 11
