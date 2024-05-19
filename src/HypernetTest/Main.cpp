@@ -11,7 +11,7 @@ std::ifstream input;
 std::ofstream output;
 
 int ReliableHypernets, UnconnectedHypernets, TwoNodesHypernets, ChainsReduced,
-        UnconnectedNodesReduced, PairConnectivityCalls, EdgesReduced, ComplexChains,
+        UnconnectedNodesReduced, PairConnectivityCalls, ApproximationAlgorithmCalls, EdgesReduced, ComplexChains,
         TreeNodeIntersections, UnconnectedTreeNodes;
 
 std::vector<std::vector<double>> Bin;
@@ -191,6 +191,9 @@ int main(int argc, char** argv) {
         std::cout << "Time of programm " << searchTime << " msec" << std::endl;
         if (IS_FULL_ENUMERATION != 1) {
             std::cout << "PairConnectivityCalls " << PairConnectivityCalls << std::endl;
+            if (IS_APPROXIMATION == 1) {
+                std::cout << "ApproximationAlgorithmCalls " << ApproximationAlgorithmCalls << std::endl;
+            }
             std::cout << "Reductions : " << std::endl;
             std::cout << " UnconnectedNodesReduced " << UnconnectedNodesReduced << std::endl;
             std::cout << " EdgesReduced " << EdgesReduced << std::endl;

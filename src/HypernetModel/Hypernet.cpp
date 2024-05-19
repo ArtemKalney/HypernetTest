@@ -314,6 +314,7 @@ std::vector<int> H::GetNodePowers(const std::vector<Branch>& graph, const int& s
 
 // region методы изменения
 
+// todo убрать цикл для поиска branch в _FN
 void H::RemoveElement(const Branch &branch, bool reduct) {
 //    преобразования F
     for(auto &item : _FN) {
@@ -321,12 +322,12 @@ void H::RemoveElement(const Branch &branch, bool reduct) {
             for(auto &route : item.GetRoutes()) {
                 if (!route.Ptr->empty()) {
                     route.Ptr->clear();
-                    _F.erase(std::remove_if(_F.begin(), _F.end(), [](Route &route) ->
-                            bool { return route.Ptr->empty(); }), _F.end());
                 }
             }
         }
     }
+    _F.erase(std::remove_if(_F.begin(), _F.end(), [](Route &route) ->
+            bool { return route.Ptr->empty(); }), _F.end());
 //    преобразования FN
     _FN.erase(std::remove_if(_FN.begin(), _FN.end(), [branch](Branch &item) ->
             bool { return branch == item; }), _FN.end());

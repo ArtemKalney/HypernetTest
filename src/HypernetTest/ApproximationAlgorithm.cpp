@@ -2,6 +2,8 @@
 
 template <class T>
 T CommonApproximationAlgorithm(H &H, const std::vector<T>& elements) {
+    ApproximationAlgorithmCalls++;
+
     int size = elements.size();
     std::vector<double> C;
     std::vector<double> elementCounts;

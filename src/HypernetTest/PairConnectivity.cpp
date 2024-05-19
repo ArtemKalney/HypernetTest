@@ -2,12 +2,14 @@
 #include "Funcs.h"
 
 template <class T>
-T RecursivePairConnectivity(H &H, T &pseudoElement) {
-    if (IS_APPROXIMATION == 1 && H.GetNodes().size() < MAX_APPROXIMATION_DIMENSIONAL) {
+T RecursivePairConnectivity(H &H, T &pseudoElement, int deep) {
+    if (IS_APPROXIMATION == 1 /*&& H.GetFN().size() < MAX_APPROXIMATION_DIMENSIONAL*/ &&
+        deep >= MIN_APPROXIMATION_DEEP) {
         return pseudoElement*ApproximationAlgorithm<T>(H);
     }
 
     PairConnectivityCalls++;
+    deep++;
 
     T returnValue;
     bool hasReturnValue = H.Reductions<T>(pseudoElement, returnValue);
@@ -33,35 +35,34 @@ T RecursivePairConnectivity(H &H, T &pseudoElement) {
 
             return pseudoElement1 * T::GetUnity();
         } else {
-            return RecursivePairConnectivity(HwithReliableElement, pseudoElement1);
+            return RecursivePairConnectivity(HwithReliableElement, pseudoElement1, deep);
         }
     } else {
         if (HwithReliableElement.HasReliablePath<T>()) {
             ReliableHypernets++;
 
-            return pseudoElement1 * T::GetUnity() + RecursivePairConnectivity(HwithRemovedElement, pseudoElement2);
+            return pseudoElement1 * T::GetUnity() + RecursivePairConnectivity(HwithRemovedElement, pseudoElement2, deep);
         } else {
-            return RecursivePairConnectivity(HwithReliableElement, pseudoElement1) +
-                    RecursivePairConnectivity(HwithRemovedElement, pseudoElement2);
+            return RecursivePairConnectivity(HwithReliableElement, pseudoElement1, deep) +
+                    RecursivePairConnectivity(HwithRemovedElement, pseudoElement2, deep);
         }
     }
 }
 
 template <>
 Branch PairConnectivity(H &H) {
-    Branch pseudoBranch = Branch::GetElement(0, H.GetFN().front().GetC().size());
     if (!H.IsSNconnected()) {
         Branch::GetZero();
     }
 
-    return RecursivePairConnectivity(H, pseudoBranch);
+    Branch pseudoBranch = Branch::GetElement(0, H.GetFN().front().GetC().size());
+
+    return RecursivePairConnectivity(H, pseudoBranch, 0);
 }
 
 template <>
 Node PairConnectivity(H &H) {
     //препологаем что уже проверли редукцию по выделенным вершинам
-    Node pseudoNode = Node::GetSimpleElement(H.GetFN().front().GetC().size()) *
-            Node::GetSimpleElement(H.GetFN().front().GetC().size());
     auto it = std::find_if(H.GetNodes().begin(), H.GetNodes().end(),
                            [](Node &item) -> bool { return item == 0; });
     it->SetIsReliable(true);
@@ -72,9 +73,12 @@ Node PairConnectivity(H &H) {
         return Node::GetZero();
     }
 
+    Node pseudoNode = Node::GetSimpleElement(H.GetFN().front().GetC().size()) *
+                      Node::GetSimpleElement(H.GetFN().front().GetC().size());
+
     if (H.HasReliablePath<Node>()) {
         return pseudoNode;
     }
 
-    return RecursivePairConnectivity(H, pseudoNode);
+    return RecursivePairConnectivity(H, pseudoNode, 0);
 }

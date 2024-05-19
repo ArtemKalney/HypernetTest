@@ -10,7 +10,8 @@ extern std::vector<double> Factorials;
 extern std::vector<int> KpNodesCombination;
 
 extern int ReliableHypernets, UnconnectedHypernets, TwoNodesHypernets, ChainsReduced, UnconnectedNodesReduced,
-        PairConnectivityCalls, EdgesReduced, ComplexChains, TreeNodeIntersections, UnconnectedTreeNodes;
+        PairConnectivityCalls, ApproximationAlgorithmCalls, EdgesReduced, ComplexChains, TreeNodeIntersections,
+        UnconnectedTreeNodes;
 
 extern const int max_dimensional;
 
