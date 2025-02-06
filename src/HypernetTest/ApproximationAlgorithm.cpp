@@ -1,7 +1,7 @@
 #include "Funcs.h"
 
 template <class T>
-T CommonApproximationAlgorithm(H &H, const std::vector<T>& elements) {
+T CommonApproximationAlgorithm(H &H, std::vector<T>& elements) {
     ApproximationAlgorithmCalls++;
 
     int size = elements.size();
@@ -20,11 +20,16 @@ T CommonApproximationAlgorithm(H &H, const std::vector<T>& elements) {
         }
 
         elementCounts.push_back(connectedElements.size());
+
         if (connectedElements.empty()) {
             break;
         }
+
         int index = connectedElements.size() == 1 ? 0 : rand() % (connectedElements.size() - 1);
-        H.RemoveElement(connectedElements[index], false);
+        T elementToRemove = connectedElements[index];
+        H.RemoveElement(elementToRemove, false);
+        elements.erase(std::remove_if(elements.begin(), elements.end(), [elementToRemove](T &element) ->
+                bool { return element.Equals(elementToRemove); }), elements.end());
     }
 
     if (elementCounts.size() < size) {

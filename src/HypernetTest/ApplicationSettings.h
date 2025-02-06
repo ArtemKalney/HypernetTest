@@ -10,8 +10,8 @@
 
 /// Режим приближенного решения
 #define IS_APPROXIMATION 0
-#define MAX_APPROXIMATION_DIMENSIONAL 10
-#define MIN_APPROXIMATION_DEEP 10
+#define MAX_APPROXIMATION_DIMENSIONAL 2147483647
+#define MIN_APPROXIMATION_DEEP 0
 
 /// Определяет какие элементы надёжны в сети (ветви или вершины)
 #define IS_NODES_RELIABLE 1

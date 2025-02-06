@@ -3,7 +3,7 @@
 
 template <class T>
 T RecursivePairConnectivity(H &H, T &pseudoElement, int deep) {
-    if (IS_APPROXIMATION == 1 /*&& H.GetFN().size() < MAX_APPROXIMATION_DIMENSIONAL*/ &&
+    if (IS_APPROXIMATION == 1 && H.GetFN().size() < MAX_APPROXIMATION_DIMENSIONAL &&
         deep >= MIN_APPROXIMATION_DEEP) {
         return pseudoElement*ApproximationAlgorithm<T>(H);
     }
