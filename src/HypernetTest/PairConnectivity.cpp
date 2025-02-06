@@ -64,10 +64,10 @@ template <>
 Node PairConnectivity(H &H) {
     //препологаем что уже проверли редукцию по выделенным вершинам
     auto it = std::find_if(H.GetNodes().begin(), H.GetNodes().end(),
-                           [](Node &item) -> bool { return item == 0; });
+                           [](Node &item) -> bool { return item.Equals(0); });
     it->SetIsReliable(true);
     it = std::find_if(H.GetNodes().begin(), H.GetNodes().end(),
-                      [](Node &item) -> bool { return item == 1; });
+                      [](Node &item) -> bool { return item.Equals(1); });
     it->SetIsReliable(true);
     if (!H.IsSNconnected()) {
         return Node::GetZero();

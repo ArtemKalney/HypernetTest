@@ -5,7 +5,7 @@
 
 //потребовалось для вершин не иметь привязку к индксу массива вершин
 bool H::IsSNconnected() {
-    auto it = std::find_if(_nodes.begin(), _nodes.end(), [](Node &item) -> bool { return item == 1; });
+    auto it = std::find_if(_nodes.begin(), _nodes.end(), [](Node &item) -> bool { return item.Equals(1); });
     if (it == _nodes.end()) {
         return false;
     }
@@ -318,7 +318,7 @@ std::vector<int> H::GetNodePowers(const std::vector<Branch>& graph, const int& s
 void H::RemoveElement(const Branch &branch, bool reduct) {
 //    преобразования F
     for(auto &item : _FN) {
-        if (item == branch) {
+        if (item.Equals(branch)) {
             for(auto &route : item.GetRoutes()) {
                 if (!route.Ptr->empty()) {
                     route.Ptr->clear();
@@ -330,7 +330,7 @@ void H::RemoveElement(const Branch &branch, bool reduct) {
             bool { return route.Ptr->empty(); }), _F.end());
 //    преобразования FN
     _FN.erase(std::remove_if(_FN.begin(), _FN.end(), [branch](Branch &item) ->
-            bool { return branch == item; }), _FN.end());
+            bool { return branch.Equals(item); }), _FN.end());
 
     if (reduct) {
         RemoveEmptyBranches();
@@ -359,13 +359,13 @@ void H::RemoveNode(const int& node) {
 
 void H::MakeReliableElement(const Branch &branch) {
     auto it = std::find_if(_FN.begin(), _FN.end(), [branch](Branch &item) ->
-            bool { return branch == item; });
+            bool { return branch.Equals(item); });
     _FN[it - _FN.begin()].SetIsReliable(true);
 }
 
 void H::MakeReliableElement(const Node &node) {
     auto it = std::find_if(_nodes.begin(), _nodes.end(), [node](Node &item) ->
-            bool { return node == item; });
+            bool { return node.Equals(item); });
     _nodes[it - _nodes.begin()].SetIsReliable(true);
 }
 
@@ -419,9 +419,9 @@ void H::RemoveNodeFN(const int& node) {
     }
     // пробразования nodes
     _nodes.erase(std::remove_if(_nodes.begin(), _nodes.end(), [node](Node &item) ->
-            bool { return item == node; }), _nodes.end());
+            bool { return item.Equals(node); }), _nodes.end());
     for (auto &item : _nodes) {
-        if (item > node) {
+        if (item.GetId() > node) {
             item.SetId(item.GetId() - 1);
         }
     }
@@ -499,7 +499,7 @@ void H::RemovePenduntRoutesInChain(std::vector<int> &nodesInChain, std::vector<i
 // region вспомогательные методы
 
 void DFS(const int& node, std::vector<Node>& nodes, const std::vector<Branch>& graph) {
-    auto it = std::find_if(nodes.begin(), nodes.end(), [node](Node &item) -> bool { return item == node; });
+    auto it = std::find_if(nodes.begin(), nodes.end(), [node](Node &item) -> bool { return item.Equals(node); });
     nodes[it - nodes.begin()].SetIsVisited(true);
     for(auto &item : graph) {
         if (item.GetFirstNode() == node || item.GetSecondNode() == node) {
@@ -509,7 +509,7 @@ void DFS(const int& node, std::vector<Node>& nodes, const std::vector<Branch>& g
             }
 
             it = std::find_if(nodes.begin(), nodes.end(), [incidentNode](Node &node) ->
-                    bool { return node == incidentNode; });
+                    bool { return node.Equals(incidentNode); });
             bool visitedNode = nodes[it - nodes.begin()].GetIsVisited();
             if (!visitedNode) {
                 DFS(incidentNode, nodes, graph);
@@ -534,13 +534,13 @@ std::vector<int> GetNodesInChain(const std::vector<Branch>& chain) {
         } else {
             throw "GetNodesInChain: no commonNode ";
         }
-        if (currentBranch == chain.front()) {
+        if (currentBranch.Equals(chain.front())) {
             int firstNode = commonNode == currentBranch.GetFirstNode() ? currentBranch.GetSecondNode() :
                             currentBranch.GetFirstNode();
             nodesInChain.push_back(firstNode);
         }
         nodesInChain.push_back(commonNode);
-        if (nextBranch == chain.back()) {
+        if (nextBranch.Equals(chain.back())) {
             int lastNode = commonNode == nextBranch.GetFirstNode() ? nextBranch.GetSecondNode() :
                            nextBranch.GetFirstNode();
             nodesInChain.push_back(lastNode);

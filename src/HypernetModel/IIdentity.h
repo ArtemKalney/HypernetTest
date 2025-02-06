@@ -1,11 +1,21 @@
 #pragma once
 
+#include "Stdafx.h"
+
 //todo разобраться почему тесты ломаются если убрать
 class IIdentity
 {
 public:
     virtual ~IIdentity() = default;
     virtual int GetId() const = 0;
+
+    bool Equals(const IIdentity &b) const {
+        return GetId() == b.GetId();
+    }
+
+    bool Equals(int id) const {
+        return GetId() == id;
+    }
 
     static bool IdentityCompare(const IIdentity &a, const IIdentity &b)
     {
@@ -14,19 +24,7 @@ public:
 };
 
 template <class T>
-bool operator ==(T firstElement, T secondElement) {
-    return firstElement.GetId() == secondElement.GetId();
-}
-
-template <class T>
-bool operator ==(T element, int id) {
-    return element.GetId() == id;
-}
-
-template <class T>
-bool operator >(const T& element, const int id) {
-    return element.GetId() > id;
-}
+bool operator ==(const T& a, const T& b);
 
 template <class T>
 std::string VectorToString(std::vector<T>& vector, std::string delimiter = ",") {
